@@ -1,5 +1,7 @@
 import "./css/termynal.css";
+import "./css/dev-styles.css";
 import { LineData, Termynal } from "./termynal";
+import { runDevApp } from "./app";
 
 const progressLiteralStart = "---> 100%";
 const promptLiteralStart = "$ ";
@@ -102,6 +104,11 @@ function loadVisibleTermynals() {
     return true;
   });
 }
+
+// Setup original docs termynal
 window.addEventListener("scroll", loadVisibleTermynals);
 createTermynals();
 loadVisibleTermynals();
+
+// Set up development termynal
+runDevApp();
