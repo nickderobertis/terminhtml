@@ -8,44 +8,110 @@
  * @license MIT
  */
 
+export type LineData = Partial<{
+  value: string;
+  class: string;
+  delay: number;
+  prompt: string;
+  type: "input" | "progress";
+}>;
+
+/*
+ * Custom options for termynal.js
+ */
+export type TermynalOptions = Partial<{
+  /**
+   * Prefix to use for data attributes.
+   */
+  prefix: string;
+  /**
+   * Delay before animation, in ms.
+   */
+  startDelay: number;
+  /**
+   * Delay between each typed character, in ms.
+   */
+  typeDelay: number;
+  /**
+   * Delay between each line, in ms.
+   */
+  lineDelay: number;
+  /**
+   * Number of characters displayed as progress bar.
+   */
+  progressLength: number;
+  /**
+   * Character to use for progress bar, defaults to █.
+   */
+  progressChar: string;
+  /**
+   * Max percent of progress.
+   */
+  progressPercent: number;
+  /**
+   * Character to use for cursor, defaults to ▋.
+   */
+  cursor: string;
+  /**
+   * Dynamically loaded line data objects.
+   */
+  lineData: LineData[];
+  /**
+   * Don't initialise the animation.
+   */
+  noInit: boolean;
+}>;
+
 /** Generate a terminal widget. */
 export class Termynal {
+  container: HTMLElement;
+  pfx: string;
+  startDelay: number;
+  typeDelay: number;
+  lineDelay: number;
+  progressLength: number;
+  progressChar: string;
+  progressPercent: number;
+  cursor: string;
+  lineData: HTMLElement[];
+  lines: HTMLElement[] = [];
+
   /**
-   * Construct the widget's settings.
-   * @param {(string|Node)=} container - Query selector or container element.
-   * @param {Object=} options - Custom settings.
-   * @param {string} options.prefix - Prefix to use for data attributes.
-   * @param {number} options.startDelay - Delay before animation, in ms.
-   * @param {number} options.typeDelay - Delay between each typed character, in ms.
-   * @param {number} options.lineDelay - Delay between each line, in ms.
-   * @param {number} options.progressLength - Number of characters displayed as progress bar.
-   * @param {string} options.progressChar – Character to use for progress bar, defaults to █.
-   * @param {number} options.progressPercent - Max percent of progress.
-   * @param {string} options.cursor – Character to use for cursor, defaults to ▋.
-   * @param {Object[]} lineData - Dynamically loaded line data objects.
-   * @param {boolean} options.noInit - Don't initialise the animation.
+   *
+   * @param container Query selector or container element.
+   * @param options Custom settings.
    */
-  constructor(container = "#termynal", options = {}) {
-    this.container =
+  constructor(
+    container: string | HTMLElement = "#termynal",
+    options: TermynalOptions = {}
+  ) {
+    const maybeContainer =
       typeof container === "string"
-        ? document.querySelector(container)
+        ? document.querySelector<HTMLElement>(container)
         : container;
+    if (!maybeContainer) {
+      throw new Error("Container element not found");
+    }
+    this.container = maybeContainer;
+
     this.pfx = `data-${options.prefix || "ty"}`;
     this.startDelay =
       options.startDelay ||
-      parseFloat(this.container.getAttribute(`${this.pfx}-startDelay`)) ||
+      parseFloat(this.container.getAttribute(`${this.pfx}-startDelay`) ?? "") ||
       600;
     this.typeDelay =
       options.typeDelay ||
-      parseFloat(this.container.getAttribute(`${this.pfx}-typeDelay`)) ||
+      parseFloat(this.container.getAttribute(`${this.pfx}-typeDelay`) ?? "") ||
       90;
     this.lineDelay =
       options.lineDelay ||
-      parseFloat(this.container.getAttribute(`${this.pfx}-lineDelay`)) ||
+      parseFloat(this.container.getAttribute(`${this.pfx}-lineDelay`) ?? "") ||
       1500;
     this.progressLength =
       options.progressLength ||
-      parseFloat(this.container.getAttribute(`${this.pfx}-progressLength`)) ||
+      parseFloat(
+        this.container.getAttribute(`${this.pfx}-progressLength`) || ""
+      ) ||
       40;
     this.progressChar =
       options.progressChar ||
@@ -53,7 +119,9 @@ export class Termynal {
       "█";
     this.progressPercent =
       options.progressPercent ||
-      parseFloat(this.container.getAttribute(`${this.pfx}-progressPercent`)) ||
+      parseFloat(
+        this.container.getAttribute(`${this.pfx}-progressPercent`) ?? ""
+      ) ||
       100;
     this.cursor =
       options.cursor ||
@@ -68,19 +136,25 @@ export class Termynal {
    */
   init() {
     // Appends dynamically loaded lines to existing line elements.
-    this.lines = [...this.container.querySelectorAll(`[${this.pfx}]`)].concat(
-      this.lineData
-    );
+    this.lines = [
+      ...this.container.querySelectorAll<HTMLElement>(`[${this.pfx}]`),
+    ].concat(this.lineData);
 
     /**
      * Calculates width and height of Termynal container.
      * If container is empty and lines are dynamically loaded, defaults to browser `auto` or CSS.
      */
     const containerStyle = getComputedStyle(this.container);
-    this.container.style.width =
+    const width =
       containerStyle.width !== "0px" ? containerStyle.width : undefined;
-    this.container.style.minHeight =
-      containerStyle.height !== "0px" ? containerStyle.height : undefined;
+    if (width) {
+      this.container.style.width = width;
+    }
+    const minHeight =
+      containerStyle.minHeight !== "0px" ? containerStyle.height : undefined;
+    if (minHeight) {
+      this.container.style.minHeight = minHeight;
+    }
 
     this.container.setAttribute("data-termynal", "");
     this.container.innerHTML = "";
@@ -115,10 +189,10 @@ export class Termynal {
 
   /**
    * Animate a typed line.
-   * @param {Node} line - The line element to render.
+   * @param line - The line element to render.
    */
-  async type(line) {
-    const chars = [...line.textContent];
+  async type(line: HTMLElement) {
+    const chars = [...(line.textContent || "")];
     const delay = line.getAttribute(`${this.pfx}-typeDelay`) || this.typeDelay;
     line.textContent = "";
     this.container.appendChild(line);
@@ -131,11 +205,12 @@ export class Termynal {
 
   /**
    * Animate a progress bar.
-   * @param {Node} line - The line element to render.
+   * @param line - The line element to render.
    */
-  async progress(line) {
+  async progress(line: HTMLElement) {
     const progressLength =
-      line.getAttribute(`${this.pfx}-progressLength`) || this.progressLength;
+      parseFloat(line.getAttribute(`${this.pfx}-progressLength`) ?? "") ||
+      this.progressLength;
     const progressChar =
       line.getAttribute(`${this.pfx}-progressChar`) || this.progressChar;
     const chars = progressChar.repeat(progressLength);
@@ -156,37 +231,37 @@ export class Termynal {
 
   /**
    * Helper function for animation delays, called with `await`.
-   * @param {number} time - Timeout, in ms.
+   * @param time - Timeout, in ms.
    */
-  _wait(time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
+  _wait(time: number | string) {
+    const useTime = typeof time === "string" ? parseFloat(time) : time;
+    return new Promise((resolve) => setTimeout(resolve, useTime));
   }
 
   /**
    * Converts line data objects into line elements.
    *
-   * @param {Object[]} lineData - Dynamically loaded lines.
-   * @param {Object} line - Line data object.
-   * @returns {Element[]} - Array of line elements.
+   * @param lineData - Dynamically loaded lines.
+   * @returns Array of line elements.
    */
-  lineDataToElements(lineData) {
+  lineDataToElements(lineData: LineData[]): HTMLElement[] {
     return lineData.map((line) => {
       let div = document.createElement("div");
       div.innerHTML = `<span ${this._attributes(line)}>${
         line.value || ""
       }</span>`;
 
-      return div.firstElementChild;
+      return div.firstElementChild as HTMLElement;
     });
   }
 
   /**
    * Helper function for generating attributes string.
    *
-   * @param {Object} line - Line data object.
+   * @param line - Line data object.
    * @returns {string} - String of attributes.
    */
-  _attributes(line) {
+  _attributes(line: Record<string, any>) {
     let attrs = "";
     for (let prop in line) {
       attrs += this.pfx;
@@ -201,13 +276,3 @@ export class Termynal {
     return attrs;
   }
 }
-
-/**
- * HTML API: If current script has container(s) specified, initialise Termynal.
- */
-// if (document.currentScript.hasAttribute("data-termynal-container")) {
-//   const containers = document.currentScript.getAttribute(
-//     "data-termynal-container"
-//   );
-//   containers.split("|").forEach((container) => new Termynal(container));
-// }

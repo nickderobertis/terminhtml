@@ -1,26 +1,23 @@
 import "./css/termynal.css";
-import { Termynal } from "./termynal";
+import { LineData, Termynal } from "./termynal";
 
-document.querySelectorAll(".use-termynal").forEach((node) => {
-  node.style.display = "block";
-  new Termynal(node, {
-    lineDelay: 500,
-  });
-});
 const progressLiteralStart = "---> 100%";
 const promptLiteralStart = "$ ";
 const customPromptLiteralStart = "# ";
 const termynalActivateClass = "termy";
-let termynals = [];
+let termynals: Termynal[] = [];
 
 function createTermynals() {
   document
     .querySelectorAll(`.${termynalActivateClass} .highlight`)
     .forEach((node) => {
       const text = node.textContent;
+      if (!text) {
+        throw Error("No text found in node.");
+      }
       const lines = text.split("\n");
-      const useLines = [];
-      let buffer = [];
+      const useLines: LineData[] = [];
+      let buffer: string[] = [];
       function saveBuffer() {
         if (buffer.length) {
           let isBlankSpace = true;
@@ -29,9 +26,9 @@ function createTermynals() {
               isBlankSpace = false;
             }
           });
-          const dataValue = {};
+          const dataValue: LineData = {};
           if (isBlankSpace) {
-            dataValue["delay"] = 0;
+            dataValue.delay = 0;
           }
           if (buffer[buffer.length - 1] === "") {
             // A last single <br> won't have effect
@@ -39,7 +36,7 @@ function createTermynals() {
             buffer.push("");
           }
           const bufferValue = buffer.join("<br>");
-          dataValue["value"] = bufferValue;
+          dataValue.value = bufferValue;
           useLines.push(dataValue);
           buffer = [];
         }
