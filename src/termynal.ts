@@ -64,17 +64,24 @@ export type TermynalOptions = Partial<{
 
 /** Generate a terminal widget. */
 export class Termynal {
+  /**
+   * Construct the widget's settings.
+   */
   container: HTMLElement;
   pfx: string;
-  startDelay: number;
-  typeDelay: number;
-  lineDelay: number;
+  originalStartDelay: number;
+  originalTypeDelay: number;
+  originalLineDelay: number;
   progressLength: number;
   progressChar: string;
   progressPercent: number;
   cursor: string;
   lineData: HTMLElement[];
   lines: HTMLElement[] = [];
+  startDelay: number = 600;
+  typeDelay: number = 90;
+  lineDelay: number = 1500;
+  finishElement?: HTMLAnchorElement;
 
   /**
    *
@@ -93,17 +100,16 @@ export class Termynal {
       throw new Error("Container element not found");
     }
     this.container = maybeContainer;
-
     this.pfx = `data-${options.prefix || "ty"}`;
-    this.startDelay =
+    this.originalStartDelay =
       options.startDelay ||
       parseFloat(this.container.getAttribute(`${this.pfx}-startDelay`) ?? "") ||
       600;
-    this.typeDelay =
+    this.originalTypeDelay =
       options.typeDelay ||
       parseFloat(this.container.getAttribute(`${this.pfx}-typeDelay`) ?? "") ||
       90;
-    this.lineDelay =
+    this.originalLineDelay =
       options.lineDelay ||
       parseFloat(this.container.getAttribute(`${this.pfx}-lineDelay`) ?? "") ||
       1500;
@@ -128,18 +134,35 @@ export class Termynal {
       this.container.getAttribute(`${this.pfx}-cursor`) ||
       "▋";
     this.lineData = this.lineDataToElements(options.lineData || []);
+    this.loadLines();
     if (!options.noInit) this.init();
+  }
+
+  loadLines() {
+    // Load all the lines and create the container so that the size is fixed
+    // Otherwise it would be changing and the user viewport would be constantly
+    // moving as she/he scrolls
+    const finish = this.generateFinish();
+    finish.style.visibility = "hidden";
+    this.container.appendChild(finish);
+    // Appends dynamically loaded lines to existing line elements.
+    this.lines = [
+      ...this.container.querySelectorAll<HTMLElement>(`[${this.pfx}]`),
+    ].concat(this.lineData);
+    for (let line of this.lines) {
+      line.style.visibility = "hidden";
+      this.container.appendChild(line);
+    }
+    const restart = this.generateRestart();
+    restart.style.visibility = "hidden";
+    this.container.appendChild(restart);
+    this.container.setAttribute("data-termynal", "");
   }
 
   /**
    * Initialise the widget, get lines, clear container and start animation.
    */
   init() {
-    // Appends dynamically loaded lines to existing line elements.
-    this.lines = [
-      ...this.container.querySelectorAll<HTMLElement>(`[${this.pfx}]`),
-    ].concat(this.lineData);
-
     /**
      * Calculates width and height of Termynal container.
      * If container is empty and lines are dynamically loaded, defaults to browser `auto` or CSS.
@@ -158,6 +181,9 @@ export class Termynal {
 
     this.container.setAttribute("data-termynal", "");
     this.container.innerHTML = "";
+    for (let line of this.lines) {
+      line.style.visibility = "visible";
+    }
     this.start();
   }
 
@@ -165,6 +191,7 @@ export class Termynal {
    * Start the animation and rener the lines depending on their data attributes.
    */
   async start() {
+    this.addFinish();
     await this._wait(this.startDelay);
 
     for (let line of this.lines) {
@@ -185,6 +212,51 @@ export class Termynal {
 
       line.removeAttribute(`${this.pfx}-cursor`);
     }
+    this.addRestart();
+    if (this.finishElement) {
+      this.finishElement.style.visibility = "hidden";
+    }
+    this.lineDelay = this.originalLineDelay;
+    this.typeDelay = this.originalTypeDelay;
+    this.startDelay = this.originalStartDelay;
+  }
+
+  generateRestart() {
+    const restart = document.createElement("a");
+    restart.onclick = (e) => {
+      e.preventDefault();
+      this.container.innerHTML = "";
+      this.init();
+    };
+    restart.href = "#";
+    restart.setAttribute("data-terminal-control", "");
+    restart.innerHTML = "restart ↻";
+    return restart;
+  }
+
+  generateFinish() {
+    const finish = document.createElement("a");
+    finish.onclick = (e) => {
+      e.preventDefault();
+      this.lineDelay = 0;
+      this.typeDelay = 0;
+      this.startDelay = 0;
+    };
+    finish.href = "#";
+    finish.setAttribute("data-terminal-control", "");
+    finish.innerHTML = "fast →";
+    this.finishElement = finish;
+    return finish;
+  }
+
+  addRestart() {
+    const restart = this.generateRestart();
+    this.container.appendChild(restart);
+  }
+
+  addFinish() {
+    const finish = this.generateFinish();
+    this.container.appendChild(finish);
   }
 
   /**
@@ -193,11 +265,12 @@ export class Termynal {
    */
   async type(line: HTMLElement) {
     const chars = [...(line.textContent || "")];
-    const delay = line.getAttribute(`${this.pfx}-typeDelay`) || this.typeDelay;
     line.textContent = "";
     this.container.appendChild(line);
 
     for (let char of chars) {
+      const delay =
+        line.getAttribute(`${this.pfx}-typeDelay`) || this.typeDelay;
       await this._wait(delay);
       line.textContent += char;
     }
