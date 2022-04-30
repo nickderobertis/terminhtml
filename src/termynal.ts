@@ -321,7 +321,7 @@ export class Termynal {
     return lineData.map((line) => {
       let div = document.createElement("div");
       div.innerHTML = `<span ${this._attributes(line)}>${
-        line.value || ""
+        line.value ?? ""
       }</span>`;
 
       return div.firstElementChild as HTMLElement;
