@@ -14,7 +14,19 @@
   "applied_templates": [
     {
       "name": "copier-pypi-sphinx-flexlate",
-      "data": {},
+      "data": {
+        "package_name": "terminhtml",
+        "package_directory": "terminhtml",
+        "full_name": "TerminHTML",
+        "repo_name": "terminhtml",
+        "repo_username": "nickderobertis",
+        "short_description": "Run shell commands and convert into an HTML/CSS animated terminal",
+        "package_author": "Nick DeRobertis",
+        "author_email": "derobertis.nick@gmail.com",
+        "google_analytics_id": "",
+        "logo_url": "",
+        "install_packages": ""
+      },
       "version": "4c2b5cced81005b6110f498072068d7d83520f08",
       "add_mode": "local",
       "root": "."
