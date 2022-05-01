@@ -4,7 +4,8 @@
             "type": "pwa-chrome",
             "name": "http://localhost:3000",
             "request": "launch",
-            "url": "http://localhost:3000"
+            "url": "http://localhost:3000",
+            "preLaunchTask": "npm: dev - client",
         }
     ]
 }

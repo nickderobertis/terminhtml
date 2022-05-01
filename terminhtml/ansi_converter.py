@@ -11,10 +11,16 @@ def ansi_styles(ansi: str) -> str:
     attrs = conv.prepare(ansi)
     all_styles = get_styles(conv.dark_bg, conv.line_wrap, conv.scheme)
     backgrounds = all_styles[:6]
-    used_styles = filter(
-        lambda e: e.klass.lstrip(".") in attrs["styles"], all_styles
-    )
+    used_styles = filter(lambda e: e.klass.lstrip(".") in attrs["styles"], all_styles)
     return "\n".join(list(map(str, backgrounds + list(used_styles))))
+
+
+def ansi_to_html(ansi: str) -> str:
+    """
+    Converts an ansi string to html.
+    """
+    return conv.convert(ansi, full=True)
+
 
 if __name__ == "__main__":
     # ansi = "\x1b[30mblack\x1b[37mwhite"
