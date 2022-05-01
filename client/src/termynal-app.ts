@@ -1,7 +1,7 @@
 import { Termynal } from "./termynal";
 
 export function runDevApp() {
-  new Termynal("#app", {
+  new Termynal("#termynal-app", {
     lineData: [
       {
         value: "💬 This is a development termynal",

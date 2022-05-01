@@ -8,6 +8,8 @@
  * @license MIT
  */
 
+import { getElementFromSelectorOrElement } from "./dom-utils";
+
 export type LineData = Partial<{
   value: string;
   class: string;
@@ -92,14 +94,7 @@ export class Termynal {
     container: string | HTMLElement = "#termynal",
     options: TermynalOptions = {}
   ) {
-    const maybeContainer =
-      typeof container === "string"
-        ? document.querySelector<HTMLElement>(container)
-        : container;
-    if (!maybeContainer) {
-      throw new Error("Container element not found");
-    }
-    this.container = maybeContainer;
+    this.container = getElementFromSelectorOrElement(container);
     this.pfx = `data-${options.prefix || "ty"}`;
     this.originalStartDelay =
       options.startDelay ||

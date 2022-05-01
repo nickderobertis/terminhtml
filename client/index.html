@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+    <script src="jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h2>Termynal App</h2>
+    <div id="termynal-app"></div>
+    <div class="separator"></div>
+    <h2>ANSI HTML</h2>
+    <style type="text/css">
+      .ansi2html-content {
+        display: inline;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+      .body_foreground {
+        color: #aaaaaa;
+      }
+      .body_background {
+        background-color: #000000;
+      }
+      .body_foreground > .bold,
+      .bold > .body_foreground,
+      body.body_foreground > pre > .bold {
+        color: #ffffff;
+        font-weight: normal;
+      }
+      .inv_foreground {
+        color: #000000;
+      }
+      .inv_background {
+        background-color: #aaaaaa;
+      }
+      .ansi3 {
+        font-style: italic;
+      }
+      .ansi4 {
+        text-decoration: underline;
+      }
+      .ansi32 {
+        color: #00aa00;
+      }
+      .ansi33 {
+        color: #aa5500;
+      }
+      .ansi35 {
+        color: #e850a8;
+      }
+      .ansi91 {
+        color: #ea4040;
+      }
+      .ansi94 {
+        color: #4040ea;
+      }
+      .ansi95 {
+        color: #ff90e8;
+      }
+    </style>
+    <pre id="terminhtml-ansi">
+$ fxt init-from
+Initialized empty Git repository in
+      /tmp/tmpqlnoliu3/.git/
+      [main (root-commit) ef680a7] Initial commit
+
+      1 file changed, 0 insertions(+), 0 deletions(-)
+       create mode 100644
+      woo.txt
+       Initializing flexlate project with default add mode
+      local and <span class="ansi33">user</span>=<span class="ansi3 ansi91">False</span> in
+
+      <span class="ansi35">/tmp/</span><span class="ansi95">tmpqlnoliu3</span>
+      <span class="ansi32">⠋</span>
+      <span class="ansi32">⠋</span>
+      <span class="ansi32">⠙</span>
+      <span class="ansi32">⠹</span>
+      <span class="ansi32">⠸</span>
+      <span class="ansi32">⠼</span>
+      <span class="ansi32">⠦</span>
+      <span class="ansi32">⠧</span>
+      <span class="ansi32">⠇</span>
+      <span class="ansi32">⠏</span>
+      <span class="ansi32">⠋</span>
+      <span class="ansi32">⠙</span>
+      <span class="ansi32">⠹</span>
+      <span class="ansi32">⠸</span>
+      <span class="ansi32">⠼</span>
+      <span class="ansi32">⠴</span>
+      <span class="ansi32">✔ Finished
+      initializing flexlate project</span>
+       Adding template
+      source<span class="ansi33">...</span>
+       Adding template source
+      copier-simple-example from
+
+      <span class="ansi4 ansi94">https://github.com/nickderobertis/copier-simple-example</span>
+      <span class="ansi32">⠏</span>
+      Sucessfully added template source
+      copier-simple-example
+
+      Merging flexlate-templates-main to flexlate-templates
+      <span class="ansi32">✔
+      Successfully merged flexlate-templates-main to
+      flexlate-templates</span>
+      <span class="ansi32">✔ Successfully merged
+      flexlate-output-main to flexlate-output</span>
+       Deleting flexlate
+      feature branches flexlate-templates-main and
+
+      flexlate-output-main
+      <span class="ansi32">✔ Successfully deleted flexlate
+      feature branches</span>
+      '
+      </pre>
+    <div class="separator"></div>
+    <h2>Original Termynal HTML Conversion</h2>
+    <div class="termy docutils container">
+      <pre
+        class="code console highlight literal-block"
+      ><code><span class="gp">$ </span>fxt init-from https://github.com/nickderobertis/copier-simple-example
+      <span class="go"> Initializing flexlate project with default add mode local and user=False in
+      /tmp/tmpix10dr3q
+      ⠙  Initializing...
+      ✔ Finished initializing flexlate project
+       Adding template source...
+       Adding template source copier-simple-example from
+      https://github.com/nickderobertis/copier-simple-example
+       Sucessfully added template source copier-simple-example
+      ⠙
+       Applying template copier-simple-example to /tmp/tmpix10dr3q
+       Updating 1 applied templates
+
+      question1? Format: yaml
+      </span><span class="gp"># </span>🎤 <span class="o">[</span>answer1<span class="o">]</span>: $ my answer
+      <span class="go">
+      The second question
+      question2? Format: float
+      </span><span class="gp"># </span>🎤 <span class="o">[</span><span class="m">2</span>.7<span class="o">]</span>: $ <span class="m">10</span>
+      <span class="go">
+          create  my answer.txt
+
+
+
+          create  temp.txt
+
+
+      ✔ Successfully updated template output
+      ✔ Successfully applied template copier-simple-example to /tmp/tmpix10dr3q
+      </span><span class="gp"># </span>Output folder name? <span class="o">(</span>this template does not provide one<span class="o">)</span> <span class="o">(</span>project<span class="o">)</span>: $ my-project
+      <span class="go">
+      </span><span class="gp">$ </span><span class="nb">cd</span> my-project
+      <span class="go">
+      </span><span class="gp">$ </span>ls
+      <span class="go"> flexlate-project.json	 flexlate.json	'my answer.txt'</span></code></pre>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

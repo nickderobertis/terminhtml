@@ -1,7 +1,8 @@
 import "./css/termynal.css";
 import "./css/dev-styles.css";
 import { LineData, Termynal } from "./termynal";
-import { runDevApp } from "./app";
+import { runDevApp } from "./termynal-app";
+import { runTerminHTMLApp } from "./terminhtml-app";
 
 const progressLiteralStart = "---> 100%";
 const promptLiteralStart = "$ ";
@@ -112,3 +113,6 @@ loadVisibleTermynals();
 
 // Set up development termynal
 runDevApp();
+
+// Set up development terminal for TerminHTML-ANSI
+runTerminHTMLApp();
