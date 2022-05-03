@@ -1,10 +1,13 @@
 from typing import Sequence, Optional, List, Union
 
 from pydantic import BaseModel
+from lxml import html
 
 from terminhtml.ansi_converter import ansi_to_html
 from terminhtml.runner.commandresult import CommandResult
 from terminhtml.runner.main import run_commands_in_temp_dir
+
+TERMINHTML_BOOTSTRAP_SCRIPT_URL = "https://unpkg.com/@terminhtml/bootstrap@1.0.0-alpha.4/dist/@terminhtml-bootstrap.umd.js"
 
 
 class CommandResults(BaseModel):
@@ -47,7 +50,25 @@ class TerminHTML(BaseModel):
 
         :return: The HTML string.
         """
-        return ansi_to_html(str(self.command_results))
+        base_html = ansi_to_html(str(self.command_results))
+        # Use lxml to insert the TerminHTML bootstrap script tag into the HTML head section.
+        tree = html.fromstring(base_html)
+        head = tree.find("head")
+        script_tag = html.fragment_fromstring(
+            f"<script src='{TERMINHTML_BOOTSTRAP_SCRIPT_URL}'></script>"
+        )
+        head.insert(0, script_tag)
+        # Replace the ansi2html-content class with the terminhtml class with lxml
+        for element in tree.findall(".//*[@class='ansi2html-content']"):
+            element.attrib["class"] = "terminhtml"
+        # Remove all classes from the body element
+        body = tree.find("body")
+        body.attrib.clear()
+        # Add a meta tag for utf-8 encoding
+        meta_tag = html.fragment_fromstring("<meta charset='utf-8'>")
+        head.insert(0, meta_tag)
+        final_html = html.tostring(tree, encoding="unicode")
+        return final_html
 
     def __str__(self) -> str:
         return self.to_html()
