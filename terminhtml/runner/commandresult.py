@@ -9,4 +9,4 @@ class CommandResult(BaseModel):
     cwd: Path
 
     def __str__(self) -> str:
-        return f"{self.input}\n{self.output}"
+        return f"$ {self.input}\n{self.output}"
