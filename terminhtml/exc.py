@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from terminhtml.base_exc import TerminHTMLException
+from terminhtml.output import Output
 
 
 class TerminHTMLUserException(TerminHTMLException):
@@ -16,7 +17,7 @@ class UserCommandException(TerminHTMLUserException):
     Exception for user commands.
     """
 
-    def __init__(self, message: str, output: str, cwd: Path) -> None:
+    def __init__(self, message: str, output: Output, cwd: Path) -> None:
         self.output = output
         self.cwd = cwd
         super().__init__(message)

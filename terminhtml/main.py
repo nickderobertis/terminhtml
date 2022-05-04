@@ -3,11 +3,11 @@ from typing import Sequence, Optional, List, Union
 from pydantic import BaseModel
 from lxml import html
 
-from terminhtml.ansi_converter import ansi_to_html
+from terminhtml.ansi_converter import ansi_to_html, ansi_styles
 from terminhtml.runner.commandresult import CommandResult
 from terminhtml.runner.main import run_commands_in_temp_dir
 
-TERMINHTML_BOOTSTRAP_SCRIPT_URL = "https://unpkg.com/@terminhtml/bootstrap@1.0.0-alpha.4/dist/@terminhtml-bootstrap.umd.js"
+TERMINHTML_BOOTSTRAP_SCRIPT_URL = "https://unpkg.com/@terminhtml/bootstrap@1.0.0-alpha.5/dist/@terminhtml-bootstrap.umd.js"
 
 
 class CommandResults(BaseModel):
@@ -27,6 +27,8 @@ class TerminHTML(BaseModel):
         setup_command: Optional[str] = None,
         input: Optional[Union[List[str], str]] = None,
         allow_exceptions: bool = False,
+        prompt_matchers: Optional[List[str]] = None,
+        command_timeout: int = 10,
     ) -> "TerminHTML":
         """
         Create a TerminHTML object from a list of commands.
@@ -37,10 +39,18 @@ class TerminHTML(BaseModel):
             command by index. If a single string is passed, it will be converted into a single-element list so
             that it will be passed to the first command.
         :param allow_exceptions: If True, exceptions will be raised.
+        :param prompt_matchers: A list of regex strings to match the prompt of the command. If a prompt is matched,
+            it will be provided the matched input.
+        :param command_timeout: The timeout in seconds for each command. If a command times out, the process will fail.
         :return: A TerminHTML object.
         """
         command_results = _run_commands_create_command_results(
-            commands, setup_command, input, allow_exceptions
+            commands,
+            setup_command,
+            input,
+            allow_exceptions,
+            prompt_matchers=prompt_matchers,
+            command_timeout=command_timeout,
         )
         return cls(command_results=CommandResults(results=command_results))
 
@@ -50,25 +60,24 @@ class TerminHTML(BaseModel):
 
         :return: The HTML string.
         """
-        base_html = ansi_to_html(str(self.command_results))
-        # Use lxml to insert the TerminHTML bootstrap script tag into the HTML head section.
-        tree = html.fromstring(base_html)
-        head = tree.find("head")
-        script_tag = html.fragment_fromstring(
-            f"<script src='{TERMINHTML_BOOTSTRAP_SCRIPT_URL}'></script>"
-        )
-        head.insert(0, script_tag)
-        # Replace the ansi2html-content class with the terminhtml class with lxml
-        for element in tree.findall(".//*[@class='ansi2html-content']"):
-            element.attrib["class"] = "terminhtml"
-        # Remove all classes from the body element
-        body = tree.find("body")
-        body.attrib.clear()
-        # Add a meta tag for utf-8 encoding
-        meta_tag = html.fragment_fromstring("<meta charset='utf-8'>")
-        head.insert(0, meta_tag)
-        final_html = html.tostring(tree, encoding="unicode")
-        return final_html
+        main_html = str(self.command_results)
+        full_html = f"""
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src='{TERMINHTML_BOOTSTRAP_SCRIPT_URL}'></script>
+        <style>{ansi_styles()}</style>
+        <title></title>
+    </head>
+    <body>
+        <pre class="terminhtml">
+            {main_html}
+        </pre>
+    </body>
+</html>
+        """.strip()
+        return full_html
 
     def __str__(self) -> str:
         return self.to_html()
@@ -79,11 +88,18 @@ def _run_commands_create_command_results(
     setup_command: Optional[str] = None,
     input: Optional[Union[List[str], str]] = None,
     allow_exceptions: bool = False,
+    prompt_matchers: Optional[List[str]] = None,
+    command_timeout: int = 10,
 ) -> List[CommandResult]:
     full_setup_command = setup_command or ""
     use_input = _get_input_list(input)
     return run_commands_in_temp_dir(
-        commands, full_setup_command, use_input, allow_exceptions
+        commands,
+        full_setup_command,
+        use_input,
+        allow_exceptions,
+        prompt_matchers=prompt_matchers,
+        command_timeout=command_timeout,
     )
 
 
