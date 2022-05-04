@@ -5,6 +5,8 @@ from typing import Sequence, Optional, List, Tuple
 
 import pexpect
 
+from terminhtml._exc import CommandInternalException
+from terminhtml.exc import TerminHTMLUserException, UserCommandException
 from terminhtml.runner.commandresult import CommandResult
 
 
@@ -20,16 +22,16 @@ def run_commands_in_temp_dir(
         except (
             pexpect.exceptions.EOF,
             pexpect.exceptions.TIMEOUT,
-            CommandException,
+            CommandInternalException,
         ) as e:
-            if isinstance(e, CommandException):
+            if isinstance(e, CommandInternalException):
                 if allow_exceptions:
                     return CommandResult(
                         input=command,
                         output=e.output,
                         cwd=e.cwd,
                     )
-                raise CommandException(
+                raise UserCommandException(
                     f"Command failed: {command} due to {e} as "
                     f"part of running {commands=} {setup_command=} {input=}",
                     output=e.output,
@@ -42,7 +44,7 @@ def run_commands_in_temp_dir(
                 if part.startswith("before (last 100 chars): ")
             ][0]
             output_without_prefix = output[len("before (last 100 chars): ") :]
-            raise CommandException(
+            raise UserCommandException(
                 f"Command failed: {command} as "
                 f"part of running {commands=} {setup_command=} {input=}",
                 output_without_prefix,
@@ -71,16 +73,6 @@ def run_commands_in_temp_dir(
     return out_commands
 
 
-class CommandException(Exception):
-    def __init__(self, message: str, output: str, cwd: Path) -> None:
-        self.output = output
-        self.cwd = cwd
-        super().__init__(message)
-
-    def __str__(self) -> str:
-        return f"{super().__str__()}\n{self.cwd=} with output:\n{self.output}"
-
-
 def _get_terminal_output_with_prompt_at_end(output: str) -> str:
     lines = output.split("\r\n")
 
@@ -100,7 +92,7 @@ def _get_real_output_and_cwd_from_output(
     real_output = "\r\n".join(lines[:last_real_idx])
     cwd = Path(lines[last_real_idx].strip())
     if not cwd.exists():
-        raise CommandException(f"{cwd=} does not exist.", output, last_cwd)
+        raise CommandInternalException(f"{cwd=} does not exist.", output, last_cwd)
     return real_output, cwd
 
 
