@@ -1,12 +1,20 @@
 import datetime
+from enum import Enum
 from typing import List, Optional
 
 from pydantic import BaseModel
 
 
+class LineEnding(str, Enum):
+    LF = "\n"
+    CR = "\r"
+    CRLF = "\r\n"
+
+
 class LineOutput(BaseModel):
     line: str
     time: datetime.datetime
+    line_ending: LineEnding
 
 
 class Output(BaseModel):

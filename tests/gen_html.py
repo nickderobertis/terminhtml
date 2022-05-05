@@ -9,7 +9,9 @@ def create_rich_html() -> str:
 
 
 def create_fxt_init_from_html() -> str:
-    commands = ["fxt init-from -n https://github.com/nickderobertis/copier-typescript-npm-sphinx"]
+    commands = [
+        "fxt init-from -n https://github.com/nickderobertis/copier-typescript-npm-sphinx"
+    ]
     term = TerminHTML.from_commands(commands)
     return str(term)
 

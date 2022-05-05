@@ -4,14 +4,21 @@ from pathlib import Path
 from pydantic import BaseModel
 
 from terminhtml.ansi_converter import ansi_to_html
-from terminhtml.output import Output, LineOutput
+from terminhtml.output import Output, LineOutput, LineEnding
 
 
 class LineWithDelay(LineOutput):
     delay: int
 
     def __str__(self) -> str:
-        return _output_span_element(ansi_to_html(self.line), self.delay)
+        output_line_ending: str
+        if self.line_ending == LineEnding.CR:
+            output_line_ending = "&#13;"
+        else:
+            output_line_ending = ""
+        return _output_span_element(
+            ansi_to_html(self.line) + output_line_ending, self.delay
+        )
 
 
 class CommandResult(BaseModel):
@@ -25,10 +32,18 @@ class CommandResult(BaseModel):
             (self.output.lines[0].time - self.input.time).total_seconds() * 1000
         )
         input_line = LineWithDelay(
-            line=f"$ {self.input.line}", delay=input_delay, time=self.input.time
+            line=f"$ {self.input.line}",
+            delay=input_delay,
+            time=self.input.time,
+            line_ending=self.input.line_ending,
         )
         output_lines = [
-            LineWithDelay(line=line.line, delay=delays[i], time=line.time)
+            LineWithDelay(
+                line=line.line,
+                delay=delays[i],
+                time=line.time,
+                line_ending=line.line_ending,
+            )
             for i, line in enumerate(self.output.lines)
         ]
         return "\n".join([str(input_line)] + [str(line) for line in output_lines])

@@ -8,7 +8,7 @@ import pexpect
 
 from terminhtml._exc import CommandInternalException
 from terminhtml.exc import UserCommandException
-from terminhtml.output import LineOutput, Output
+from terminhtml.output import LineOutput, Output, LineEnding
 from terminhtml.runner.commandresult import CommandResult
 
 
@@ -115,13 +115,14 @@ def _run(
     command_timeout: int = 10,
 ) -> CommandResult:
     use_input = input.split("\n") if input else []
-    stop_for_input_chars = ["\r\n", pexpect.EOF, *(prompt_matchers or [])]
+    stop_for_input_chars = ["\r\n", "\r", pexpect.EOF, *(prompt_matchers or [])]
     new_line_index = 0
-    eof_index = 1
+    carriage_return_index = 1
+    eof_index = 2
     prompt_indices = [
         i
         for i in range(len(stop_for_input_chars))
-        if i not in [new_line_index, eof_index]
+        if i not in [new_line_index, carriage_return_index, eof_index]
     ]
 
     start_time = datetime.datetime.now()
@@ -134,7 +135,16 @@ def _run(
         matched_idx = process.expect(stop_for_input_chars, timeout=command_timeout)
         # Process printed a new line, collect it and the time
         this_stdout = _extract_pexpect_output_and_strip_ending_newlines(process)
-        output_lines.append(LineOutput(line=this_stdout, time=datetime.datetime.now()))
+        line_ending: LineEnding
+        if matched_idx == carriage_return_index:
+            line_ending = LineEnding.CR
+        else:
+            line_ending = LineEnding.CRLF
+        output_lines.append(
+            LineOutput(
+                line=this_stdout, time=datetime.datetime.now(), line_ending=line_ending
+            )
+        )
         if matched_idx in prompt_indices:
             # Process printed a prompt, send input
             process.sendline(use_input[input_idx])
@@ -143,7 +153,7 @@ def _run(
             # Process printed EOF, break
             break
 
-    start_line = LineOutput(line=command, time=start_time)
+    start_line = LineOutput(line=command, time=start_time, line_ending=LineEnding.CRLF)
     real_output, new_cwd = _get_real_output_and_cwd_from_output_lines(
         output_lines, cwd, start_line
     )
