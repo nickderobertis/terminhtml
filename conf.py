@@ -62,6 +62,10 @@ PACKAGE_INSTALL_REQUIRES = [
     # e.g.
     # 'package',
     # 'otherpackage>=1,<2'
+    "ansi2html",
+    "pydantic",
+    "pexpect",
+    "lxml",
 ]
 
 # Add any third party packages you use in requirements for optional features of your package here
