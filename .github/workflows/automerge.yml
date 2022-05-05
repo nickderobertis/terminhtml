@@ -1,3 +1,4 @@
+
 name: automerge
 on:
   pull_request:
@@ -111,7 +112,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
         with:
-          ref: refs/heads/master
+          ref: refs/heads/main
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
         with:

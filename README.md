@@ -1,5 +1,4 @@
-terminhtml
-[![](https://codecov.io/gh/nickderobertis/terminhtml/branch/master/graph/badge.svg)](https://codecov.io/gh/nickderobertis/terminhtml)
+[![](https://codecov.io/gh/nickderobertis/terminhtml/branch/main/graph/badge.svg)](https://codecov.io/gh/nickderobertis/terminhtml)
 [![PyPI](https://img.shields.io/pypi/v/terminhtml)](https://pypi.org/project/terminhtml/)
 ![PyPI - License](https://img.shields.io/pypi/l/terminhtml)
 [![Documentation](https://img.shields.io/badge/documentation-pass-green)](https://nickderobertis.github.io/terminhtml/)
