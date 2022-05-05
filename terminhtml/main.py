@@ -7,7 +7,7 @@ from terminhtml.ansi_converter import ansi_to_html, ansi_styles
 from terminhtml.runner.commandresult import CommandResult
 from terminhtml.runner.main import run_commands_in_temp_dir
 
-TERMINHTML_BOOTSTRAP_SCRIPT_URL = "https://unpkg.com/@terminhtml/bootstrap@1.0.0-alpha.8/dist/@terminhtml-bootstrap.umd.js"
+TERMINHTML_BOOTSTRAP_SCRIPT_URL = "https://unpkg.com/@terminhtml/bootstrap@1.0.0-alpha.9/dist/@terminhtml-bootstrap.umd.js"
 
 
 class CommandResults(BaseModel):
@@ -55,20 +55,26 @@ class TerminHTML(BaseModel):
         )
         return cls(command_results=CommandResults(results=command_results))
 
-    def to_html(self) -> str:
+    @property
+    def styles(self) -> str:
+        return ansi_styles()
+
+    def to_html(self, full: bool = True) -> str:
         """
         Convert the TerminHTML object to HTML.
 
         :return: The HTML string.
         """
         main_html = str(self.command_results)
+        if not full:
+            return main_html
         full_html = f"""
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <script src='{TERMINHTML_BOOTSTRAP_SCRIPT_URL}'></script>
-        <style>{ansi_styles()}</style>
+        <style>{self.styles}</style>
         <title></title>
     </head>
     <body>
