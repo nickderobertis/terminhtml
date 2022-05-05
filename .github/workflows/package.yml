@@ -1,3 +1,4 @@
+
 name: Test, Build and Push Python Package and Docs
 
 on:
@@ -25,8 +26,8 @@ jobs:
       - name: Exit Workflow if PR but not Merged
         if: github.event.action == 'closed'
         run: |
-          if [ !$GITHUB_PR_BASE == 'master' ]; then
-            echo "Not merging into master, exiting workflow";
+          if [ !$GITHUB_PR_BASE == 'main' ]; then
+            echo "Not merging into main, exiting workflow";
             exit 1;
           fi;
           if $GITHUB_PR_MERGED; then
@@ -62,7 +63,7 @@ jobs:
         run: |
           pipenv run python -m pytest --cov=./ --cov-report=xml
       - name: Upload coverage to Codecov
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -72,7 +73,7 @@ jobs:
           yml: ./codecov.yml
 
   collectTODO:
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -82,7 +83,7 @@ jobs:
         id: "todo"
 
   deploy:
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     needs: test
     runs-on: ubuntu-latest
     strategy:
