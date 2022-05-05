@@ -44,7 +44,7 @@ class TerminHTML(BaseModel):
         :param command_timeout: The timeout in seconds for each command. If a command times out, the process will fail.
         :return: A TerminHTML object.
         """
-        setup_command = " && ".join(setup_commands)
+        setup_command = " && ".join(setup_commands or [])
         command_results = _run_commands_create_command_results(
             commands,
             setup_command,
