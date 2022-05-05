@@ -1,5 +1,5 @@
-import datetime
 from pathlib import Path
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -16,8 +16,14 @@ class LineWithDelay(LineOutput):
             output_line_ending = "&#13;"
         else:
             output_line_ending = ""
+        if self.prompt_output:
+            line = self.prompt_output.user_input
+        else:
+            line = self.line
         return _output_span_element(
-            ansi_to_html(self.line) + output_line_ending, self.delay
+            ansi_to_html(line) + output_line_ending,
+            self.delay,
+            self.prompt_output.prompt if self.prompt_output else None,
         )
 
 
@@ -36,6 +42,7 @@ class CommandResult(BaseModel):
             delay=input_delay,
             time=self.input.time,
             line_ending=self.input.line_ending,
+            prompt_output=self.input.prompt_output,
         )
         output_lines = [
             LineWithDelay(
@@ -43,11 +50,17 @@ class CommandResult(BaseModel):
                 delay=delays[i],
                 time=line.time,
                 line_ending=line.line_ending,
+                prompt_output=line.prompt_output,
             )
             for i, line in enumerate(self.output.lines)
         ]
         return "\n".join([str(input_line)] + [str(line) for line in output_lines])
 
 
-def _output_span_element(content: str, delay: int = 0) -> str:
-    return f'<span data-ty data-ty-delay="{delay}">{content}</span>'
+def _output_span_element(
+    content: str, delay: int = 0, prompt: Optional[str] = None
+) -> str:
+    prompt_attr = ""
+    if prompt:
+        prompt_attr = f'="input" data-ty-prompt="{prompt}"'
+    return f'<span data-ty{prompt_attr} data-ty-delay="{delay}">{content}</span>'

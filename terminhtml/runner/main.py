@@ -8,7 +8,7 @@ import pexpect
 
 from terminhtml._exc import CommandInternalException
 from terminhtml.exc import UserCommandException
-from terminhtml.output import LineOutput, Output, LineEnding
+from terminhtml.output import LineOutput, Output, LineEnding, PromptOutput
 from terminhtml.runner.commandresult import CommandResult
 
 
@@ -131,25 +131,42 @@ def _run(
     )
     output_lines: List[LineOutput] = []
     input_idx = 0
+    skip_next_lines = 0
     while True:
         matched_idx = process.expect(stop_for_input_chars, timeout=command_timeout)
-        # Process printed a new line, collect it and the time
+        # Process printed a new line
+        # First check if we should skip the line due to it being user input that
+        # is already tracked in PromptOutput
+        if skip_next_lines > 0:
+            skip_next_lines -= 1
+            continue
+
+        # Collect the line and the time
         this_stdout = _extract_pexpect_output_and_strip_ending_newlines(process)
         line_ending: LineEnding
         if matched_idx == carriage_return_index:
             line_ending = LineEnding.CR
         else:
             line_ending = LineEnding.CRLF
-        output_lines.append(
-            LineOutput(
-                line=this_stdout, time=datetime.datetime.now(), line_ending=line_ending
-            )
-        )
+
+        prompt_output: Optional[PromptOutput] = None
         if matched_idx in prompt_indices:
             # Process printed a prompt, send input
-            process.sendline(use_input[input_idx])
+            user_input = use_input[input_idx]
+            process.sendline(user_input)
             input_idx += 1
-        elif matched_idx == eof_index:
+            prompt_output = PromptOutput(prompt=this_stdout, user_input=user_input)
+            # The next lines will be the input we just provided, skip them
+            skip_next_lines = len(user_input.split("\n"))
+        output_lines.append(
+            LineOutput(
+                line=this_stdout,
+                time=datetime.datetime.now(),
+                line_ending=line_ending,
+                prompt_output=prompt_output,
+            )
+        )
+        if matched_idx == eof_index:
             # Process printed EOF, break
             break
 

@@ -11,10 +11,16 @@ class LineEnding(str, Enum):
     CRLF = "\r\n"
 
 
+class PromptOutput(BaseModel):
+    prompt: str
+    user_input: str
+
+
 class LineOutput(BaseModel):
     line: str
     time: datetime.datetime
     line_ending: LineEnding
+    prompt_output: Optional[PromptOutput] = None
 
 
 class Output(BaseModel):
