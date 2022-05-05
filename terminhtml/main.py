@@ -67,7 +67,11 @@ class TerminHTML(BaseModel):
         """
         main_html = str(self.command_results)
         if not full:
-            return main_html
+            return f"""
+<pre class="terminhtml">
+    {main_html}
+</pre>
+        """.strip()
         full_html = f"""
 <!DOCTYPE html>
 <html lang="en">
