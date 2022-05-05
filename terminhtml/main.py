@@ -24,7 +24,7 @@ class TerminHTML(BaseModel):
     def from_commands(
         cls,
         commands: Sequence[str],
-        setup_command: Optional[str] = None,
+        setup_commands: Optional[List[str]] = None,
         input: Optional[Union[List[str], str]] = None,
         allow_exceptions: bool = False,
         prompt_matchers: Optional[List[str]] = None,
@@ -44,6 +44,7 @@ class TerminHTML(BaseModel):
         :param command_timeout: The timeout in seconds for each command. If a command times out, the process will fail.
         :return: A TerminHTML object.
         """
+        setup_command = " && ".join(setup_commands)
         command_results = _run_commands_create_command_results(
             commands,
             setup_command,
