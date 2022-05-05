@@ -63,5 +63,5 @@ feature branches flexlate-templates-main and
 feature branches\x1b[0m\r\n\x1b[0m\x1b[0m'
     """.strip()
     html = conv.convert(ansi, full=True)
-    styles = ansi_styles(ansi)
+    styles = ansi_styles()
     print(html)
