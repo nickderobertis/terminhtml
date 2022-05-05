@@ -1,0 +1,27 @@
+terminhtml.runner package
+=========================
+
+.. automodule:: terminhtml.runner
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+terminhtml.runner.commandresult module
+--------------------------------------
+
+.. automodule:: terminhtml.runner.commandresult
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+terminhtml.runner.main module
+-----------------------------
+
+.. automodule:: terminhtml.runner.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

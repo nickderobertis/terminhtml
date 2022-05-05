@@ -1,0 +1,58 @@
+terminhtml package
+==================
+
+.. automodule:: terminhtml
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   terminhtml.runner
+
+Submodules
+----------
+
+terminhtml.ansi\_converter module
+---------------------------------
+
+.. automodule:: terminhtml.ansi_converter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+terminhtml.base\_exc module
+---------------------------
+
+.. automodule:: terminhtml.base_exc
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+terminhtml.exc module
+---------------------
+
+.. automodule:: terminhtml.exc
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+terminhtml.main module
+----------------------
+
+.. automodule:: terminhtml.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+terminhtml.output module
+------------------------
+
+.. automodule:: terminhtml.output
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
