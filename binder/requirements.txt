@@ -1,1 +1,5 @@
 terminhtml
+lxml
+pexpect
+pydantic
+ansi2html
