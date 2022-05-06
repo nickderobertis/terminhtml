@@ -5,6 +5,7 @@ from tests.config import (
     FXT_ADD_OUTPUT_HTML,
     BASIC_HTML,
     FXT_UPDATE_HTML,
+    FXT_INIT_HTML,
 )
 
 
@@ -29,6 +30,23 @@ def create_fxt_init_from_html() -> str:
         "fxt init-from -n https://github.com/nickderobertis/copier-typescript-npm-sphinx"
     ]
     term = TerminHTML.from_commands(commands)
+    return str(term)
+
+
+def create_fxt_init_html() -> str:
+    setup_commands = [
+        "git init",
+        "touch woo.txt",
+        "git add .",
+        "git commit -m 'Initial commit'",
+    ]
+    commands = [
+        "fxt init",
+    ]
+    prompt_matchers = ["]: ", r"0m: "]
+    term = TerminHTML.from_commands(
+        commands, setup_commands, None, prompt_matchers=prompt_matchers
+    )
     return str(term)
 
 
@@ -80,8 +98,9 @@ def create_fxt_update_html() -> str:
 
 
 if __name__ == "__main__":
-    # BASIC_HTML.write_text(create_basic_html())
-    # RICH_HTML.write_text(create_rich_html())
-    # FXT_INIT_FROM_HTML.write_text(create_fxt_init_from_html())
-    # FXT_ADD_OUTPUT_HTML.write_text(create_fxt_add_output_html())
+    BASIC_HTML.write_text(create_basic_html())
+    RICH_HTML.write_text(create_rich_html())
+    FXT_INIT_FROM_HTML.write_text(create_fxt_init_from_html())
+    FXT_INIT_HTML.write_text(create_fxt_init_html())
+    FXT_ADD_OUTPUT_HTML.write_text(create_fxt_add_output_html())
     FXT_UPDATE_HTML.write_text(create_fxt_update_html())
