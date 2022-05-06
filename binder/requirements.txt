@@ -1,5 +1,5 @@
-pydantic
 terminhtml
-lxml
 ansi2html
 pexpect
+pydantic
+lxml
