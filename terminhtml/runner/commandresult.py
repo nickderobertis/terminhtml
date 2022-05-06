@@ -11,19 +11,15 @@ class LineWithDelay(LineOutput):
     delay: int
 
     def __str__(self) -> str:
-        output_line_ending: str
-        if self.line_ending == LineEnding.CR:
-            output_line_ending = "&#13;"
-        else:
-            output_line_ending = ""
         if self.prompt_output:
             line = self.prompt_output.user_input
         else:
             line = self.line
         return _output_span_element(
-            ansi_to_html(line) + output_line_ending,
+            ansi_to_html(line),
             self.delay,
             self.prompt_output.prompt if self.prompt_output else None,
+            line_ending=self.line_ending,
         )
 
 
@@ -58,9 +54,12 @@ class CommandResult(BaseModel):
 
 
 def _output_span_element(
-    content: str, delay: int = 0, prompt: Optional[str] = None
+    content: str, delay: int = 0, prompt: Optional[str] = None, line_ending: LineEnding = LineEnding.CRLF
 ) -> str:
     prompt_attr = ""
     if prompt:
         prompt_attr = f'="input" data-ty-prompt="{prompt}"'
-    return f'<span data-ty{prompt_attr} data-ty-delay="{delay}">{content}</span>'
+    line_ending_attr = ""
+    if line_ending == LineEnding.CR:
+        line_ending_attr = 'data-ty-carriageReturn="true"'
+    return f'<span data-ty{prompt_attr} {line_ending_attr} data-ty-delay="{delay}">{content}</span>'
