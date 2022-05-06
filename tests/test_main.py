@@ -15,3 +15,5 @@ def test_terminhtml_runs_command_creates_unstyled_html():
     assert "echo yeah &gt; woo.txt" in html
     # Check output of ls -l
     assert "total 4" in html
+    # Ensure that pwd printing to correct cwd does not make its way into the html
+    assert "/tmp/" not in html

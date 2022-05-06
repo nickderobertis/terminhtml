@@ -95,7 +95,7 @@ def _get_real_output_and_cwd_from_output_lines(
     # Find index of last real line
     i = 0
     for i, line in enumerate(reversed(lines)):
-        if line:
+        if line.line:
             break
     last_real_idx = -(i + 1)
     real_output = Output(lines=lines[:last_real_idx])
