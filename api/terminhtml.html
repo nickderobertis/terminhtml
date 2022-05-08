@@ -51,6 +51,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/ansi2html.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx_paramlinks.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
@@ -62,6 +63,8 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/@terminhtml-bootstrap.umd.js"></script>
+    <script src="../_static/@terminhtml-bootstrap.umd.js.map"></script>
     <link rel="canonical" href="https://nickderobertis.github.io/terminhtml/api/terminhtml.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -226,7 +229,7 @@
     <li class="md-nav__item">
     
     
-      <a href="../auto_examples/index.html" class="md-nav__link">This is my gallery</a>
+      <a href="../commands.html" class="md-nav__link">CLI Reference</a>
       
     
     </li>
@@ -445,8 +448,25 @@
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="terminhtml.cli.run_commands_create_html">
-<span class="sig-prename descclassname"><span class="pre">terminhtml.cli.</span></span><span class="sig-name descname"><span class="pre">run_commands_create_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">commands</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Argument</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setup_commands</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_exceptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_matchers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">partial_html</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/cli.html#run_commands_create_html"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.cli.run_commands_create_html" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">terminhtml.cli.</span></span><span class="sig-name descname"><span class="pre">run_commands_create_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">commands</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Argument</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setup_commands</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_exceptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_matchers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">partial_html</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#terminhtml.cli.run_commands_create_html" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an animated HTML/CSS terminal by running commands and recording their output.</p>
+<p>Examples:
+<a href="#id1"><span class="problematic" id="id2">``</span></a>`
+# Run two commands
+$ terminhtml “echo woo &gt; something.txt” “cat something.txt”</p>
+<p># Output results to a file
+$ terminhtml -o output.html “echo woo”</p>
+<p># Run a script my-script.sh
+$ terminhtml “$(&lt;my-script.sh)”</p>
+<p># Run setup commands before the animated session
+$ terminhtml “cat woo.txt” -s “echo a &gt; woo.txt &amp;&amp; echo b &gt;&gt; woo.txt”</p>
+<p># Output partial HTML
+$ terminhtml -p “echo woo”</p>
+<p># Allow longer-running commands
+$ terminhtml -t 20 “sleep 15 &amp;&amp; echo woo”</p>
+<p># Animate commands that prompt for user input
+$ terminhtml -m “] ” -i “woo” “read -p ‘[value?] ‘ varname &amp;&amp; echo $varname”
+<a href="#id3"><span class="problematic" id="id4">``</span></a><a href="#id5"><span class="problematic" id="id6">`</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
@@ -477,8 +497,8 @@
 <span id="terminhtml-main-module"></span><h2 id="module-terminhtml.main">terminhtml.main module<a class="headerlink" href="#module-terminhtml.main" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="terminhtml.main.CommandResults">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">terminhtml.main.</span></span><span class="sig-name descname"><span class="pre">CommandResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/main.html#CommandResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.main.CommandResults" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pydantic.BaseModel</span></code></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">terminhtml.main.</span></span><span class="sig-name descname"><span class="pre">CommandResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/main.html#CommandResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.main.CommandResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pydantic.main.BaseModel</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="terminhtml.main.CommandResults.results">
 <span class="sig-name descname"><span class="pre">results</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="terminhtml.runner.html#terminhtml.runner.commandresult.CommandResult" title="terminhtml.runner.commandresult.CommandResult"><span class="pre">terminhtml.runner.commandresult.CommandResult</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#terminhtml.main.CommandResults.results" title="Permalink to this definition">¶</a></dt>
@@ -486,8 +506,8 @@
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="terminhtml.main.TerminHTML">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">terminhtml.main.</span></span><span class="sig-name descname"><span class="pre">TerminHTML</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/main.html#TerminHTML"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.main.TerminHTML" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pydantic.BaseModel</span></code></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">terminhtml.main.</span></span><span class="sig-name descname"><span class="pre">TerminHTML</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/main.html#TerminHTML"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.main.TerminHTML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pydantic.main.BaseModel</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="terminhtml.main.TerminHTML.command_results">
 <span class="sig-name descname"><span class="pre">command_results</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#terminhtml.main.CommandResults" title="terminhtml.main.CommandResults"><span class="pre">terminhtml.main.CommandResults</span></a></em><a class="headerlink" href="#terminhtml.main.TerminHTML.command_results" title="Permalink to this definition">¶</a></dt>
@@ -564,8 +584,8 @@ it will be provided the matched input.</p></li>
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="terminhtml.output.LineOutput">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">terminhtml.output.</span></span><span class="sig-name descname"><span class="pre">LineOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/output.html#LineOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.output.LineOutput" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pydantic.BaseModel</span></code></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">terminhtml.output.</span></span><span class="sig-name descname"><span class="pre">LineOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/output.html#LineOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.output.LineOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pydantic.main.BaseModel</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="terminhtml.output.LineOutput.line">
 <span class="sig-name descname"><span class="pre">line</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#terminhtml.output.LineOutput.line" title="Permalink to this definition">¶</a></dt>
@@ -576,7 +596,7 @@ it will be provided the matched input.</p></li>
 <dd></dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="terminhtml.output.LineOutput.prompt_output">
-<span class="sig-name descname"><span class="pre">prompt_output</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#terminhtml.output.PromptOutput" title="terminhtml.output.PromptOutput"><span class="pre">terminhtml.output.PromptOutput</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#terminhtml.output.LineOutput.prompt_output" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">prompt_output</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#terminhtml.output.PromptOutput" title="terminhtml.output.PromptOutput"><span class="pre">terminhtml.output.PromptOutput</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#terminhtml.output.LineOutput.prompt_output" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="terminhtml.output.LineOutput.time">
@@ -585,8 +605,8 @@ it will be provided the matched input.</p></li>
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="terminhtml.output.Output">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">terminhtml.output.</span></span><span class="sig-name descname"><span class="pre">Output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/output.html#Output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.output.Output" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pydantic.BaseModel</span></code></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">terminhtml.output.</span></span><span class="sig-name descname"><span class="pre">Output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/output.html#Output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.output.Output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pydantic.main.BaseModel</span></code></p>
 <dl class="py property">
 <dt class="sig sig-object py" id="terminhtml.output.Output.delays">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delays</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#terminhtml.output.Output.delays" title="Permalink to this definition">¶</a></dt>
@@ -603,8 +623,8 @@ it will be provided the matched input.</p></li>
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="terminhtml.output.PromptOutput">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">terminhtml.output.</span></span><span class="sig-name descname"><span class="pre">PromptOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/output.html#PromptOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.output.PromptOutput" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pydantic.BaseModel</span></code></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">terminhtml.output.</span></span><span class="sig-name descname"><span class="pre">PromptOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/output.html#PromptOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.output.PromptOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pydantic.main.BaseModel</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="terminhtml.output.PromptOutput.prompt">
 <span class="sig-name descname"><span class="pre">prompt</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#terminhtml.output.PromptOutput.prompt" title="Permalink to this definition">¶</a></dt>
