@@ -20,7 +20,7 @@ REPO_MAINTAINERS = [
 ]
 
 # Package version in the format (major, minor, release)
-PACKAGE_VERSION_TUPLE = (0, 4, 0)
+PACKAGE_VERSION_TUPLE = (0, 4, 1)
 
 # Short description of the package
 PACKAGE_SHORT_DESCRIPTION = "Run shell commands and convert into an HTML/CSS animated terminal"
