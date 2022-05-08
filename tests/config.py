@@ -2,6 +2,7 @@ from pathlib import Path
 
 INPUT_FILES_DIR = Path(__file__).parent / "input_files"
 BASIC_HTML = INPUT_FILES_DIR / "basic.html"
+BASIC_INPUT_HTML = INPUT_FILES_DIR / "basic_input.html"
 RICH_HTML = INPUT_FILES_DIR / "rich.html"
 RICH_PROGRESS_BAR_HTML = INPUT_FILES_DIR / "rich_progress_bar.html"
 FXT_INIT_FROM_HTML = INPUT_FILES_DIR / "fxt_init_from.html"

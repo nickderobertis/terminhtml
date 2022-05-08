@@ -13,9 +13,12 @@ For more information on getting started, take a look at the tutorial and example
 ## Tutorial and Examples
 
 ```{toctree}
+---
+maxdepth: 2
+---
 
 tutorial
-auto_examples/index
+CLI Reference <commands>
 ```
 
 ## API Documentation

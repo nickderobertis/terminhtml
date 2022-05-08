@@ -5,7 +5,9 @@ import typer
 
 from terminhtml.main import TerminHTML
 
+app = typer.Typer()
 
+@app.command(name="terminhtml")
 def run_commands_create_html(
     commands: List[str] = typer.Argument(..., help="Commands to run"),
     setup_commands: Optional[List[str]] = typer.Option(
@@ -63,6 +65,30 @@ def run_commands_create_html(
 ) -> None:
     """
     Create an animated HTML/CSS terminal by running commands and recording their output.
+
+    Examples:
+    ```
+    # Run two commands
+    $ terminhtml "echo woo > something.txt" "cat something.txt"
+
+    # Output results to a file
+    $ terminhtml -o output.html "echo woo"
+
+    # Run a script my-script.sh
+    $ terminhtml "$(<my-script.sh)"
+
+    # Run setup commands before the animated session
+    $ terminhtml "cat woo.txt" -s "echo a > woo.txt && echo b >> woo.txt"
+
+    # Output partial HTML
+    $ terminhtml -p "echo woo"
+
+    # Allow longer-running commands
+    $ terminhtml -t 20 "sleep 15 && echo woo"
+
+    # Animate commands that prompt for user input
+    $ terminhtml -m "] " -i "woo" "read -p '[value?] ' varname && echo \$varname"
+    ```
     """
     # In the CLI only, support passing multiple commands separated by newlines
     all_commands: List[str] = []
@@ -87,4 +113,6 @@ def main() -> None:
     typer.run(run_commands_create_html)
 
 if __name__ == "__main__":
-    main()
+    # For some reason this is the required setup for docs generation to work.
+    # main() is the actual CLI entrypoint. Access it through __main__.
+    typer.run(app)
