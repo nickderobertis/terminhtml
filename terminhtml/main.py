@@ -7,7 +7,7 @@ from terminhtml.ansi_converter import ansi_to_html, ansi_styles
 from terminhtml.runner.commandresult import CommandResult
 from terminhtml.runner.main import run_commands_in_temp_dir
 
-TERMINHTML_BOOTSTRAP_SCRIPT_URL = "https://unpkg.com/@terminhtml/bootstrap@1.0.0-alpha.9/dist/@terminhtml-bootstrap.umd.js"
+TERMINHTML_BOOTSTRAP_SCRIPT_URL = "https://unpkg.com/@terminhtml/bootstrap@1.x/dist/@terminhtml-bootstrap.umd.js"
 
 
 class CommandResults(BaseModel):
