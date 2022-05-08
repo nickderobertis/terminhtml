@@ -53,6 +53,7 @@ extensions = [
     'sphinx_gallery.gen_gallery',
     'sphinx_copybutton',
     'myst_parser',
+    "sphinx_terminhtml",
 ]
 
 # Options for sphinx_autodoc_typehints

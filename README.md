@@ -13,18 +13,17 @@ Run shell commands and convert into an HTML/CSS animated terminal
 
 ## Getting Started
 
-Install `terminhtml`:
+Install `terminhtml`. Recommended installation is with 
+[pipx](https://github.com/pypa/pipx) but can also be done via `pip`:
 
 ```
-pip install terminhtml
+pipx install terminhtml
 ```
 
 A simple example:
 
-```python
-import terminhtml
-
-# Do something with terminhtml
+```shell
+terminhtml "echo 'Hello World'"
 ```
 
 See a
