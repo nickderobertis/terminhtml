@@ -32,6 +32,14 @@ terminhtml.base\_exc module
    :undoc-members:
    :show-inheritance:
 
+terminhtml.cli module
+---------------------
+
+.. automodule:: terminhtml.cli
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 terminhtml.exc module
 ---------------------
 
