@@ -66,6 +66,7 @@ PACKAGE_INSTALL_REQUIRES = [
     "pydantic",
     "pexpect",
     "lxml",
+    "typer",
 ]
 
 # Add any third party packages you use in requirements for optional features of your package here
@@ -99,7 +100,7 @@ DOCS_OTHER_MOCK_IMPORTS = [
 
 # Add any Python scripts which should be exposed to the command line in the format:
 # CONSOLE_SCRIPTS = ['funniest-joke=funniest.command_line:main']
-CONSOLE_SCRIPTS = [],
+CONSOLE_SCRIPTS = ["terminhtml=terminhtml.__main__:main"],
 
 # Add any arbitrary scripts to be exposed to the command line in the format:
 # SCRIPTS = ['bin/funniest-joke']
