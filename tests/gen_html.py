@@ -5,7 +5,7 @@ from tests.config import (
     FXT_ADD_OUTPUT_HTML,
     BASIC_HTML,
     FXT_UPDATE_HTML,
-    FXT_INIT_HTML,
+    FXT_INIT_HTML, RICH_PROGRESS_BAR_HTML,
 )
 
 
@@ -21,6 +21,12 @@ def create_basic_html() -> str:
 
 def create_rich_html() -> str:
     commands = ["python -m rich"]
+    term = TerminHTML.from_commands(commands)
+    return str(term)
+
+
+def create_rich_progress_bar_html() -> str:
+    commands = ["python -m rich.progress_bar"]
     term = TerminHTML.from_commands(commands)
     return str(term)
 
@@ -100,6 +106,7 @@ def create_fxt_update_html() -> str:
 if __name__ == "__main__":
     BASIC_HTML.write_text(create_basic_html())
     RICH_HTML.write_text(create_rich_html())
+    RICH_PROGRESS_BAR_HTML.write_text(create_rich_progress_bar_html())
     FXT_INIT_FROM_HTML.write_text(create_fxt_init_from_html())
     FXT_INIT_HTML.write_text(create_fxt_init_html())
     FXT_ADD_OUTPUT_HTML.write_text(create_fxt_add_output_html())
