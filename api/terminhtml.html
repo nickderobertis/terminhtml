@@ -47,7 +47,7 @@
   
   
   
-    <title>terminhtml package &#8212; terminhtml 0.4.0 documentation</title>
+    <title>terminhtml package &#8212; terminhtml 0.4.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -93,7 +93,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../index.html" title="terminhtml 0.4.0 documentation"
+        <a href="../index.html" title="terminhtml 0.4.1 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#xe869</i>
@@ -179,7 +179,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">terminhtml 0.4.0 documentation</a></li>
+          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">terminhtml 0.4.1 documentation</a></li>
           <li class="md-tabs__item"><a href="modules.html" class="md-tabs__link">terminhtml</a></li>
       </ul>
     </div>
@@ -192,13 +192,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../index.html" title="terminhtml 0.4.0 documentation" class="md-nav__button md-logo">
+    <a href="../index.html" title="terminhtml 0.4.1 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#xe869</i>
       
     </a>
     <a href="../index.html"
-       title="terminhtml 0.4.0 documentation">terminhtml</a>
+       title="terminhtml 0.4.1 documentation">terminhtml</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/nickderobertis/terminhtml" title="Go to repository" class="md-source" data-md-source="github">
@@ -262,6 +262,8 @@
         </li>
         <li class="md-nav__item"><a href="#module-terminhtml.cli" class="md-nav__link">terminhtml.cli module</a>
         </li>
+        <li class="md-nav__item"><a href="#module-terminhtml.demo_output" class="md-nav__link">terminhtml.demo_output module</a>
+        </li>
         <li class="md-nav__item"><a href="#module-terminhtml.exc" class="md-nav__link">terminhtml.exc module</a>
         </li>
         <li class="md-nav__item"><a href="#module-terminhtml.main" class="md-nav__link">terminhtml.main module</a>
@@ -308,6 +310,13 @@
     
     
       <a href="#module-terminhtml.cli" class="md-nav__link">terminhtml.cli module</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="#module-terminhtml.demo_output" class="md-nav__link">terminhtml.demo_output module</a>
       
     
     </li>
@@ -361,6 +370,8 @@
         <li class="md-nav__item"><a href="#module-terminhtml.base_exc" class="md-nav__link">terminhtml.base_exc module</a>
         </li>
         <li class="md-nav__item"><a href="#module-terminhtml.cli" class="md-nav__link">terminhtml.cli module</a>
+        </li>
+        <li class="md-nav__item"><a href="#module-terminhtml.demo_output" class="md-nav__link">terminhtml.demo_output module</a>
         </li>
         <li class="md-nav__item"><a href="#module-terminhtml.exc" class="md-nav__link">terminhtml.exc module</a>
         </li>
@@ -470,6 +481,24 @@ $ terminhtml -m “] ” -i “woo” “read -p ‘[value?] ‘ varname &amp;&a
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+</section>
+<section id="module-terminhtml.demo_output">
+<span id="terminhtml-demo-output-module"></span><h2 id="module-terminhtml.demo_output">terminhtml.demo_output module<a class="headerlink" href="#module-terminhtml.demo_output" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="terminhtml.demo_output.ColorBox">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">terminhtml.demo_output.</span></span><span class="sig-name descname"><span class="pre">ColorBox</span></span><a class="reference internal" href="../_modules/terminhtml/demo_output.html#ColorBox"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.demo_output.ColorBox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="terminhtml.demo_output.make_test_card">
+<span class="sig-prename descclassname"><span class="pre">terminhtml.demo_output.</span></span><span class="sig-name descname"><span class="pre">make_test_card</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/demo_output.html#make_test_card"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.demo_output.make_test_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a renderable that demonstrates a number of features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></p>
 </dd>
 </dl>
 </dd></dl>

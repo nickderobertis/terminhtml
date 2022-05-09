@@ -40,6 +40,14 @@ terminhtml.cli module
    :undoc-members:
    :show-inheritance:
 
+terminhtml.demo\_output module
+------------------------------
+
+.. automodule:: terminhtml.demo_output
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 terminhtml.exc module
 ---------------------
 
