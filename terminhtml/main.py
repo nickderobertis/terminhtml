@@ -10,6 +10,7 @@ from terminhtml.runner.main import run_commands_in_temp_dir
 TERMINHTML_BOOTSTRAP_SCRIPT_URL = (
     "https://unpkg.com/@terminhtml/bootstrap@1.x/dist/@terminhtml-bootstrap.umd.js"
 )
+ANSI2HTML_CSS_URL = "https://unpkg.com/terminhtml@1.x/dist/src/ansi2html.css"
 
 
 class CommandResults(BaseModel):
@@ -61,13 +62,26 @@ class TerminHTML(BaseModel):
     def styles(self) -> str:
         return ansi_styles()
 
-    def to_html(self, full: bool = True) -> str:
+    @property
+    def styles_link(self) -> str:
+        return f"<link rel='stylesheet' href='{ANSI2HTML_CSS_URL}'>"
+
+    def get_styles_for_inline_html(self, inline_css: bool = False) -> str:
+        if inline_css:
+            return f"<style>{self.styles}</style>"
+        return self.styles_link
+
+    def to_html(self, full: bool = True, inline_css: bool = False) -> str:
         """
         Convert the TerminHTML object to HTML.
 
+        :param full: If True, the HTML will be a full standalone page. If False, the HTML will be just the terminal part.
+        :param inline_css: If True, the CSS will be included inline. If False, the CSS will be linked to a stylesheet.
+            Note that if full is False, this parameter is ignored.
         :return: The HTML string.
         """
         main_html = str(self.command_results)
+        styles = self.get_styles_for_inline_html(inline_css=inline_css)
         if not full:
             return f"""
 <pre class="terminhtml">
@@ -80,7 +94,7 @@ class TerminHTML(BaseModel):
     <head>
         <meta charset="utf-8">
         <script src='{TERMINHTML_BOOTSTRAP_SCRIPT_URL}'></script>
-        <style>{self.styles}</style>
+        {styles}
         <title></title>
     </head>
     <body>
