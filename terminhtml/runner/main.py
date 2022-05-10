@@ -2,14 +2,15 @@ import datetime
 from pathlib import Path
 import os
 import tempfile
-from typing import Sequence, Optional, List, Tuple
+from typing import Sequence, Optional, List, Tuple, Dict
 
 import pexpect
+from pydantic import BaseModel
 
 from terminhtml._exc import CommandInternalException
 from terminhtml.exc import UserCommandException
 from terminhtml.output import LineOutput, Output, LineEnding, PromptOutput
-from terminhtml.runner.commandresult import CommandResult
+from terminhtml.runner.commandresult import CommandResult, RunnerContext
 
 
 def run_commands_in_temp_dir(
@@ -20,11 +21,13 @@ def run_commands_in_temp_dir(
     prompt_matchers: Optional[List[str]] = None,
     command_timeout: int = 10,
 ) -> List[CommandResult]:
-    def run(command: str, last_cwd: Path, input: Optional[str] = None) -> CommandResult:
+    def run(
+        command: str, last_context: RunnerContext, input: Optional[str] = None
+    ) -> CommandResult:
         try:
             return _run(
                 command,
-                last_cwd,
+                last_context,
                 input,
                 prompt_matchers=prompt_matchers,
                 command_timeout=command_timeout,
@@ -39,13 +42,13 @@ def run_commands_in_temp_dir(
                     return CommandResult(
                         input=e.input,
                         output=e.output,
-                        cwd=e.cwd,
+                        context=e.context,
                     )
                 raise UserCommandException(
                     f"Command failed: {command} due to {e} as "
                     f"part of running {commands=} {setup_command=} {input=}",
                     output=e.output,
-                    cwd=e.cwd,
+                    context=e.context,
                 ) from e
             exc_parts = e.value.split("\n")
             output = [
@@ -58,7 +61,7 @@ def run_commands_in_temp_dir(
                 f"Command failed: {command} as "
                 f"part of running {commands=} {setup_command=} {input=}",
                 output_without_prefix,
-                last_cwd,
+                last_context,
             ) from e
 
     input = input or []
@@ -66,18 +69,19 @@ def run_commands_in_temp_dir(
     with tempfile.TemporaryDirectory() as tmpdir:
         os.chdir(tmpdir)
         last_cwd = Path(tmpdir)
+        last_context = RunnerContext(cwd=last_cwd)
         if setup_command:
             # Don't save the output of the setup command
-            out_command = run(setup_command, last_cwd)
-            last_cwd = out_command.cwd
+            out_command = run(setup_command, last_context)
+            last_context = out_command.context
         out_commands: List[CommandResult] = []
         for i, command in enumerate(commands):
             try:
                 this_command_input = input[i]
             except IndexError:
                 this_command_input = None
-            out_command = run(command, last_cwd, input=this_command_input)
-            last_cwd = out_command.cwd
+            out_command = run(command, last_context, input=this_command_input)
+            last_context = out_command.context
             out_commands.append(out_command)
         os.chdir(orig_dir)
     return out_commands
@@ -89,35 +93,118 @@ def _get_terminal_output_with_prompt_at_end(output: str) -> str:
     return "\r\n".join([*lines[:-1], "# " + lines[-1] + "$ "])
 
 
-def _get_real_output_and_cwd_from_output_lines(
-    lines: List[LineOutput], last_cwd: Path, input_line: LineOutput
-) -> Tuple[Output, Path]:
-    # Find index of last real line
-    i = 0
-    for i, line in enumerate(reversed(lines)):
-        if line.line:
-            break
-    last_real_idx = -(i + 1)
-    real_output = Output(lines=lines[:last_real_idx])
-    cwd = Path(lines[last_real_idx].line.strip())
+def _get_real_output_and_context_from_output_lines(
+    lines: List[LineOutput], last_context: RunnerContext, input_line: LineOutput
+) -> Tuple[Output, RunnerContext]:
+    command_marker_indices = _find_persistence_command_markers(lines)
+    real_output = Output(lines=lines[: (command_marker_indices.last_real_output + 1)])
+    cwd = Path(lines[command_marker_indices.path].line.strip())
     if not cwd.exists():
         raise CommandInternalException(
-            f"{cwd=} does not exist.", real_output, input_line, last_cwd
+            f"{cwd=} does not exist.", real_output, input_line, last_context
         )
-    return real_output, cwd
+    # Extract environment lines
+    env: Dict[str, str] = {}
+    for line in lines[
+        command_marker_indices.begin_env + 1 : command_marker_indices.end_env
+    ]:
+        if not line.line:
+            # Sometimes an extra blank line gets added, ignore them
+            continue
+        variable, value = line.line.split("=", 1)
+
+        env[variable] = value
+    context = RunnerContext(cwd=cwd, env=env)
+    return real_output, context
+
+
+class CommandMarkerIndices(BaseModel):
+    begin_persistence: int
+    end_persistence: int
+    begin_path: int
+    end_path: int
+    begin_env: int
+    end_env: int
+
+    @property
+    def last_real_output(self) -> int:
+        return self.begin_persistence - 1
+
+    @property
+    def path(self) -> int:
+        if self.begin_path != (self.end_path - 2):
+            raise ValueError("More than one line printed for path")
+        return self.begin_path + 1
+
+
+def _find_persistence_command_markers(lines: List[LineOutput]) -> CommandMarkerIndices:
+    begin_persistence = None
+    end_persistence = None
+    begin_path = None
+    end_path = None
+    begin_env = None
+    end_env = None
+    for i, line in enumerate(lines):
+        if line.line == "::BEGIN TERMINHTML PERSISTENCE::":
+            begin_persistence = i
+        if line.line == "::END TERMINHTML PERSISTENCE::":
+            end_persistence = i
+        if line.line == "::BEGIN TERMINHTML PATH::":
+            begin_path = i
+        if line.line == "::END TERMINHTML PATH::":
+            end_path = i
+        if line.line == "::BEGIN TERMINHTML ENV::":
+            begin_env = i
+        if line.line == "::END TERMINHTML ENV::":
+            end_env = i
+    if any(
+        x is None
+        for x in [
+            begin_persistence,
+            end_persistence,
+            begin_path,
+            end_path,
+            begin_env,
+            end_env,
+        ]
+    ):
+        raise ValueError(f"Could not find all command markers in lines: {lines}")
+    return CommandMarkerIndices(
+        begin_persistence=begin_persistence,
+        end_persistence=end_persistence,
+        begin_path=begin_path,
+        end_path=end_path,
+        begin_env=begin_env,
+        end_env=end_env,
+    )
+
+
+_terminal_persistence_commands = [
+    "echo '::BEGIN TERMINHTML PERSISTENCE::'",
+    "echo '::BEGIN TERMINHTML PATH::'",
+    "pwd",
+    "echo '::END TERMINHTML PATH::'",
+    "echo '::BEGIN TERMINHTML ENV::'",
+    "set",
+    "echo '::END TERMINHTML ENV::'",
+    "echo '::END TERMINHTML PERSISTENCE::'",
+]
+_terminal_persistence_command = " && ".join(_terminal_persistence_commands)
 
 
 def _run(
     command: str,
-    cwd: Path,
+    context: RunnerContext,
     input: Optional[str] = None,
     prompt_matchers: Optional[List[str]] = None,
     command_timeout: int = 10,
 ) -> CommandResult:
     use_input = input.split("\n") if input else []
-    stop_for_input_chars = ["\r\n", "\r", pexpect.EOF, *(prompt_matchers or [])]
+    line_and_output_end_chars = ["\r\n", "\r", pexpect.EOF]
+    stop_for_input_chars = [*line_and_output_end_chars, *(prompt_matchers or [])]
     new_line_index = 0
     carriage_return_index = 1
+    line_break_indices = [new_line_index, carriage_return_index]
     eof_index = 2
     prompt_indices = [
         i
@@ -127,13 +214,24 @@ def _run(
 
     start_time = datetime.datetime.now()
     process = pexpect.spawn(
-        f"bash -c \"cd '{cwd}' && {command} && printf '\\n' && pwd\"", encoding="utf-8"
+        f"bash -c \"cd '{context.cwd}' && {command} && printf '\\n' && {_terminal_persistence_command}\"",
+        encoding="utf-8",
+        env=context.env,
     )
     output_lines: List[LineOutput] = []
     input_idx = 0
     skip_next_lines = 0
+    processing_terminhtml_context_commands = False
     while True:
-        matched_idx = process.expect(stop_for_input_chars, timeout=command_timeout)
+        line_matchers: List[str]
+        if processing_terminhtml_context_commands:
+            # We have finished the user command and are now determining the output context
+            # Stop matching on prompt matchers
+            line_matchers = line_and_output_end_chars
+        else:
+            line_matchers = stop_for_input_chars
+
+        matched_idx = process.expect(line_matchers, timeout=command_timeout)
         # Process printed a new line
         # First check if we should skip the line due to it being user input that
         # is already tracked in PromptOutput
@@ -158,6 +256,14 @@ def _run(
             prompt_output = PromptOutput(prompt=this_stdout, user_input=user_input)
             # The next lines will be the input we just provided, skip them
             skip_next_lines = len(user_input.split("\n"))
+
+        if (
+            matched_idx in line_break_indices
+            and this_stdout == "::BEGIN TERMINHTML PERSISTENCE::"
+        ):
+            # We have finished the user command and are now determining the output context
+            processing_terminhtml_context_commands = True
+
         output_lines.append(
             LineOutput(
                 line=this_stdout,
@@ -171,10 +277,10 @@ def _run(
             break
 
     start_line = LineOutput(line=command, time=start_time, line_ending=LineEnding.CRLF)
-    real_output, new_cwd = _get_real_output_and_cwd_from_output_lines(
-        output_lines, cwd, start_line
+    real_output, new_context = _get_real_output_and_context_from_output_lines(
+        output_lines, context, start_line
     )
-    return CommandResult(input=start_line, output=real_output, cwd=new_cwd)
+    return CommandResult(input=start_line, output=real_output, context=new_context)
 
 
 def _extract_pexpect_output(spawn: pexpect.spawn) -> str:

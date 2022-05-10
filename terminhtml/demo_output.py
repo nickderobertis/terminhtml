@@ -36,7 +36,9 @@ class ColorBox:
 def make_test_card() -> Table:
     """Get a renderable that demonstrates a number of features."""
     table = Table.grid(padding=1, pad_edge=True)
-    table.title = "Terminal recording into HTML/CSS with full color and animation support"
+    table.title = (
+        "Terminal recording into HTML/CSS with full color and animation support"
+    )
     table.add_column("Feature", no_wrap=True, justify="center", style="bold red")
     table.add_column("Demonstration")
 
@@ -67,6 +69,7 @@ def make_test_card() -> Table:
 
     return table
 
+
 if __name__ == "__main__":  # pragma: no cover
     console = Console()
     test_card = make_test_card()
@@ -87,6 +90,8 @@ if __name__ == "__main__":  # pragma: no cover
     console.show_cursor(True)
     console.print()
 
-    console.print("[bold red]Prompts[/bold red] and [bold red]user input[/bold red] work too")
+    console.print(
+        "[bold red]Prompts[/bold red] and [bold red]user input[/bold red] work too"
+    )
     answer = Prompt.ask("What is your name?", default="John Doe")
     console.print(f"Hello {answer}!")

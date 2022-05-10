@@ -8,7 +8,7 @@ conv = Ansi2HTMLConverter()
 
 # See https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797#screen-modes
 # Matches escape codes that change the screen mode
-SCREEN_MODE_PATTERN = re.compile(r'\x1b\[[?=]\d+[lh]')
+SCREEN_MODE_PATTERN = re.compile(r"\x1b\[[?=]\d+[lh]")
 
 
 # TODO: Rework ansi styles to keep only the ones used. See Ansi2HTMLConverter.convert
@@ -28,7 +28,7 @@ def ansi_to_html(ansi: str) -> str:
 
     # Screen mode patterns are not handled by ansi2html and are making their way into the output
     # as plain text. Replace them with empty strings.
-    return SCREEN_MODE_PATTERN.sub('', html)
+    return SCREEN_MODE_PATTERN.sub("", html)
 
 
 if __name__ == "__main__":

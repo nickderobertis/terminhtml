@@ -2,6 +2,7 @@ from pathlib import Path
 
 from terminhtml.base_exc import TerminHTMLException
 from terminhtml.output import Output
+from terminhtml.runner.commandresult import RunnerContext
 
 
 class TerminHTMLUserException(TerminHTMLException):
@@ -17,10 +18,10 @@ class UserCommandException(TerminHTMLUserException):
     Exception for user commands.
     """
 
-    def __init__(self, message: str, output: Output, cwd: Path) -> None:
+    def __init__(self, message: str, output: Output, context: RunnerContext) -> None:
         self.output = output
-        self.cwd = cwd
+        self.context = context
         super().__init__(message)
 
     def __str__(self) -> str:
-        return f"{super().__str__()}\n{self.cwd=} with output:\n{self.output}"
+        return f"{super().__str__()}\n{self.context=} with output:\n{self.output}"

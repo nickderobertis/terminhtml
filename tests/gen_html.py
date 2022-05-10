@@ -5,7 +5,11 @@ from tests.config import (
     FXT_ADD_OUTPUT_HTML,
     BASIC_HTML,
     FXT_UPDATE_HTML,
-    FXT_INIT_HTML, RICH_PROGRESS_BAR_HTML, BASIC_INPUT_HTML,
+    FXT_INIT_HTML,
+    RICH_PROGRESS_BAR_HTML,
+    BASIC_INPUT_HTML,
+    ENVIRONMENT_SHARING_HTML,
+    BASIC_SETUP_COMMAND_HTML,
 )
 
 
@@ -18,14 +22,44 @@ def create_basic_html() -> str:
     term = TerminHTML.from_commands(commands)
     return str(term)
 
+
 def create_basic_input_html() -> str:
     commands = [
         "read -p '[value?] ' varname && echo $varname",
     ]
     prompt_matchers = ["] "]
     input = ["woo"]
-    term = TerminHTML.from_commands(commands, input=input, prompt_matchers=prompt_matchers)
+    term = TerminHTML.from_commands(
+        commands, input=input, prompt_matchers=prompt_matchers
+    )
     return str(term)
+
+
+def create_basic_setup_command_html() -> str:
+    setup_commands = [
+        "echo hello > woo.txt",
+    ]
+    commands = [
+        "cat woo.txt",
+    ]
+    term = TerminHTML.from_commands(commands, setup_commands=setup_commands)
+    return str(term)
+
+
+def create_environment_sharing_html() -> str:
+    setup_commands = [
+        "my_var=123",
+        "export my_exported_var=e123",
+    ]
+    commands = [
+        "echo $my_var should be 123",
+        "echo $my_exported_var should be e123",
+        "second_var=456",
+        "echo $second_var should be 456",
+    ]
+    term = TerminHTML.from_commands(commands, setup_commands=setup_commands)
+    return str(term)
+
 
 def create_rich_html() -> str:
     commands = ["python -m rich"]
@@ -112,11 +146,13 @@ def create_fxt_update_html() -> str:
 
 
 if __name__ == "__main__":
-    # BASIC_HTML.write_text(create_basic_html())
+    BASIC_HTML.write_text(create_basic_html())
     BASIC_INPUT_HTML.write_text(create_basic_input_html())
-    # RICH_HTML.write_text(create_rich_html())
-    # RICH_PROGRESS_BAR_HTML.write_text(create_rich_progress_bar_html())
-    # FXT_INIT_FROM_HTML.write_text(create_fxt_init_from_html())
-    # FXT_INIT_HTML.write_text(create_fxt_init_html())
-    # FXT_ADD_OUTPUT_HTML.write_text(create_fxt_add_output_html())
-    # FXT_UPDATE_HTML.write_text(create_fxt_update_html())
+    BASIC_SETUP_COMMAND_HTML.write_text(create_basic_setup_command_html())
+    ENVIRONMENT_SHARING_HTML.write_text(create_environment_sharing_html())
+    RICH_HTML.write_text(create_rich_html())
+    RICH_PROGRESS_BAR_HTML.write_text(create_rich_progress_bar_html())
+    FXT_INIT_FROM_HTML.write_text(create_fxt_init_from_html())
+    FXT_INIT_HTML.write_text(create_fxt_init_html())
+    FXT_ADD_OUTPUT_HTML.write_text(create_fxt_add_output_html())
+    FXT_UPDATE_HTML.write_text(create_fxt_update_html())
