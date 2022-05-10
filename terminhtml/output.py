@@ -39,6 +39,6 @@ class Output(BaseModel):
         if len(delays) != len(self.lines):
             raise ValueError(
                 f"Delays should be one longer than lines to account for the "
-                f"input delay. Got {len(delays)} delays and {len(self.lines)} lines."
+                f"input delay. Got {len(delays) - 1} delays and {len(self.lines)} lines."
             )
         return delays

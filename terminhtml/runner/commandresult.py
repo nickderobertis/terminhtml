@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Dict
 
 from pydantic import BaseModel
 
@@ -23,10 +23,15 @@ class LineWithDelay(LineOutput):
         )
 
 
+class RunnerContext(BaseModel):
+    cwd: Path
+    env: Optional[Dict[str, str]] = None
+
+
 class CommandResult(BaseModel):
     input: LineOutput
     output: Output
-    cwd: Path
+    context: RunnerContext
 
     def __str__(self) -> str:
         delays = self.output.delays
