@@ -54,8 +54,12 @@ def test_terminhtml_creates_carriage_return_html():
     assert span.attrib["data-ty-carriagereturn"] == "true"
     # Check that styling is applied to children of the span element
     for child in span.iterchildren():
-        # Elements should have either class "ansi38-204" or class "ansi38-237" applied
-        assert child.attrib["class"] in ["ansi38-204", "ansi38-237"]
+        # For some reason, it seems that different shells may have different coloring of output
+        # When I run this through pycharm's test runner, it applies classes ansi90 and ansi91,
+        # but when I run it directly in the terminal it applies ansi38-204 and ansi38-237. The color
+        # is slightly visually different, with ansi38-204 and ansi38-237 being the more accurate colors.
+        # Until I can figure out why, just check for any of these classes.
+        assert child.attrib["class"] in ["ansi38-204", "ansi38-237", "ansi90", "ansi91"]
 
 
 def test_terminhtml_setup_commands_affect_runtime():
