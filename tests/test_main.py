@@ -5,6 +5,7 @@ from tests.gen_html import (
     create_basic_input_html,
     create_rich_progress_bar_html,
     create_basic_setup_command_html,
+    create_environment_sharing_html,
 )
 
 
@@ -61,3 +62,11 @@ def test_terminhtml_setup_commands_affect_runtime():
     text = create_basic_setup_command_html()
     assert "$ cat woo.txt" in text
     assert "hello" in text
+
+
+def test_terminhtml_persists_environment_between_commands():
+    text = create_environment_sharing_html()
+    assert "$ echo $my_var should be 123" in text
+    assert "123 should be 123" in text
+    assert "$ second_var=456" in text
+    assert "456 should be 456" in text
