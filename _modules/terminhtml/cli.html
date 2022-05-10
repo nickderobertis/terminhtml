@@ -46,7 +46,7 @@
   
   
   
-    <title>terminhtml.cli &#8212; terminhtml 0.4.1 documentation</title>
+    <title>terminhtml.cli &#8212; terminhtml 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
@@ -90,7 +90,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../index.html" title="terminhtml 0.4.1 documentation"
+        <a href="../../index.html" title="terminhtml 0.5.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#xe869</i>
@@ -176,7 +176,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">terminhtml 0.4.1 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">terminhtml 0.5.0 documentation</a></li>
           <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -189,13 +189,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../index.html" title="terminhtml 0.4.1 documentation" class="md-nav__button md-logo">
+    <a href="../../index.html" title="terminhtml 0.5.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#xe869</i>
       
     </a>
     <a href="../../index.html"
-       title="terminhtml 0.4.1 documentation">terminhtml</a>
+       title="terminhtml 0.5.0 documentation">terminhtml</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/nickderobertis/terminhtml" title="Go to repository" class="md-source" data-md-source="github">
@@ -273,6 +273,7 @@
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Typer</span><span class="p">()</span>
 
+
 <span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"terminhtml"</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">run_commands_create_html</span><span class="p">(</span>
     <span class="n">commands</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Argument</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Commands to run"</span><span class="p">),</span>
@@ -281,8 +282,8 @@
         <span class="s2">"--setup"</span><span class="p">,</span>
         <span class="s2">"-s"</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">"Setup commands that are run before the animated session: the IO from "</span>
-             <span class="s2">"these commands are not displayed but can be used to set up the session "</span>
-             <span class="s2">"in a particular state before the animation."</span><span class="p">,</span>
+        <span class="s2">"these commands are not displayed but can be used to set up the session "</span>
+        <span class="s2">"in a particular state before the animation."</span><span class="p">,</span>
         <span class="n">show_default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="nb">input</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
@@ -290,9 +291,9 @@
         <span class="s2">"--input"</span><span class="p">,</span>
         <span class="s2">"-i"</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">"Input to be passed to the commands. Input is to be passed as a list that "</span>
-             <span class="s2">"will be matched up to commands in order. If you need to provide multiple "</span>
-             <span class="s2">"inputs to one command, separate them by </span><span class="se">\\</span><span class="s2">n within the same input item. "</span>
-             <span class="s2">"Note that you must use prompt matchers for input to do anything."</span><span class="p">,</span>
+        <span class="s2">"will be matched up to commands in order. If you need to provide multiple "</span>
+        <span class="s2">"inputs to one command, separate them by </span><span class="se">\\</span><span class="s2">n within the same input item. "</span>
+        <span class="s2">"Note that you must use prompt matchers for input to do anything."</span><span class="p">,</span>
         <span class="n">show_default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">allow_exceptions</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
@@ -307,7 +308,7 @@
         <span class="s2">"--prompt-matchers"</span><span class="p">,</span>
         <span class="s2">"-m"</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">"Regex patterns to match prompts. When prompts are matched, they will "</span>
-             <span class="s2">"be provided the passed input."</span><span class="p">,</span>
+        <span class="s2">"be provided the passed input."</span><span class="p">,</span>
         <span class="n">show_default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">command_timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
@@ -325,7 +326,7 @@
         <span class="s2">"-p"</span><span class="p">,</span>
         <span class="s2">"--partial"</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">"Whether to output HTML for only the the commands themselves, "</span>
-             <span class="s2">"defaults to full HTML including JS/CSS/full page structure"</span><span class="p">,</span>
+        <span class="s2">"defaults to full HTML including JS/CSS/full page structure"</span><span class="p">,</span>
         <span class="n">show_default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -375,8 +376,10 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
 
+
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../../api/terminhtml.html#terminhtml.cli.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">typer</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">run_commands_create_html</span><span class="p">)</span></div>
+
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="c1"># For some reason this is the required setup for docs generation to work.</span>

@@ -46,7 +46,7 @@
   
   
   
-    <title>terminhtml.runner.main &#8212; terminhtml 0.4.1 documentation</title>
+    <title>terminhtml.runner.main &#8212; terminhtml 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -90,7 +90,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../../index.html" title="terminhtml 0.4.1 documentation"
+        <a href="../../../index.html" title="terminhtml 0.5.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#xe869</i>
@@ -176,7 +176,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">terminhtml 0.4.1 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">terminhtml 0.5.0 documentation</a></li>
           <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -189,13 +189,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../../index.html" title="terminhtml 0.4.1 documentation" class="md-nav__button md-logo">
+    <a href="../../../index.html" title="terminhtml 0.5.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#xe869</i>
       
     </a>
     <a href="../../../index.html"
-       title="terminhtml 0.4.1 documentation">terminhtml</a>
+       title="terminhtml 0.5.0 documentation">terminhtml</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/nickderobertis/terminhtml" title="Go to repository" class="md-source" data-md-source="github">
@@ -268,14 +268,15 @@
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">tempfile</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span>
 
 <span class="kn">import</span> <span class="nn">pexpect</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 
 <span class="kn">from</span> <span class="nn">terminhtml._exc</span> <span class="kn">import</span> <span class="n">CommandInternalException</span>
 <span class="kn">from</span> <span class="nn">terminhtml.exc</span> <span class="kn">import</span> <span class="n">UserCommandException</span>
 <span class="kn">from</span> <span class="nn">terminhtml.output</span> <span class="kn">import</span> <span class="n">LineOutput</span><span class="p">,</span> <span class="n">Output</span><span class="p">,</span> <span class="n">LineEnding</span><span class="p">,</span> <span class="n">PromptOutput</span>
-<span class="kn">from</span> <span class="nn">terminhtml.runner.commandresult</span> <span class="kn">import</span> <span class="n">CommandResult</span>
+<span class="kn">from</span> <span class="nn">terminhtml.runner.commandresult</span> <span class="kn">import</span> <span class="n">CommandResult</span><span class="p">,</span> <span class="n">RunnerContext</span>
 
 
 <div class="viewcode-block" id="run_commands_in_temp_dir"><a class="viewcode-back" href="../../../api/terminhtml.runner.html#terminhtml.runner.main.run_commands_in_temp_dir">[docs]</a><span class="k">def</span> <span class="nf">run_commands_in_temp_dir</span><span class="p">(</span>
@@ -286,11 +287,13 @@
     <span class="n">prompt_matchers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">command_timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CommandResult</span><span class="p">]:</span>
-    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">last_cwd</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CommandResult</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
+        <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">last_context</span><span class="p">:</span> <span class="n">RunnerContext</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CommandResult</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">_run</span><span class="p">(</span>
                 <span class="n">command</span><span class="p">,</span>
-                <span class="n">last_cwd</span><span class="p">,</span>
+                <span class="n">last_context</span><span class="p">,</span>
                 <span class="nb">input</span><span class="p">,</span>
                 <span class="n">prompt_matchers</span><span class="o">=</span><span class="n">prompt_matchers</span><span class="p">,</span>
                 <span class="n">command_timeout</span><span class="o">=</span><span class="n">command_timeout</span><span class="p">,</span>
@@ -305,13 +308,13 @@
                     <span class="k">return</span> <span class="n">CommandResult</span><span class="p">(</span>
                         <span class="nb">input</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">input</span><span class="p">,</span>
                         <span class="n">output</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">output</span><span class="p">,</span>
-                        <span class="n">cwd</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">cwd</span><span class="p">,</span>
+                        <span class="n">context</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">context</span><span class="p">,</span>
                     <span class="p">)</span>
                 <span class="k">raise</span> <span class="n">UserCommandException</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">"Command failed: </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2"> due to </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> as "</span>
                     <span class="sa">f</span><span class="s2">"part of running </span><span class="si">{</span><span class="n">commands</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">setup_command</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="nb">input</span><span class="si">=}</span><span class="s2">"</span><span class="p">,</span>
                     <span class="n">output</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">output</span><span class="p">,</span>
-                    <span class="n">cwd</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">cwd</span><span class="p">,</span>
+                    <span class="n">context</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">context</span><span class="p">,</span>
                 <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
             <span class="n">exc_parts</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
             <span class="n">output</span> <span class="o">=</span> <span class="p">[</span>
@@ -324,7 +327,7 @@
                 <span class="sa">f</span><span class="s2">"Command failed: </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2"> as "</span>
                 <span class="sa">f</span><span class="s2">"part of running </span><span class="si">{</span><span class="n">commands</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">setup_command</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="nb">input</span><span class="si">=}</span><span class="s2">"</span><span class="p">,</span>
                 <span class="n">output_without_prefix</span><span class="p">,</span>
-                <span class="n">last_cwd</span><span class="p">,</span>
+                <span class="n">last_context</span><span class="p">,</span>
             <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
     <span class="nb">input</span> <span class="o">=</span> <span class="nb">input</span> <span class="ow">or</span> <span class="p">[]</span>
@@ -332,18 +335,19 @@
     <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdir</span><span class="p">:</span>
         <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span>
         <span class="n">last_cwd</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span>
+        <span class="n">last_context</span> <span class="o">=</span> <span class="n">RunnerContext</span><span class="p">(</span><span class="n">cwd</span><span class="o">=</span><span class="n">last_cwd</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">setup_command</span><span class="p">:</span>
             <span class="c1"># Don't save the output of the setup command</span>
-            <span class="n">out_command</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">setup_command</span><span class="p">,</span> <span class="n">last_cwd</span><span class="p">)</span>
-            <span class="n">last_cwd</span> <span class="o">=</span> <span class="n">out_command</span><span class="o">.</span><span class="n">cwd</span>
+            <span class="n">out_command</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">setup_command</span><span class="p">,</span> <span class="n">last_context</span><span class="p">)</span>
+            <span class="n">last_context</span> <span class="o">=</span> <span class="n">out_command</span><span class="o">.</span><span class="n">context</span>
         <span class="n">out_commands</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CommandResult</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">command</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">commands</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">this_command_input</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
                 <span class="n">this_command_input</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">out_command</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">last_cwd</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="n">this_command_input</span><span class="p">)</span>
-            <span class="n">last_cwd</span> <span class="o">=</span> <span class="n">out_command</span><span class="o">.</span><span class="n">cwd</span>
+            <span class="n">out_command</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">last_context</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="n">this_command_input</span><span class="p">)</span>
+            <span class="n">last_context</span> <span class="o">=</span> <span class="n">out_command</span><span class="o">.</span><span class="n">context</span>
             <span class="n">out_commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out_command</span><span class="p">)</span>
         <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">orig_dir</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">out_commands</span></div>
@@ -355,35 +359,118 @@
     <span class="k">return</span> <span class="s2">"</span><span class="se">\r\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="o">*</span><span class="n">lines</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">"# "</span> <span class="o">+</span> <span class="n">lines</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"$ "</span><span class="p">])</span>
 
 
-<span class="k">def</span> <span class="nf">_get_real_output_and_cwd_from_output_lines</span><span class="p">(</span>
-    <span class="n">lines</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">LineOutput</span><span class="p">],</span> <span class="n">last_cwd</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">input_line</span><span class="p">:</span> <span class="n">LineOutput</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Output</span><span class="p">,</span> <span class="n">Path</span><span class="p">]:</span>
-    <span class="c1"># Find index of last real line</span>
-    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">lines</span><span class="p">)):</span>
-        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">line</span><span class="p">:</span>
-            <span class="k">break</span>
-    <span class="n">last_real_idx</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">real_output</span> <span class="o">=</span> <span class="n">Output</span><span class="p">(</span><span class="n">lines</span><span class="o">=</span><span class="n">lines</span><span class="p">[:</span><span class="n">last_real_idx</span><span class="p">])</span>
-    <span class="n">cwd</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">last_real_idx</span><span class="p">]</span><span class="o">.</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+<span class="k">def</span> <span class="nf">_get_real_output_and_context_from_output_lines</span><span class="p">(</span>
+    <span class="n">lines</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">LineOutput</span><span class="p">],</span> <span class="n">last_context</span><span class="p">:</span> <span class="n">RunnerContext</span><span class="p">,</span> <span class="n">input_line</span><span class="p">:</span> <span class="n">LineOutput</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Output</span><span class="p">,</span> <span class="n">RunnerContext</span><span class="p">]:</span>
+    <span class="n">command_marker_indices</span> <span class="o">=</span> <span class="n">_find_persistence_command_markers</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+    <span class="n">real_output</span> <span class="o">=</span> <span class="n">Output</span><span class="p">(</span><span class="n">lines</span><span class="o">=</span><span class="n">lines</span><span class="p">[:</span> <span class="p">(</span><span class="n">command_marker_indices</span><span class="o">.</span><span class="n">last_real_output</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)])</span>
+    <span class="n">cwd</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">command_marker_indices</span><span class="o">.</span><span class="n">path</span><span class="p">]</span><span class="o">.</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cwd</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="k">raise</span> <span class="n">CommandInternalException</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">cwd</span><span class="si">=}</span><span class="s2"> does not exist."</span><span class="p">,</span> <span class="n">real_output</span><span class="p">,</span> <span class="n">input_line</span><span class="p">,</span> <span class="n">last_cwd</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">cwd</span><span class="si">=}</span><span class="s2"> does not exist."</span><span class="p">,</span> <span class="n">real_output</span><span class="p">,</span> <span class="n">input_line</span><span class="p">,</span> <span class="n">last_context</span>
         <span class="p">)</span>
-    <span class="k">return</span> <span class="n">real_output</span><span class="p">,</span> <span class="n">cwd</span>
+    <span class="c1"># Extract environment lines</span>
+    <span class="n">env</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span>
+        <span class="n">command_marker_indices</span><span class="o">.</span><span class="n">begin_env</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">command_marker_indices</span><span class="o">.</span><span class="n">end_env</span>
+    <span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">line</span><span class="p">:</span>
+            <span class="c1"># Sometimes an extra blank line gets added, ignore them</span>
+            <span class="k">continue</span>
+        <span class="n">variable</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">env</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RunnerContext</span><span class="p">(</span><span class="n">cwd</span><span class="o">=</span><span class="n">cwd</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">real_output</span><span class="p">,</span> <span class="n">context</span>
+
+
+<div class="viewcode-block" id="CommandMarkerIndices"><a class="viewcode-back" href="../../../api/terminhtml.runner.html#terminhtml.runner.main.CommandMarkerIndices">[docs]</a><span class="k">class</span> <span class="nc">CommandMarkerIndices</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">begin_persistence</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">end_persistence</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">begin_path</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">end_path</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">begin_env</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">end_env</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">last_real_output</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">begin_persistence</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">begin_path</span> <span class="o">!=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end_path</span> <span class="o">-</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"More than one line printed for path"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">begin_path</span> <span class="o">+</span> <span class="mi">1</span></div>
+
+
+<span class="k">def</span> <span class="nf">_find_persistence_command_markers</span><span class="p">(</span><span class="n">lines</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">LineOutput</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">CommandMarkerIndices</span><span class="p">:</span>
+    <span class="n">begin_persistence</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">end_persistence</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">begin_path</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">end_path</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">begin_env</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">end_env</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">line</span> <span class="o">==</span> <span class="s2">"::BEGIN TERMINHTML PERSISTENCE::"</span><span class="p">:</span>
+            <span class="n">begin_persistence</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">line</span> <span class="o">==</span> <span class="s2">"::END TERMINHTML PERSISTENCE::"</span><span class="p">:</span>
+            <span class="n">end_persistence</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">line</span> <span class="o">==</span> <span class="s2">"::BEGIN TERMINHTML PATH::"</span><span class="p">:</span>
+            <span class="n">begin_path</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">line</span> <span class="o">==</span> <span class="s2">"::END TERMINHTML PATH::"</span><span class="p">:</span>
+            <span class="n">end_path</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">line</span> <span class="o">==</span> <span class="s2">"::BEGIN TERMINHTML ENV::"</span><span class="p">:</span>
+            <span class="n">begin_env</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">line</span> <span class="o">==</span> <span class="s2">"::END TERMINHTML ENV::"</span><span class="p">:</span>
+            <span class="n">end_env</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span>
+        <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="n">begin_persistence</span><span class="p">,</span>
+            <span class="n">end_persistence</span><span class="p">,</span>
+            <span class="n">begin_path</span><span class="p">,</span>
+            <span class="n">end_path</span><span class="p">,</span>
+            <span class="n">begin_env</span><span class="p">,</span>
+            <span class="n">end_env</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Could not find all command markers in lines: </span><span class="si">{</span><span class="n">lines</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">CommandMarkerIndices</span><span class="p">(</span>
+        <span class="n">begin_persistence</span><span class="o">=</span><span class="n">begin_persistence</span><span class="p">,</span>
+        <span class="n">end_persistence</span><span class="o">=</span><span class="n">end_persistence</span><span class="p">,</span>
+        <span class="n">begin_path</span><span class="o">=</span><span class="n">begin_path</span><span class="p">,</span>
+        <span class="n">end_path</span><span class="o">=</span><span class="n">end_path</span><span class="p">,</span>
+        <span class="n">begin_env</span><span class="o">=</span><span class="n">begin_env</span><span class="p">,</span>
+        <span class="n">end_env</span><span class="o">=</span><span class="n">end_env</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="n">_terminal_persistence_commands</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"echo '::BEGIN TERMINHTML PERSISTENCE::'"</span><span class="p">,</span>
+    <span class="s2">"echo '::BEGIN TERMINHTML PATH::'"</span><span class="p">,</span>
+    <span class="s2">"pwd"</span><span class="p">,</span>
+    <span class="s2">"echo '::END TERMINHTML PATH::'"</span><span class="p">,</span>
+    <span class="s2">"echo '::BEGIN TERMINHTML ENV::'"</span><span class="p">,</span>
+    <span class="s2">"set"</span><span class="p">,</span>
+    <span class="s2">"echo '::END TERMINHTML ENV::'"</span><span class="p">,</span>
+    <span class="s2">"echo '::END TERMINHTML PERSISTENCE::'"</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">_terminal_persistence_command</span> <span class="o">=</span> <span class="s2">" &amp;&amp; "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_terminal_persistence_commands</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_run</span><span class="p">(</span>
     <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">cwd</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">context</span><span class="p">:</span> <span class="n">RunnerContext</span><span class="p">,</span>
     <span class="nb">input</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">prompt_matchers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">command_timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CommandResult</span><span class="p">:</span>
     <span class="n">use_input</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span> <span class="k">if</span> <span class="nb">input</span> <span class="k">else</span> <span class="p">[]</span>
-    <span class="n">stop_for_input_chars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"</span><span class="se">\r\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"</span><span class="se">\r</span><span class="s2">"</span><span class="p">,</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">EOF</span><span class="p">,</span> <span class="o">*</span><span class="p">(</span><span class="n">prompt_matchers</span> <span class="ow">or</span> <span class="p">[])]</span>
+    <span class="n">line_and_output_end_chars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"</span><span class="se">\r\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"</span><span class="se">\r</span><span class="s2">"</span><span class="p">,</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">EOF</span><span class="p">]</span>
+    <span class="n">stop_for_input_chars</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">line_and_output_end_chars</span><span class="p">,</span> <span class="o">*</span><span class="p">(</span><span class="n">prompt_matchers</span> <span class="ow">or</span> <span class="p">[])]</span>
     <span class="n">new_line_index</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">carriage_return_index</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">line_break_indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">new_line_index</span><span class="p">,</span> <span class="n">carriage_return_index</span><span class="p">]</span>
     <span class="n">eof_index</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="n">prompt_indices</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">i</span>
@@ -393,13 +480,24 @@
 
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
     <span class="n">process</span> <span class="o">=</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">"bash -c </span><span class="se">\"</span><span class="s2">cd '</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s2">' &amp;&amp; </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2"> &amp;&amp; printf '</span><span class="se">\\</span><span class="s2">n' &amp;&amp; pwd</span><span class="se">\"</span><span class="s2">"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span>
+        <span class="sa">f</span><span class="s2">"bash -c </span><span class="se">\"</span><span class="s2">cd '</span><span class="si">{</span><span class="n">context</span><span class="o">.</span><span class="n">cwd</span><span class="si">}</span><span class="s2">' &amp;&amp; </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2"> &amp;&amp; printf '</span><span class="se">\\</span><span class="s2">n' &amp;&amp; </span><span class="si">{</span><span class="n">_terminal_persistence_command</span><span class="si">}</span><span class="se">\"</span><span class="s2">"</span><span class="p">,</span>
+        <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">,</span>
+        <span class="n">env</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">env</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">output_lines</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">LineOutput</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">input_idx</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">skip_next_lines</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">processing_terminhtml_context_commands</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">matched_idx</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">stop_for_input_chars</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">command_timeout</span><span class="p">)</span>
+        <span class="n">line_matchers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">processing_terminhtml_context_commands</span><span class="p">:</span>
+            <span class="c1"># We have finished the user command and are now determining the output context</span>
+            <span class="c1"># Stop matching on prompt matchers</span>
+            <span class="n">line_matchers</span> <span class="o">=</span> <span class="n">line_and_output_end_chars</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">line_matchers</span> <span class="o">=</span> <span class="n">stop_for_input_chars</span>
+
+        <span class="n">matched_idx</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">line_matchers</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">command_timeout</span><span class="p">)</span>
         <span class="c1"># Process printed a new line</span>
         <span class="c1"># First check if we should skip the line due to it being user input that</span>
         <span class="c1"># is already tracked in PromptOutput</span>
@@ -424,6 +522,14 @@
             <span class="n">prompt_output</span> <span class="o">=</span> <span class="n">PromptOutput</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">this_stdout</span><span class="p">,</span> <span class="n">user_input</span><span class="o">=</span><span class="n">user_input</span><span class="p">)</span>
             <span class="c1"># The next lines will be the input we just provided, skip them</span>
             <span class="n">skip_next_lines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_input</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">matched_idx</span> <span class="ow">in</span> <span class="n">line_break_indices</span>
+            <span class="ow">and</span> <span class="n">this_stdout</span> <span class="o">==</span> <span class="s2">"::BEGIN TERMINHTML PERSISTENCE::"</span>
+        <span class="p">):</span>
+            <span class="c1"># We have finished the user command and are now determining the output context</span>
+            <span class="n">processing_terminhtml_context_commands</span> <span class="o">=</span> <span class="kc">True</span>
+
         <span class="n">output_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">LineOutput</span><span class="p">(</span>
                 <span class="n">line</span><span class="o">=</span><span class="n">this_stdout</span><span class="p">,</span>
@@ -437,10 +543,10 @@
             <span class="k">break</span>
 
     <span class="n">start_line</span> <span class="o">=</span> <span class="n">LineOutput</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="n">command</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">start_time</span><span class="p">,</span> <span class="n">line_ending</span><span class="o">=</span><span class="n">LineEnding</span><span class="o">.</span><span class="n">CRLF</span><span class="p">)</span>
-    <span class="n">real_output</span><span class="p">,</span> <span class="n">new_cwd</span> <span class="o">=</span> <span class="n">_get_real_output_and_cwd_from_output_lines</span><span class="p">(</span>
-        <span class="n">output_lines</span><span class="p">,</span> <span class="n">cwd</span><span class="p">,</span> <span class="n">start_line</span>
+    <span class="n">real_output</span><span class="p">,</span> <span class="n">new_context</span> <span class="o">=</span> <span class="n">_get_real_output_and_context_from_output_lines</span><span class="p">(</span>
+        <span class="n">output_lines</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">start_line</span>
     <span class="p">)</span>
-    <span class="k">return</span> <span class="n">CommandResult</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">start_line</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">real_output</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="n">new_cwd</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">CommandResult</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">start_line</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">real_output</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">new_context</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_extract_pexpect_output</span><span class="p">(</span><span class="n">spawn</span><span class="p">:</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">spawn</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>

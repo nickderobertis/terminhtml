@@ -46,7 +46,7 @@
   
   
   
-    <title>terminhtml.ansi_converter &#8212; terminhtml 0.4.1 documentation</title>
+    <title>terminhtml.ansi_converter &#8212; terminhtml 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
@@ -90,7 +90,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../index.html" title="terminhtml 0.4.1 documentation"
+        <a href="../../index.html" title="terminhtml 0.5.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#xe869</i>
@@ -176,7 +176,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">terminhtml 0.4.1 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">terminhtml 0.5.0 documentation</a></li>
           <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -189,13 +189,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../index.html" title="terminhtml 0.4.1 documentation" class="md-nav__button md-logo">
+    <a href="../../index.html" title="terminhtml 0.5.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#xe869</i>
       
     </a>
     <a href="../../index.html"
-       title="terminhtml 0.4.1 documentation">terminhtml</a>
+       title="terminhtml 0.5.0 documentation">terminhtml</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/nickderobertis/terminhtml" title="Go to repository" class="md-source" data-md-source="github">
@@ -274,7 +274,7 @@
 
 <span class="c1"># See https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797#screen-modes</span>
 <span class="c1"># Matches escape codes that change the screen mode</span>
-<span class="n">SCREEN_MODE_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">'\x1b\[[?=]\d+[lh]'</span><span class="p">)</span>
+<span class="n">SCREEN_MODE_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\x1b\[[?=]\d+[lh]"</span><span class="p">)</span>
 
 
 <span class="c1"># TODO: Rework ansi styles to keep only the ones used. See Ansi2HTMLConverter.convert</span>
@@ -294,7 +294,7 @@
 
     <span class="c1"># Screen mode patterns are not handled by ansi2html and are making their way into the output</span>
     <span class="c1"># as plain text. Replace them with empty strings.</span>
-    <span class="k">return</span> <span class="n">SCREEN_MODE_PATTERN</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="n">html</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">SCREEN_MODE_PATTERN</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="n">html</span><span class="p">)</span></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>

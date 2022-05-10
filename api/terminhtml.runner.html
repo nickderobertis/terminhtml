@@ -47,7 +47,7 @@
   
   
   
-    <title>terminhtml.runner package &#8212; terminhtml 0.4.1 documentation</title>
+    <title>terminhtml.runner package &#8212; terminhtml 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -92,7 +92,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../index.html" title="terminhtml 0.4.1 documentation"
+        <a href="../index.html" title="terminhtml 0.5.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#xe869</i>
@@ -178,7 +178,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">terminhtml 0.4.1 documentation</a></li>
+          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">terminhtml 0.5.0 documentation</a></li>
           <li class="md-tabs__item"><a href="modules.html" class="md-tabs__link">terminhtml</a></li>
           <li class="md-tabs__item"><a href="terminhtml.html" class="md-tabs__link">terminhtml package</a></li>
       </ul>
@@ -192,13 +192,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../index.html" title="terminhtml 0.4.1 documentation" class="md-nav__button md-logo">
+    <a href="../index.html" title="terminhtml 0.5.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#xe869</i>
       
     </a>
     <a href="../index.html"
-       title="terminhtml 0.4.1 documentation">terminhtml</a>
+       title="terminhtml 0.5.0 documentation">terminhtml</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/nickderobertis/terminhtml" title="Go to repository" class="md-source" data-md-source="github">
@@ -360,8 +360,8 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">terminhtml.runner.commandresult.</span></span><span class="sig-name descname"><span class="pre">CommandResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/runner/commandresult.html#CommandResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.runner.commandresult.CommandResult" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pydantic.main.BaseModel</span></code></p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="terminhtml.runner.commandresult.CommandResult.cwd">
-<span class="sig-name descname"><span class="pre">cwd</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><span class="pre">pathlib.Path</span></a></em><a class="headerlink" href="#terminhtml.runner.commandresult.CommandResult.cwd" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="terminhtml.runner.commandresult.CommandResult.context">
+<span class="sig-name descname"><span class="pre">context</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#terminhtml.runner.commandresult.RunnerContext" title="terminhtml.runner.commandresult.RunnerContext"><span class="pre">terminhtml.runner.commandresult.RunnerContext</span></a></em><a class="headerlink" href="#terminhtml.runner.commandresult.CommandResult.context" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="terminhtml.runner.commandresult.CommandResult.input">
@@ -381,9 +381,69 @@
 <span class="sig-name descname"><span class="pre">delay</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></em><a class="headerlink" href="#terminhtml.runner.commandresult.LineWithDelay.delay" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="terminhtml.runner.commandresult.RunnerContext">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">terminhtml.runner.commandresult.</span></span><span class="sig-name descname"><span class="pre">RunnerContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/runner/commandresult.html#RunnerContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.runner.commandresult.RunnerContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pydantic.main.BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="terminhtml.runner.commandresult.RunnerContext.cwd">
+<span class="sig-name descname"><span class="pre">cwd</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><span class="pre">pathlib.Path</span></a></em><a class="headerlink" href="#terminhtml.runner.commandresult.RunnerContext.cwd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="terminhtml.runner.commandresult.RunnerContext.env">
+<span class="sig-name descname"><span class="pre">env</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#terminhtml.runner.commandresult.RunnerContext.env" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
 </section>
 <section id="module-terminhtml.runner.main">
 <span id="terminhtml-runner-main-module"></span><h2 id="module-terminhtml.runner.main">terminhtml.runner.main module<a class="headerlink" href="#module-terminhtml.runner.main" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="terminhtml.runner.main.CommandMarkerIndices">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">terminhtml.runner.main.</span></span><span class="sig-name descname"><span class="pre">CommandMarkerIndices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/runner/main.html#CommandMarkerIndices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.runner.main.CommandMarkerIndices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pydantic.main.BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="terminhtml.runner.main.CommandMarkerIndices.begin_env">
+<span class="sig-name descname"><span class="pre">begin_env</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></em><a class="headerlink" href="#terminhtml.runner.main.CommandMarkerIndices.begin_env" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="terminhtml.runner.main.CommandMarkerIndices.begin_path">
+<span class="sig-name descname"><span class="pre">begin_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></em><a class="headerlink" href="#terminhtml.runner.main.CommandMarkerIndices.begin_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="terminhtml.runner.main.CommandMarkerIndices.begin_persistence">
+<span class="sig-name descname"><span class="pre">begin_persistence</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></em><a class="headerlink" href="#terminhtml.runner.main.CommandMarkerIndices.begin_persistence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="terminhtml.runner.main.CommandMarkerIndices.end_env">
+<span class="sig-name descname"><span class="pre">end_env</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></em><a class="headerlink" href="#terminhtml.runner.main.CommandMarkerIndices.end_env" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="terminhtml.runner.main.CommandMarkerIndices.end_path">
+<span class="sig-name descname"><span class="pre">end_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></em><a class="headerlink" href="#terminhtml.runner.main.CommandMarkerIndices.end_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="terminhtml.runner.main.CommandMarkerIndices.end_persistence">
+<span class="sig-name descname"><span class="pre">end_persistence</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></em><a class="headerlink" href="#terminhtml.runner.main.CommandMarkerIndices.end_persistence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="terminhtml.runner.main.CommandMarkerIndices.last_real_output">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">last_real_output</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></em><a class="headerlink" href="#terminhtml.runner.main.CommandMarkerIndices.last_real_output" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="terminhtml.runner.main.CommandMarkerIndices.path">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></em><a class="headerlink" href="#terminhtml.runner.main.CommandMarkerIndices.path" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="terminhtml.runner.main.run_commands_in_temp_dir">
 <span class="sig-prename descclassname"><span class="pre">terminhtml.runner.main.</span></span><span class="sig-name descname"><span class="pre">run_commands_in_temp_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">commands</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setup_command</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_exceptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_matchers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/runner/main.html#run_commands_in_temp_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.runner.main.run_commands_in_temp_dir" title="Permalink to this definition">¶</a></dt>
