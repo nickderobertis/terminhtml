@@ -54,7 +54,10 @@ class CommandResult(BaseModel):
 
 
 def _output_span_element(
-    content: str, delay: int = 0, prompt: Optional[str] = None, line_ending: LineEnding = LineEnding.CRLF
+    content: str,
+    delay: int = 0,
+    prompt: Optional[str] = None,
+    line_ending: LineEnding = LineEnding.CRLF,
 ) -> str:
     prompt_attr = ""
     if prompt:
