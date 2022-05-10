@@ -168,7 +168,6 @@ def _find_persistence_command_markers(lines: List[LineOutput]) -> CommandMarkerI
             end_env,
         ]
     ):
-        breakpoint()
         raise ValueError(f"Could not find all command markers in lines: {lines}")
     return CommandMarkerIndices(
         begin_persistence=begin_persistence,
