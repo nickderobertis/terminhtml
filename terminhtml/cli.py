@@ -63,6 +63,15 @@ def run_commands_create_html(
         "defaults to full HTML including JS/CSS/full page structure",
         show_default=False,
     ),
+    inline_css: bool = typer.Option(
+        False,
+        "-i",
+        "--inline-css",
+        help="Whether to inline CSS in the HTML, defaults to using a link tag "
+        "to reference the stylesheet. Note that this option is ignored "
+        "if --partial is set.",
+        show_default=False,
+    ),
 ) -> None:
     """
     Create an animated HTML/CSS terminal by running commands and recording their output.
@@ -104,7 +113,7 @@ def run_commands_create_html(
         prompt_matchers,
         command_timeout,
     )
-    html = term.to_html(full=not partial_html)
+    html = term.to_html(full=not partial_html, inline_css=inline_css)
     if out_path is not None:
         out_path.write_text(html)
     else:

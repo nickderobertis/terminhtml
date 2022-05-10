@@ -76,3 +76,18 @@ def test_terminhtml_persists_environment_between_commands():
     assert "e123 should be e123" in text
     assert "$ second_var=456" in text
     assert "456 should be 456" in text
+
+
+def test_terminhtml_includes_style_link_or_full_styles_in_html():
+    commands = [
+        "echo yeah > woo.txt",
+        "ls -l",
+        "cat woo.txt",
+    ]
+    term = TerminHTML.from_commands(commands)
+    css_link_html = term.to_html()
+    assert "<link" in css_link_html
+    assert not "<style" in css_link_html
+    inline_css_html = term.to_html(inline_css=True)
+    assert not "<link" in inline_css_html
+    assert "<style" in inline_css_html
