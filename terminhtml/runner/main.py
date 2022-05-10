@@ -186,7 +186,7 @@ _terminal_persistence_commands = [
     "pwd",
     "echo '::END TERMINHTML PATH::'",
     "echo '::BEGIN TERMINHTML ENV::'",
-    "printenv && set -o posix",
+    "set",
     "echo '::END TERMINHTML ENV::'",
     "echo '::END TERMINHTML PERSISTENCE::'",
 ]
@@ -201,9 +201,11 @@ def _run(
     command_timeout: int = 10,
 ) -> CommandResult:
     use_input = input.split("\n") if input else []
-    stop_for_input_chars = ["\r\n", "\r", pexpect.EOF, *(prompt_matchers or [])]
+    line_and_output_end_chars = ["\r\n", "\r", pexpect.EOF]
+    stop_for_input_chars = [*line_and_output_end_chars, *(prompt_matchers or [])]
     new_line_index = 0
     carriage_return_index = 1
+    line_break_indices = [new_line_index, carriage_return_index]
     eof_index = 2
     prompt_indices = [
         i
@@ -220,8 +222,17 @@ def _run(
     output_lines: List[LineOutput] = []
     input_idx = 0
     skip_next_lines = 0
+    processing_terminhtml_context_commands = False
     while True:
-        matched_idx = process.expect(stop_for_input_chars, timeout=command_timeout)
+        line_matchers: List[str]
+        if processing_terminhtml_context_commands:
+            # We have finished the user command and are now determining the output context
+            # Stop matching on prompt matchers
+            line_matchers = line_and_output_end_chars
+        else:
+            line_matchers = stop_for_input_chars
+
+        matched_idx = process.expect(line_matchers, timeout=command_timeout)
         # Process printed a new line
         # First check if we should skip the line due to it being user input that
         # is already tracked in PromptOutput
@@ -246,6 +257,14 @@ def _run(
             prompt_output = PromptOutput(prompt=this_stdout, user_input=user_input)
             # The next lines will be the input we just provided, skip them
             skip_next_lines = len(user_input.split("\n"))
+
+        if (
+            matched_idx in line_break_indices
+            and this_stdout == "::BEGIN TERMINHTML PERSISTENCE::"
+        ):
+            # We have finished the user command and are now determining the output context
+            processing_terminhtml_context_commands = True
+
         output_lines.append(
             LineOutput(
                 line=this_stdout,

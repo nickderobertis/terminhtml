@@ -49,9 +49,11 @@ def create_basic_setup_command_html() -> str:
 def create_environment_sharing_html() -> str:
     setup_commands = [
         "my_var=123",
+        "export my_exported_var=e123",
     ]
     commands = [
         "echo $my_var should be 123",
+        "echo $my_exported_var should be e123",
         "second_var=456",
         "echo $second_var should be 456",
     ]

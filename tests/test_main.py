@@ -68,5 +68,7 @@ def test_terminhtml_persists_environment_between_commands():
     text = create_environment_sharing_html()
     assert "$ echo $my_var should be 123" in text
     assert "123 should be 123" in text
+    assert "$ echo $my_exported_var should be e123" in text
+    assert "e123 should be e123" in text
     assert "$ second_var=456" in text
     assert "456 should be 456" in text
