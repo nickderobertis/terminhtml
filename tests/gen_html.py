@@ -8,6 +8,7 @@ from tests.config import (
     FXT_INIT_HTML,
     RICH_PROGRESS_BAR_HTML,
     BASIC_INPUT_HTML,
+    ENVIRONMENT_SHARING_HTML,
     BASIC_SETUP_COMMAND_HTML,
 )
 
@@ -40,6 +41,19 @@ def create_basic_setup_command_html() -> str:
     ]
     commands = [
         "cat woo.txt",
+    ]
+    term = TerminHTML.from_commands(commands, setup_commands=setup_commands)
+    return str(term)
+
+
+def create_environment_sharing_html() -> str:
+    setup_commands = [
+        "my_var=123",
+    ]
+    commands = [
+        "echo $my_var should be 123",
+        "second_var=456",
+        "echo $second_var should be 456",
     ]
     term = TerminHTML.from_commands(commands, setup_commands=setup_commands)
     return str(term)
@@ -133,6 +147,7 @@ if __name__ == "__main__":
     BASIC_HTML.write_text(create_basic_html())
     BASIC_INPUT_HTML.write_text(create_basic_input_html())
     BASIC_SETUP_COMMAND_HTML.write_text(create_basic_setup_command_html())
+    ENVIRONMENT_SHARING_HTML.write_text(create_environment_sharing_html())
     RICH_HTML.write_text(create_rich_html())
     RICH_PROGRESS_BAR_HTML.write_text(create_rich_progress_bar_html())
     FXT_INIT_FROM_HTML.write_text(create_fxt_init_from_html())
