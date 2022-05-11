@@ -51,7 +51,7 @@ def test_terminhtml_creates_carriage_return_html():
     tree = html.fromstring(text)
     span = tree.xpath("//pre[@class='terminhtml']/span[2]")[0]
     # Check that the span element has both carriage return and delay attributes
-    assert span.attrib["data-ty-delay"] == "50"
+    assert int(span.attrib["data-ty-delay"]) in [49, 50, 51]
     assert span.attrib["data-ty-carriagereturn"] == "true"
     # Check that styling is applied to children of the span element
     for child in span.iterchildren():
