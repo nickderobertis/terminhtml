@@ -15,6 +15,7 @@ from tests.config import (
     INPUT_FILES_DIR,
     BASIC_CWD_HTML,
     DEMO_OUTPUT_HTML,
+    PROJECT_DIR,
 )
 
 
@@ -66,7 +67,7 @@ def create_demo_output_html() -> str:
     ]
     prompt_matchers = ["\\[0m: "]
     input = ["Nick DeRobertis"]
-    cwd = Path(".")
+    cwd = PROJECT_DIR
     term = TerminHTML.from_commands(
         commands, cwd=cwd, prompt_matchers=prompt_matchers, input=input
     )

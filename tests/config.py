@@ -1,6 +1,9 @@
 from pathlib import Path
 
-INPUT_FILES_DIR = Path(__file__).parent / "input_files"
+TESTS_DIR = Path(__file__).parent
+INPUT_FILES_DIR = TESTS_DIR / "input_files"
+PROJECT_DIR = TESTS_DIR.parent
+
 BASIC_HTML = INPUT_FILES_DIR / "basic.html"
 BASIC_INPUT_HTML = INPUT_FILES_DIR / "basic_input.html"
 BASIC_SETUP_COMMAND_HTML = INPUT_FILES_DIR / "basic_setup_command.html"
