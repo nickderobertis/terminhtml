@@ -3,7 +3,7 @@ from typing import Optional, Dict
 
 from pydantic import BaseModel
 
-from terminhtml.ansi_converter import ansi_to_html
+from terminhtml.ansi_converter import ansi_to_html, strip_all_ansi
 from terminhtml.output import Output, LineOutput, LineEnding
 
 
@@ -18,7 +18,11 @@ class LineWithDelay(LineOutput):
         return _output_span_element(
             ansi_to_html(line),
             self.delay,
-            self.prompt_output.prompt if self.prompt_output else None,
+            # TODO: enable ANSI formatting for prompts
+            #  Right now we are just stripping ANSI formatting from prompts, as the prompt gets stored in
+            #  a data attribute of the <span> element. terminhtmljs will need to be updated to support
+            #  a way of providing an HTML structure for prompts.
+            strip_all_ansi(self.prompt_output.prompt) if self.prompt_output else None,
             line_ending=self.line_ending,
         )
 
