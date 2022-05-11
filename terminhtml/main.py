@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Sequence, Optional, List, Union
 
 from pydantic import BaseModel
@@ -5,7 +6,7 @@ from lxml import html
 
 from terminhtml.ansi_converter import ansi_to_html, ansi_styles
 from terminhtml.runner.commandresult import CommandResult
-from terminhtml.runner.main import run_commands_in_temp_dir
+from terminhtml.runner.main import run_commands
 
 TERMINHTML_BOOTSTRAP_SCRIPT_URL = (
     "https://unpkg.com/@terminhtml/bootstrap@1.x/dist/@terminhtml-bootstrap.umd.js"
@@ -32,6 +33,7 @@ class TerminHTML(BaseModel):
         allow_exceptions: bool = False,
         prompt_matchers: Optional[List[str]] = None,
         command_timeout: int = 10,
+        cwd: Optional[Path] = None,
     ) -> "TerminHTML":
         """
         Create a TerminHTML object from a list of commands.
@@ -45,6 +47,7 @@ class TerminHTML(BaseModel):
         :param prompt_matchers: A list of regex strings to match the prompt of the command. If a prompt is matched,
             it will be provided the matched input.
         :param command_timeout: The timeout in seconds for each command. If a command times out, the process will fail.
+        :param cwd: The working directory to run the commands in. Defaults to a temporary directory when None is passed.
         :return: A TerminHTML object.
         """
         setup_command = " && ".join(setup_commands or [])
@@ -55,6 +58,7 @@ class TerminHTML(BaseModel):
             allow_exceptions,
             prompt_matchers=prompt_matchers,
             command_timeout=command_timeout,
+            cwd=cwd,
         )
         return cls(command_results=CommandResults(results=command_results))
 
@@ -117,16 +121,18 @@ def _run_commands_create_command_results(
     allow_exceptions: bool = False,
     prompt_matchers: Optional[List[str]] = None,
     command_timeout: int = 10,
+    cwd: Optional[Path] = None,
 ) -> List[CommandResult]:
     full_setup_command = setup_command or ""
     use_input = _get_input_list(input)
-    return run_commands_in_temp_dir(
+    return run_commands(
         commands,
         full_setup_command,
         use_input,
         allow_exceptions,
         prompt_matchers=prompt_matchers,
         command_timeout=command_timeout,
+        cwd=cwd,
     )
 
 

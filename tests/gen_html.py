@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from terminhtml.main import TerminHTML
 from tests.config import (
     RICH_HTML,
@@ -10,6 +12,8 @@ from tests.config import (
     BASIC_INPUT_HTML,
     ENVIRONMENT_SHARING_HTML,
     BASIC_SETUP_COMMAND_HTML,
+    INPUT_FILES_DIR,
+    BASIC_CWD_HTML,
 )
 
 
@@ -43,6 +47,15 @@ def create_basic_setup_command_html() -> str:
         "cat woo.txt",
     ]
     term = TerminHTML.from_commands(commands, setup_commands=setup_commands)
+    return str(term)
+
+
+def create_basic_cwd_html() -> str:
+    commands = [
+        "ls -l",
+    ]
+    cwd = INPUT_FILES_DIR
+    term = TerminHTML.from_commands(commands, cwd=cwd)
     return str(term)
 
 
@@ -149,6 +162,7 @@ if __name__ == "__main__":
     BASIC_HTML.write_text(create_basic_html())
     BASIC_INPUT_HTML.write_text(create_basic_input_html())
     BASIC_SETUP_COMMAND_HTML.write_text(create_basic_setup_command_html())
+    BASIC_CWD_HTML.write_text(create_basic_cwd_html())
     ENVIRONMENT_SHARING_HTML.write_text(create_environment_sharing_html())
     RICH_HTML.write_text(create_rich_html())
     RICH_PROGRESS_BAR_HTML.write_text(create_rich_progress_bar_html())
