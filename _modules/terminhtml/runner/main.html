@@ -46,7 +46,7 @@
   
   
   
-    <title>terminhtml.runner.main &#8212; terminhtml 0.5.0 documentation</title>
+    <title>terminhtml.runner.main &#8212; terminhtml 0.6.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -90,7 +90,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../../index.html" title="terminhtml 0.5.0 documentation"
+        <a href="../../../index.html" title="terminhtml 0.6.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#xe869</i>
@@ -176,7 +176,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">terminhtml 0.5.0 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">terminhtml 0.6.0 documentation</a></li>
           <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -189,13 +189,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../../index.html" title="terminhtml 0.5.0 documentation" class="md-nav__button md-logo">
+    <a href="../../../index.html" title="terminhtml 0.6.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#xe869</i>
       
     </a>
     <a href="../../../index.html"
-       title="terminhtml 0.5.0 documentation">terminhtml</a>
+       title="terminhtml 0.6.0 documentation">terminhtml</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/nickderobertis/terminhtml" title="Go to repository" class="md-source" data-md-source="github">
@@ -279,13 +279,14 @@
 <span class="kn">from</span> <span class="nn">terminhtml.runner.commandresult</span> <span class="kn">import</span> <span class="n">CommandResult</span><span class="p">,</span> <span class="n">RunnerContext</span>
 
 
-<div class="viewcode-block" id="run_commands_in_temp_dir"><a class="viewcode-back" href="../../../api/terminhtml.runner.html#terminhtml.runner.main.run_commands_in_temp_dir">[docs]</a><span class="k">def</span> <span class="nf">run_commands_in_temp_dir</span><span class="p">(</span>
+<div class="viewcode-block" id="run_commands"><a class="viewcode-back" href="../../../api/terminhtml.runner.html#terminhtml.runner.main.run_commands">[docs]</a><span class="k">def</span> <span class="nf">run_commands</span><span class="p">(</span>
     <span class="n">commands</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">setup_command</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="nb">input</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">allow_exceptions</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">prompt_matchers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">command_timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">cwd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CommandResult</span><span class="p">]:</span>
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
         <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">last_context</span><span class="p">:</span> <span class="n">RunnerContext</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -334,8 +335,11 @@
     <span class="n">orig_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
     <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdir</span><span class="p">:</span>
         <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span>
-        <span class="n">last_cwd</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span>
-        <span class="n">last_context</span> <span class="o">=</span> <span class="n">RunnerContext</span><span class="p">(</span><span class="n">cwd</span><span class="o">=</span><span class="n">last_cwd</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cwd</span><span class="p">:</span>
+            <span class="n">begin_cwd</span> <span class="o">=</span> <span class="n">cwd</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">begin_cwd</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span>
+        <span class="n">last_context</span> <span class="o">=</span> <span class="n">RunnerContext</span><span class="p">(</span><span class="n">cwd</span><span class="o">=</span><span class="n">begin_cwd</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">setup_command</span><span class="p">:</span>
             <span class="c1"># Don't save the output of the setup command</span>
             <span class="n">out_command</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">setup_command</span><span class="p">,</span> <span class="n">last_context</span><span class="p">)</span>

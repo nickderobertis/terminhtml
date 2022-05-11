@@ -24,6 +24,9 @@ $ terminhtml -t 20 "sleep 15 && echo woo"
 
 # Animate commands that prompt for user input
 $ terminhtml -m "] " -i "woo" "read -p '[value?] ' varname && echo \$varname"
+
+# Run commands in a specific directory rather than a temporary directory
+$ terminhtml -c .. "ls -l"
 ```
 
 **Usage**:
@@ -43,6 +46,7 @@ $ terminhtml [OPTIONS] COMMANDS...
 * `-a, --allow-exceptions`: Allow exceptions from passed commands, still generate html
 * `-m, --prompt-matchers TEXT`: Regex patterns to match prompts. When prompts are matched, they will be provided the passed input.
 * `-t, --timeout INTEGER`: Timeout in seconds for each command.  [default: 10]
+* `-c, --cwd PATH`: Working directory to run commands in. If not passed, defaults to a temporary directory.
 * `-o, --out PATH`: Output path, defaults to printing to stdout
 * `-p, --partial`: Whether to output HTML for only the the commands themselves, defaults to full HTML including JS/CSS/full page structure
 * `-i, --inline-css`: Whether to inline CSS in the HTML, defaults to using a link tag to reference the stylesheet. Note that this option is ignored if --partial is set.

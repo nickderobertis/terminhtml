@@ -47,7 +47,7 @@
   
   
   
-    <title>terminhtml &#8212; terminhtml 0.5.0 documentation</title>
+    <title>terminhtml &#8212; terminhtml 0.6.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/material.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -93,7 +93,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="index.html" title="terminhtml 0.5.0 documentation"
+        <a href="index.html" title="terminhtml 0.6.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#xe869</i>
@@ -179,7 +179,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="index.html" class="md-tabs__link">terminhtml 0.5.0 documentation</a></li>
+          <li class="md-tabs__item"><a href="index.html" class="md-tabs__link">terminhtml 0.6.0 documentation</a></li>
       </ul>
     </div>
   </nav>
@@ -191,13 +191,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="index.html" title="terminhtml 0.5.0 documentation" class="md-nav__button md-logo">
+    <a href="index.html" title="terminhtml 0.6.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#xe869</i>
       
     </a>
     <a href="index.html"
-       title="terminhtml 0.5.0 documentation">terminhtml</a>
+       title="terminhtml 0.6.0 documentation">terminhtml</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/nickderobertis/terminhtml" title="Go to repository" class="md-source" data-md-source="github">
@@ -302,6 +302,9 @@ $ terminhtml -t 20 "sleep 15 &amp;&amp; echo woo"
 
 # Animate commands that prompt for user input
 $ terminhtml -m "] " -i "woo" "read -p '[value?] ' varname &amp;&amp; echo \$varname"
+
+# Run commands in a specific directory rather than a temporary directory
+$ terminhtml -c .. "ls -l"
 </pre></div>
 </div>
 <p><strong>Usage</strong>:</p>
@@ -319,6 +322,7 @@ $ terminhtml -m "] " -i "woo" "read -p '[value?] ' varname &amp;&amp; echo \$var
 <li><p><code class="docutils literal notranslate"><span class="pre">-a,</span> <span class="pre">--allow-exceptions</span></code>: Allow exceptions from passed commands, still generate html</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-m,</span> <span class="pre">--prompt-matchers</span> <span class="pre">TEXT</span></code>: Regex patterns to match prompts. When prompts are matched, they will be provided the passed input.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-t,</span> <span class="pre">--timeout</span> <span class="pre">INTEGER</span></code>: Timeout in seconds for each command.  [default: 10]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-c,</span> <span class="pre">--cwd</span> <span class="pre">PATH</span></code>: Working directory to run commands in. If not passed, defaults to a temporary directory.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-o,</span> <span class="pre">--out</span> <span class="pre">PATH</span></code>: Output path, defaults to printing to stdout</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-p,</span> <span class="pre">--partial</span></code>: Whether to output HTML for only the the commands themselves, defaults to full HTML including JS/CSS/full page structure</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-i,</span> <span class="pre">--inline-css</span></code>: Whether to inline CSS in the HTML, defaults to using a link tag to reference the stylesheet. Note that this option is ignored if –partial is set.</p></li>
