@@ -7,6 +7,7 @@ from tests.gen_html import (
     create_basic_setup_command_html,
     create_environment_sharing_html,
     create_basic_cwd_html,
+    create_demo_output_html,
 )
 
 
@@ -108,3 +109,9 @@ def test_terminhtml_runs_in_temp_dir_when_no_cwd_passed():
     assert "total 0" in text
     # Should have /tmp/ in the path
     assert "/tmp/" in text
+
+
+def test_terminhtml_renders_a_styled_prompt():
+    text = create_demo_output_html()
+    # Once terminhtml supports styled prompts, this test should be updated
+    assert "What is your name? (John Doe): " in text

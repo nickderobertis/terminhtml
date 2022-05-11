@@ -14,6 +14,8 @@ from tests.config import (
     BASIC_SETUP_COMMAND_HTML,
     INPUT_FILES_DIR,
     BASIC_CWD_HTML,
+    DEMO_OUTPUT_HTML,
+    PROJECT_DIR,
 )
 
 
@@ -56,6 +58,19 @@ def create_basic_cwd_html() -> str:
     ]
     cwd = INPUT_FILES_DIR
     term = TerminHTML.from_commands(commands, cwd=cwd)
+    return str(term)
+
+
+def create_demo_output_html() -> str:
+    commands = [
+        "python -m terminhtml.demo_output",
+    ]
+    prompt_matchers = ["\\[0m: "]
+    input = ["Nick DeRobertis"]
+    cwd = PROJECT_DIR
+    term = TerminHTML.from_commands(
+        commands, cwd=cwd, prompt_matchers=prompt_matchers, input=input
+    )
     return str(term)
 
 
@@ -163,6 +178,7 @@ if __name__ == "__main__":
     BASIC_INPUT_HTML.write_text(create_basic_input_html())
     BASIC_SETUP_COMMAND_HTML.write_text(create_basic_setup_command_html())
     BASIC_CWD_HTML.write_text(create_basic_cwd_html())
+    DEMO_OUTPUT_HTML.write_text(create_demo_output_html())
     ENVIRONMENT_SHARING_HTML.write_text(create_environment_sharing_html())
     RICH_HTML.write_text(create_rich_html())
     RICH_PROGRESS_BAR_HTML.write_text(create_rich_progress_bar_html())
