@@ -6,6 +6,7 @@ from tests.gen_html import (
     create_rich_progress_bar_html,
     create_basic_setup_command_html,
     create_environment_sharing_html,
+    create_basic_cwd_html,
 )
 
 
@@ -50,7 +51,7 @@ def test_terminhtml_creates_carriage_return_html():
     tree = html.fromstring(text)
     span = tree.xpath("//pre[@class='terminhtml']/span[2]")[0]
     # Check that the span element has both carriage return and delay attributes
-    assert span.attrib["data-ty-delay"] == "50"
+    assert int(span.attrib["data-ty-delay"]) in [49, 50, 51]
     assert span.attrib["data-ty-carriagereturn"] == "true"
     # Check that styling is applied to children of the span element
     for child in span.iterchildren():
@@ -91,3 +92,19 @@ def test_terminhtml_includes_style_link_or_full_styles_in_html():
     inline_css_html = term.to_html(inline_css=True)
     assert not "<link" in inline_css_html
     assert "<style" in inline_css_html
+
+
+def test_terminhtml_runs_in_cwd_when_passed():
+    text = create_basic_cwd_html()
+    # Should be ls -l output in the input_files directory
+    assert "basic.html" in text
+    assert "basic_input.html" in text
+
+
+def test_terminhtml_runs_in_temp_dir_when_no_cwd_passed():
+    term = TerminHTML.from_commands(["ls -l", "pwd"])
+    text = term.to_html()
+    # Directory should be empty as it is a new temp dir
+    assert "total 0" in text
+    # Should have /tmp/ in the path
+    assert "/tmp/" in text

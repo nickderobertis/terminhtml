@@ -13,13 +13,14 @@ from terminhtml.output import LineOutput, Output, LineEnding, PromptOutput
 from terminhtml.runner.commandresult import CommandResult, RunnerContext
 
 
-def run_commands_in_temp_dir(
+def run_commands(
     commands: Sequence[str],
     setup_command: Optional[str] = None,
     input: Optional[List[str]] = None,
     allow_exceptions: bool = False,
     prompt_matchers: Optional[List[str]] = None,
     command_timeout: int = 10,
+    cwd: Optional[Path] = None,
 ) -> List[CommandResult]:
     def run(
         command: str, last_context: RunnerContext, input: Optional[str] = None
@@ -68,8 +69,11 @@ def run_commands_in_temp_dir(
     orig_dir = os.getcwd()
     with tempfile.TemporaryDirectory() as tmpdir:
         os.chdir(tmpdir)
-        last_cwd = Path(tmpdir)
-        last_context = RunnerContext(cwd=last_cwd)
+        if cwd:
+            begin_cwd = cwd
+        else:
+            begin_cwd = Path(tmpdir)
+        last_context = RunnerContext(cwd=begin_cwd)
         if setup_command:
             # Don't save the output of the setup command
             out_command = run(setup_command, last_context)

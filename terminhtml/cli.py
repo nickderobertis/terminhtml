@@ -48,6 +48,13 @@ def run_commands_create_html(
     command_timeout: int = typer.Option(
         10, "-t", "--timeout", help="Timeout in seconds for each command."
     ),
+    cwd: Optional[Path] = typer.Option(
+        None,
+        "--cwd",
+        "-c",
+        help="Working directory to run commands in. "
+        "If not passed, defaults to a temporary directory.",
+    ),
     out_path: Optional[Path] = typer.Option(
         None,
         "-o",
@@ -98,6 +105,9 @@ def run_commands_create_html(
 
     # Animate commands that prompt for user input
     $ terminhtml -m "] " -i "woo" "read -p '[value?] ' varname && echo \$varname"
+
+    # Run commands in a specific directory rather than a temporary directory
+    $ terminhtml -c .. "ls -l"
     ```
     """
     # In the CLI only, support passing multiple commands separated by newlines
@@ -112,6 +122,7 @@ def run_commands_create_html(
         allow_exceptions,
         prompt_matchers,
         command_timeout,
+        cwd,
     )
     html = term.to_html(full=not partial_html, inline_css=inline_css)
     if out_path is not None:
