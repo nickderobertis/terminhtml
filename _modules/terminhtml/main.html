@@ -276,6 +276,7 @@
 <span class="n">TERMINHTML_BOOTSTRAP_SCRIPT_URL</span> <span class="o">=</span> <span class="p">(</span>
     <span class="s2">"https://unpkg.com/@terminhtml/bootstrap@1.x/dist/@terminhtml-bootstrap.umd.js"</span>
 <span class="p">)</span>
+<span class="n">ANSI2HTML_CSS_URL</span> <span class="o">=</span> <span class="s2">"https://unpkg.com/terminhtml@1.x/dist/src/ansi2html.css"</span>
 
 
 <div class="viewcode-block" id="CommandResults"><a class="viewcode-back" href="../../api/terminhtml.html#terminhtml.main.CommandResults">[docs]</a><span class="k">class</span> <span class="nc">CommandResults</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -327,13 +328,26 @@
     <span class="k">def</span> <span class="nf">styles</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ansi_styles</span><span class="p">()</span>
 
-<div class="viewcode-block" id="TerminHTML.to_html"><a class="viewcode-back" href="../../api/terminhtml.html#terminhtml.main.TerminHTML.to_html">[docs]</a>    <span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">full</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">styles_link</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"&lt;link rel='stylesheet' href='</span><span class="si">{</span><span class="n">ANSI2HTML_CSS_URL</span><span class="si">}</span><span class="s2">'&gt;"</span>
+
+<div class="viewcode-block" id="TerminHTML.get_styles_for_inline_html"><a class="viewcode-back" href="../../api/terminhtml.html#terminhtml.main.TerminHTML.get_styles_for_inline_html">[docs]</a>    <span class="k">def</span> <span class="nf">get_styles_for_inline_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inline_css</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">inline_css</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">"&lt;style&gt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="si">}</span><span class="s2">&lt;/style&gt;"</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">styles_link</span></div>
+
+<div class="viewcode-block" id="TerminHTML.to_html"><a class="viewcode-back" href="../../api/terminhtml.html#terminhtml.main.TerminHTML.to_html">[docs]</a>    <span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">full</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">inline_css</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Convert the TerminHTML object to HTML.</span>
 
+<span class="sd">        :param full: If True, the HTML will be a full standalone page. If False, the HTML will be just the terminal part.</span>
+<span class="sd">        :param inline_css: If True, the CSS will be included inline. If False, the CSS will be linked to a stylesheet.</span>
+<span class="sd">            Note that if full is False, this parameter is ignored.</span>
 <span class="sd">        :return: The HTML string.</span>
 <span class="sd">        """</span>
         <span class="n">main_html</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">command_results</span><span class="p">)</span>
+        <span class="n">styles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_styles_for_inline_html</span><span class="p">(</span><span class="n">inline_css</span><span class="o">=</span><span class="n">inline_css</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">full</span><span class="p">:</span>
             <span class="k">return</span> <span class="sa">f</span><span class="s2">"""</span>
 <span class="s2">&lt;pre class="terminhtml"&gt;</span>
@@ -346,7 +360,7 @@
 <span class="s2">    &lt;head&gt;</span>
 <span class="s2">        &lt;meta charset="utf-8"&gt;</span>
 <span class="s2">        &lt;script src='</span><span class="si">{</span><span class="n">TERMINHTML_BOOTSTRAP_SCRIPT_URL</span><span class="si">}</span><span class="s2">'&gt;&lt;/script&gt;</span>
-<span class="s2">        &lt;style&gt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="si">}</span><span class="s2">&lt;/style&gt;</span>
+<span class="s2">        </span><span class="si">{</span><span class="n">styles</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &lt;title&gt;&lt;/title&gt;</span>
 <span class="s2">    &lt;/head&gt;</span>
 <span class="s2">    &lt;body&gt;</span>

@@ -459,7 +459,7 @@
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="terminhtml.cli.run_commands_create_html">
-<span class="sig-prename descclassname"><span class="pre">terminhtml.cli.</span></span><span class="sig-name descname"><span class="pre">run_commands_create_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">commands</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Argument</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setup_commands</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_exceptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_matchers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">partial_html</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#terminhtml.cli.run_commands_create_html" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">terminhtml.cli.</span></span><span class="sig-name descname"><span class="pre">run_commands_create_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">commands</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Argument</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setup_commands</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_exceptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_matchers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">partial_html</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inline_css</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typer.Option</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#terminhtml.cli.run_commands_create_html" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an animated HTML/CSS terminal by running commands and recording their output.</p>
 <p>Examples:
 <a href="#id1"><span class="problematic" id="id2">``</span></a>`
@@ -567,6 +567,15 @@ it will be provided the matched input.</p></li>
 </dd>
 </dl>
 </dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="terminhtml.main.TerminHTML.get_styles_for_inline_html">
+<span class="sig-name descname"><span class="pre">get_styles_for_inline_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inline_css</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/main.html#TerminHTML.get_styles_for_inline_html"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.main.TerminHTML.get_styles_for_inline_html" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="terminhtml.main.TerminHTML.styles">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">styles</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#terminhtml.main.TerminHTML.styles" title="Permalink to this definition">¶</a></dt>
@@ -576,16 +585,32 @@ it will be provided the matched input.</p></li>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="terminhtml.main.TerminHTML.to_html">
-<span class="sig-name descname"><span class="pre">to_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/main.html#TerminHTML.to_html"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.main.TerminHTML.to_html" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert the TerminHTML object to HTML.</p>
-<dl class="field-list simple">
+<dl class="py property">
+<dt class="sig sig-object py" id="terminhtml.main.TerminHTML.styles_link">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">styles_link</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#terminhtml.main.TerminHTML.styles_link" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The HTML string.</p>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="terminhtml.main.TerminHTML.to_html">
+<span class="sig-name descname"><span class="pre">to_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inline_css</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/terminhtml/main.html#TerminHTML.to_html"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#terminhtml.main.TerminHTML.to_html" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the TerminHTML object to HTML.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="terminhtml.main.TerminHTML.to_html.params.full"></span><strong>full</strong><a class="paramlink headerlink reference internal" href="#terminhtml.main.TerminHTML.to_html.params.full">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – If True, the HTML will be a full standalone page. If False, the HTML will be just the terminal part.</p></li>
+<li><p><span class="target" id="terminhtml.main.TerminHTML.to_html.params.inline_css"></span><strong>inline_css</strong><a class="paramlink headerlink reference internal" href="#terminhtml.main.TerminHTML.to_html.params.inline_css">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – If True, the CSS will be included inline. If False, the CSS will be linked to a stylesheet.
+Note that if full is False, this parameter is ignored.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The HTML string.</p>
 </dd>
 </dl>
 </dd></dl>
