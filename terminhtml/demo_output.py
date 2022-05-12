@@ -1,22 +1,24 @@
 # Adapted from rich.__main__.py
 import colorsys
-import time
 
 from rich.color import Color
 from rich.console import ConsoleOptions, Console, RenderResult
+from rich.live import Live
 from rich.measure import Measurement
 from rich.progress_bar import ProgressBar
 from rich.prompt import Prompt
 from rich.segment import Segment
+from rich.spinner import Spinner
 from rich.style import Style
 from rich.table import Table
+from rich.text import Text
 
 
 class ColorBox:
     def __rich_console__(
         self, console: Console, options: ConsoleOptions
     ) -> RenderResult:
-        for y in range(0, 5):
+        for y in range(0, 2):
             for x in range(options.max_width):
                 h = x / options.max_width
                 l = 0.1 + ((y / 5) * 0.7)
@@ -50,13 +52,7 @@ def make_test_card() -> Table:
         pad_edge=False,
     )
     color_table.add_row(
-        (
-            "✓ [bold green]4-bit color[/]\n"
-            "✓ [bold blue]8-bit color[/]\n"
-            "✓ [bold magenta]Truecolor (16.7 million)[/]\n"
-            "✓ [bold yellow]Dumb terminals[/]\n"
-            "✓ [bold cyan]Automatic color conversion"
-        ),
+        ("✓ [bold green]4-bit color[/]\n" "✓ [bold blue]8-bit color[/]\n"),
         ColorBox(),
     )
 
@@ -64,7 +60,7 @@ def make_test_card() -> Table:
 
     table.add_row(
         "Styles",
-        "All ansi styles: [bold]bold[/], [dim]dim[/], [italic]italic[/italic], [underline]underline[/], [strike]strikethrough[/], [reverse]reverse[/], and even [blink]blink[/].",
+        "Most ansi styles: [bold]bold[/], [italic]italic[/italic], [underline]underline[/], [strike]strikethrough[/], [reverse]reverse[/].",
     )
 
     return table
@@ -75,7 +71,9 @@ if __name__ == "__main__":  # pragma: no cover
     test_card = make_test_card()
     console.print(test_card)
 
-    console.print("[bold red]Progress bars[/bold red] work too")
+    console.print(
+        "[bold red]Progress bars[/bold red] and [bold red]spinners[/bold red] work too"
+    )
 
     bar = ProgressBar(width=50, total=100)
 
@@ -86,12 +84,17 @@ if __name__ == "__main__":  # pragma: no cover
         bar.update(n)
         console.print(bar)
         console.file.write("\r")
-        time.sleep(0.03)
+        time.sleep(0.02)
     console.show_cursor(True)
     console.print()
 
+    spinner = Spinner("dots", text=Text("Loading...", style="green"))
+
+    with Live(spinner) as live:
+        time.sleep(2)
+
     console.print(
-        "[bold red]Prompts[/bold red] and [bold red]user input[/bold red] work too"
+        "\n[bold red]Prompts[/bold red] and passing custom [bold red]user input[/bold red] work too"
     )
     answer = Prompt.ask("What is your name?", default="John Doe")
     console.print(f"Hello {answer}!")
