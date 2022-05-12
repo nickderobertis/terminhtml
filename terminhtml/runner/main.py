@@ -21,6 +21,7 @@ def run_commands(
     prompt_matchers: Optional[List[str]] = None,
     command_timeout: int = 10,
     cwd: Optional[Path] = None,
+    echo: bool = False,
 ) -> List[CommandResult]:
     def run(
         command: str, last_context: RunnerContext, input: Optional[str] = None
@@ -32,6 +33,7 @@ def run_commands(
                 input,
                 prompt_matchers=prompt_matchers,
                 command_timeout=command_timeout,
+                echo=echo,
             )
         except (
             pexpect.exceptions.EOF,
@@ -202,6 +204,7 @@ def _run(
     input: Optional[str] = None,
     prompt_matchers: Optional[List[str]] = None,
     command_timeout: int = 10,
+    echo: bool = False,
 ) -> CommandResult:
     use_input = input.split("\n") if input else []
     line_and_output_end_chars = ["\r\n", "\r", pexpect.EOF]
@@ -215,6 +218,9 @@ def _run(
         for i in range(len(stop_for_input_chars))
         if i not in [new_line_index, carriage_return_index, eof_index]
     ]
+
+    if echo:
+        print(f"$ {command}")
 
     start_time = datetime.datetime.now()
     process = pexpect.spawn(
@@ -251,6 +257,13 @@ def _run(
         else:
             line_ending = LineEnding.CRLF
 
+        if (
+            matched_idx in line_break_indices
+            and this_stdout == "::BEGIN TERMINHTML PERSISTENCE::"
+        ):
+            # We have finished the user command and are now determining the output context
+            processing_terminhtml_context_commands = True
+
         prompt_output: Optional[PromptOutput] = None
         if matched_idx in prompt_indices:
             # Process printed a prompt, send input
@@ -260,13 +273,13 @@ def _run(
             prompt_output = PromptOutput(prompt=this_stdout, user_input=user_input)
             # The next lines will be the input we just provided, skip them
             skip_next_lines = len(user_input.split("\n"))
-
-        if (
-            matched_idx in line_break_indices
-            and this_stdout == "::BEGIN TERMINHTML PERSISTENCE::"
-        ):
-            # We have finished the user command and are now determining the output context
-            processing_terminhtml_context_commands = True
+            if echo:
+                print(f"{this_stdout} {user_input}")
+        elif echo and not processing_terminhtml_context_commands:
+            if line_ending == LineEnding.CR:
+                print(this_stdout, end="\r")
+            else:
+                print(this_stdout)
 
         output_lines.append(
             LineOutput(

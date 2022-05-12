@@ -79,6 +79,13 @@ def run_commands_create_html(
         "if --partial is set.",
         show_default=False,
     ),
+    echo: bool = typer.Option(
+        False,
+        "--echo",
+        "-e",
+        help="Echo the commands to stdout",
+        show_default=False,
+    ),
 ) -> None:
     """
     Create an animated HTML/CSS terminal by running commands and recording their output.
@@ -108,6 +115,9 @@ def run_commands_create_html(
 
     # Run commands in a specific directory rather than a temporary directory
     $ terminhtml -c .. "ls -l"
+
+    # Echo the commands to stdout
+    $ terminhtml -e "echo foo"
     ```
     """
     # In the CLI only, support passing multiple commands separated by newlines
@@ -123,6 +133,7 @@ def run_commands_create_html(
         prompt_matchers,
         command_timeout,
         cwd,
+        echo,
     )
     html = term.to_html(full=not partial_html, inline_css=inline_css)
     if out_path is not None:
