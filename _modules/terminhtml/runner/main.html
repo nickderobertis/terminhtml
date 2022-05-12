@@ -46,7 +46,7 @@
   
   
   
-    <title>terminhtml.runner.main &#8212; terminhtml 0.7.0 documentation</title>
+    <title>terminhtml.runner.main &#8212; terminhtml 0.8.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -90,7 +90,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../../index.html" title="terminhtml 0.7.0 documentation"
+        <a href="../../../index.html" title="terminhtml 0.8.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#xe869</i>
@@ -176,7 +176,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">terminhtml 0.7.0 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">terminhtml 0.8.0 documentation</a></li>
           <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -189,13 +189,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../../index.html" title="terminhtml 0.7.0 documentation" class="md-nav__button md-logo">
+    <a href="../../../index.html" title="terminhtml 0.8.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#xe869</i>
       
     </a>
     <a href="../../../index.html"
-       title="terminhtml 0.7.0 documentation">terminhtml</a>
+       title="terminhtml 0.8.0 documentation">terminhtml</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/nickderobertis/terminhtml" title="Go to repository" class="md-source" data-md-source="github">
@@ -287,6 +287,7 @@
     <span class="n">prompt_matchers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">command_timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
     <span class="n">cwd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">echo</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CommandResult</span><span class="p">]:</span>
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
         <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">last_context</span><span class="p">:</span> <span class="n">RunnerContext</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -298,6 +299,7 @@
                 <span class="nb">input</span><span class="p">,</span>
                 <span class="n">prompt_matchers</span><span class="o">=</span><span class="n">prompt_matchers</span><span class="p">,</span>
                 <span class="n">command_timeout</span><span class="o">=</span><span class="n">command_timeout</span><span class="p">,</span>
+                <span class="n">echo</span><span class="o">=</span><span class="n">echo</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span>
             <span class="n">pexpect</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">EOF</span><span class="p">,</span>
@@ -468,6 +470,7 @@
     <span class="nb">input</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">prompt_matchers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">command_timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">echo</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CommandResult</span><span class="p">:</span>
     <span class="n">use_input</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span> <span class="k">if</span> <span class="nb">input</span> <span class="k">else</span> <span class="p">[]</span>
     <span class="n">line_and_output_end_chars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"</span><span class="se">\r\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"</span><span class="se">\r</span><span class="s2">"</span><span class="p">,</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">EOF</span><span class="p">]</span>
@@ -481,6 +484,9 @@
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stop_for_input_chars</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">new_line_index</span><span class="p">,</span> <span class="n">carriage_return_index</span><span class="p">,</span> <span class="n">eof_index</span><span class="p">]</span>
     <span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">echo</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"$ </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
     <span class="n">process</span> <span class="o">=</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span>
@@ -517,6 +523,13 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">line_ending</span> <span class="o">=</span> <span class="n">LineEnding</span><span class="o">.</span><span class="n">CRLF</span>
 
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">matched_idx</span> <span class="ow">in</span> <span class="n">line_break_indices</span>
+            <span class="ow">and</span> <span class="n">this_stdout</span> <span class="o">==</span> <span class="s2">"::BEGIN TERMINHTML PERSISTENCE::"</span>
+        <span class="p">):</span>
+            <span class="c1"># We have finished the user command and are now determining the output context</span>
+            <span class="n">processing_terminhtml_context_commands</span> <span class="o">=</span> <span class="kc">True</span>
+
         <span class="n">prompt_output</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PromptOutput</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">matched_idx</span> <span class="ow">in</span> <span class="n">prompt_indices</span><span class="p">:</span>
             <span class="c1"># Process printed a prompt, send input</span>
@@ -526,13 +539,13 @@
             <span class="n">prompt_output</span> <span class="o">=</span> <span class="n">PromptOutput</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">this_stdout</span><span class="p">,</span> <span class="n">user_input</span><span class="o">=</span><span class="n">user_input</span><span class="p">)</span>
             <span class="c1"># The next lines will be the input we just provided, skip them</span>
             <span class="n">skip_next_lines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_input</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">))</span>
-
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="n">matched_idx</span> <span class="ow">in</span> <span class="n">line_break_indices</span>
-            <span class="ow">and</span> <span class="n">this_stdout</span> <span class="o">==</span> <span class="s2">"::BEGIN TERMINHTML PERSISTENCE::"</span>
-        <span class="p">):</span>
-            <span class="c1"># We have finished the user command and are now determining the output context</span>
-            <span class="n">processing_terminhtml_context_commands</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">echo</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">this_stdout</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">user_input</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">echo</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">processing_terminhtml_context_commands</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">line_ending</span> <span class="o">==</span> <span class="n">LineEnding</span><span class="o">.</span><span class="n">CR</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">this_stdout</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">"</span><span class="se">\r</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">this_stdout</span><span class="p">)</span>
 
         <span class="n">output_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">LineOutput</span><span class="p">(</span>

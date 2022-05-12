@@ -27,6 +27,9 @@ $ terminhtml -m "] " -i "woo" "read -p '[value?] ' varname && echo \$varname"
 
 # Run commands in a specific directory rather than a temporary directory
 $ terminhtml -c .. "ls -l"
+
+# Echo the commands to stdout
+$ terminhtml -e "echo foo"
 ```
 
 **Usage**:
@@ -50,6 +53,7 @@ $ terminhtml [OPTIONS] COMMANDS...
 * `-o, --out PATH`: Output path, defaults to printing to stdout
 * `-p, --partial`: Whether to output HTML for only the the commands themselves, defaults to full HTML including JS/CSS/full page structure
 * `-i, --inline-css`: Whether to inline CSS in the HTML, defaults to using a link tag to reference the stylesheet. Note that this option is ignored if --partial is set.
+* `-e, --echo`: Echo the commands to stdout
 * `--install-completion`: Install completion for the current shell.
 * `--show-completion`: Show completion for the current shell, to copy it or customize the installation.
 * `--help`: Show this message and exit.
