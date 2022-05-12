@@ -5,6 +5,16 @@
 
 # Welcome to TerminHTML documentation!
 
+```{terminhtml}
+---
+prompt-matchers: "['\\[0m: ']"
+input: "Nick DeRobertis"
+cwd: ..
+disable-cache:
+---
+python -m terminhtml.demo_output
+```
+
 ```{include} ../../README.md
 ```
 
