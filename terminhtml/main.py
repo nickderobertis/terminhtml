@@ -34,6 +34,7 @@ class TerminHTML(BaseModel):
         prompt_matchers: Optional[List[str]] = None,
         command_timeout: int = 10,
         cwd: Optional[Path] = None,
+        echo: bool = False,
     ) -> "TerminHTML":
         """
         Create a TerminHTML object from a list of commands.
@@ -48,6 +49,7 @@ class TerminHTML(BaseModel):
             it will be provided the matched input.
         :param command_timeout: The timeout in seconds for each command. If a command times out, the process will fail.
         :param cwd: The working directory to run the commands in. Defaults to a temporary directory when None is passed.
+        :param echo: If True, the output of the commands will be echoed to the console.
         :return: A TerminHTML object.
         """
         setup_command = " && ".join(setup_commands or [])
@@ -59,6 +61,7 @@ class TerminHTML(BaseModel):
             prompt_matchers=prompt_matchers,
             command_timeout=command_timeout,
             cwd=cwd,
+            echo=echo,
         )
         return cls(command_results=CommandResults(results=command_results))
 
@@ -122,6 +125,7 @@ def _run_commands_create_command_results(
     prompt_matchers: Optional[List[str]] = None,
     command_timeout: int = 10,
     cwd: Optional[Path] = None,
+    echo: bool = False,
 ) -> List[CommandResult]:
     full_setup_command = setup_command or ""
     use_input = _get_input_list(input)
@@ -133,6 +137,7 @@ def _run_commands_create_command_results(
         prompt_matchers=prompt_matchers,
         command_timeout=command_timeout,
         cwd=cwd,
+        echo=echo,
     )
 
 
