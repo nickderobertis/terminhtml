@@ -72,7 +72,7 @@ def run_commands_create_html(
     ),
     inline_css: bool = typer.Option(
         False,
-        "-i",
+        "-c",
         "--inline-css",
         help="Whether to inline CSS in the HTML, defaults to using a link tag "
         "to reference the stylesheet. Note that this option is ignored "
