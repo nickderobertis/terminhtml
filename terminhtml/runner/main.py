@@ -267,7 +267,13 @@ def _run(
         prompt_output: Optional[PromptOutput] = None
         if matched_idx in prompt_indices:
             # Process printed a prompt, send input
-            user_input = use_input[input_idx]
+            try:
+                user_input = use_input[input_idx]
+            except IndexError:
+                raise IncorrectCommandSpecificationException(
+                    f"Received prompt for input but no input was provided. "
+                    f"Prompt: {this_stdout}\nInput: {use_input}"
+                )
             process.sendline(user_input)
             input_idx += 1
             prompt_output = PromptOutput(prompt=this_stdout, user_input=user_input)
