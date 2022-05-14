@@ -158,6 +158,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    # For some reason this is the required setup for docs generation to work.
-    # main() is the actual CLI entrypoint. Access it through __main__.
-    typer.run(app)
+    main()
