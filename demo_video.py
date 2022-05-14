@@ -12,6 +12,10 @@ VIDEOS_DIR = PROJECT_ROOT / "videos"
 
 
 def create_demo_output_gif(out_folder: Path = DOCS_IMAGES):
+    out_path = out_folder / f"demo-output.gif"
+    if out_path.exists():
+        print(f"{out_path} already exists, skipping")
+        return
     print("Creating demo output gif")
     with tempfile.TemporaryDirectory() as tmpdir:
         temp_path = Path(tmpdir)
@@ -50,7 +54,6 @@ def create_demo_output_gif(out_folder: Path = DOCS_IMAGES):
             clip = mp.VideoFileClip(str(video.resolve()))
             # Remove first portion of clip before terminhtml-js loads
             clip = clip.subclip(1.1, clip.duration)
-            out_path = out_folder / f"demo-output.gif"
             clip.write_gif(str(out_path.resolve()))
             print(f"Demo output gif saved to {out_path}")
 
