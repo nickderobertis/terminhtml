@@ -10,7 +10,6 @@
 prompt-matchers: "['\\[0m: ']"
 input: "Nick DeRobertis"
 cwd: ..
-disable-cache:
 ---
 python -m terminhtml.demo_output
 ```
@@ -41,11 +40,11 @@ For more information on getting started, take a look at the tutorial and example
 Render rich output:
 
 ```shell
-terminhtml "python -m rich.color"
+terminhtml "python -m rich.highlighter"
 ```
 
 ```{terminhtml}
-python -m rich.color
+python -m rich.highlighter
 ```
 
 Progress bars work too:
