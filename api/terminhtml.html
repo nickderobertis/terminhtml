@@ -222,13 +222,6 @@
     <li class="md-nav__item">
     
     
-      <a href="../tutorial.html" class="md-nav__link">Getting started with terminhtml</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
       <a href="../commands.html" class="md-nav__link">CLI Reference</a>
       
     
@@ -584,7 +577,7 @@ $ terminhtml -n “man grep | grep grep”
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span class="target" id="terminhtml.main.TerminHTML.from_commands.params.commands"></span><strong>commands</strong><a class="paramlink headerlink reference internal" href="#terminhtml.main.TerminHTML.from_commands.params.commands">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – A list of commands to run.</p></li>
-<li><p><span class="target" id="terminhtml.main.TerminHTML.from_commands.params.setup_command"></span><strong>setup_command</strong><a class="paramlink headerlink reference internal" href="#terminhtml.main.TerminHTML.from_commands.params.setup_command">¶</a> – A command to run before the commands, the output of these commands will not show.</p></li>
+<li><p><span class="target" id="terminhtml.main.TerminHTML.from_commands.params.setup_commands"></span><strong>setup_commands</strong><a class="paramlink headerlink reference internal" href="#terminhtml.main.TerminHTML.from_commands.params.setup_commands">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]) – A command to run before the commands, the output of these commands will not show.</p></li>
 <li><p><span class="target" id="terminhtml.main.TerminHTML.from_commands.params.input"></span><strong>input</strong><a class="paramlink headerlink reference internal" href="#terminhtml.main.TerminHTML.from_commands.params.input">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – A list of strings to send to the commands. The input element will be matched with the
 command by index. If a single string is passed, it will be converted into a single-element list so
 that it will be passed to the first command.</p></li>
