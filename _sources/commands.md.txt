@@ -58,6 +58,4 @@ $ terminhtml [OPTIONS] COMMANDS...
 * `-c, --inline-css`: Whether to inline CSS in the HTML, defaults to using a link tag to reference the stylesheet. Note that this option is ignored if --partial is set.
 * `-e, --echo`: Echo the commands to stdout
 * `-n, --no-force-color`: Don't force color output
-* `--install-completion`: Install completion for the current shell.
-* `--show-completion`: Show completion for the current shell, to copy it or customize the installation.
 * `--help`: Show this message and exit.
