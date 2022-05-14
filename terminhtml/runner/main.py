@@ -8,7 +8,7 @@ import pexpect
 from pydantic import BaseModel
 
 from terminhtml._exc import CommandInternalException
-from terminhtml.exc import UserCommandException
+from terminhtml.exc import UserCommandException, IncorrectCommandSpecificationException
 from terminhtml.output import LineOutput, Output, LineEnding, PromptOutput
 from terminhtml.runner.commandresult import CommandResult, RunnerContext
 
@@ -22,6 +22,7 @@ def run_commands(
     command_timeout: int = 10,
     cwd: Optional[Path] = None,
     echo: bool = False,
+    force_color: bool = True,
 ) -> List[CommandResult]:
     def run(
         command: str, last_context: RunnerContext, input: Optional[str] = None
@@ -34,6 +35,7 @@ def run_commands(
                 prompt_matchers=prompt_matchers,
                 command_timeout=command_timeout,
                 echo=echo,
+                force_color=force_color,
             )
         except (
             pexpect.exceptions.EOF,
@@ -205,6 +207,7 @@ def _run(
     prompt_matchers: Optional[List[str]] = None,
     command_timeout: int = 10,
     echo: bool = False,
+    force_color: bool = True,
 ) -> CommandResult:
     use_input = input.split("\n") if input else []
     line_and_output_end_chars = ["\r\n", "\r", pexpect.EOF]
@@ -222,9 +225,13 @@ def _run(
     if echo:
         print(f"$ {command}")
 
+    command_preamble = f"cd '{context.cwd}' && "
+    if force_color:
+        command_preamble += "export TERM=xterm-256color && "
+
     start_time = datetime.datetime.now()
     process = pexpect.spawn(
-        f"bash -c \"cd '{context.cwd}' && {command} && printf '\\n' && {_terminal_persistence_command}\"",
+        f"bash -c \"{command_preamble} {command} && printf '\\n' && {_terminal_persistence_command}\"",
         encoding="utf-8",
         env=context.env,
     )
