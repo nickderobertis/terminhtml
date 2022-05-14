@@ -137,6 +137,13 @@ upgrades will often have breaking changes.
 
 Created by Nick DeRobertis. MIT License.
 
+## Related Projects
+
+- [terminhtml-js](https://github.com/nickderobertis/terminhtml-js) - The JavaScript frontend for TerminHTML, but can also be used standalone
+- [terminhtml-bootstrap](https://github.com/nickderobertis/terminhtml-bootstrap) - A script that loads TerminHTML in the browser with default settings
+- [sphinx-terminhtml](https://nickderobertis.github.io/sphinx-terminhtml/) - A Sphinx directive for using TerminHTML in Sphinx projects
+
+
 ```{toctree}
 ---
 maxdepth: 2
