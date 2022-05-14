@@ -31,8 +31,8 @@ A simple example:
 terminhtml "echo 'Hello World'"
 ```
 
-See a
-[more in-depth tutorial here.](
+See 
+[more examples in the documentation.](
 https://nickderobertis.github.io/terminhtml/
 )
 
