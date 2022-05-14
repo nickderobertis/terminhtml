@@ -4,7 +4,7 @@
 [![Documentation](https://img.shields.io/badge/documentation-pass-green)](https://nickderobertis.github.io/terminhtml/)
 [![Github Repo](https://img.shields.io/badge/repo-github-informational)](https://github.com/nickderobertis/terminhtml/)
 
-#  terminhtml
+#  TerminHTML
 
 <div align="center">
   <p align="center">
