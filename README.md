@@ -6,9 +6,12 @@
 
 #  terminhtml
 
-[![](https://nickderobertis.github.io/terminhtml/_static/images/demo-output.gif)](https://nickderobertis.github.io/terminhtml/)
-
 <div align="center">
+  <p align="center">
+    <a href="https://nickderobertis.github.io/terminhtml/">
+      <img src="https://nickderobertis.github.io/terminhtml/_static/images/demo-output.gif" alt="TerminHTML example GIF">
+    </a>
+  </p>
   <sub>This GIF doesn't do TerminHTML justice, check out the full version <a href="https://nickderobertis.github.io/terminhtml/">in the docs</a></sub>
 </div>
 
@@ -45,6 +48,12 @@ upgrades will often have breaking changes.
 ## Author
 
 Created by Nick DeRobertis. MIT License.
+
+## Related Projects
+
+- [terminhtml-js](https://github.com/nickderobertis/terminhtml-js) - The JavaScript frontend for TerminHTML, but can also be used standalone
+- [terminhtml-bootstrap](https://github.com/nickderobertis/terminhtml-bootstrap) - A script that loads TerminHTML in the browser with default settings
+- [sphinx-terminhtml](https://nickderobertis.github.io/sphinx-terminhtml/) - A Sphinx directive for using TerminHTML in Sphinx projects
 
 ## Links
 
