@@ -1,3 +1,4 @@
+import os
 import tempfile
 import time
 from pathlib import Path
@@ -13,6 +14,8 @@ VIDEOS_DIR = PROJECT_ROOT / "videos"
 
 def create_demo_output_gif(out_folder: Path = DOCS_IMAGES):
     out_path = out_folder / f"demo-output.gif"
+    is_ci = os.getenv("CI")
+    delay = 3 if is_ci else 1.1
     if out_path.exists():
         print(f"{out_path} already exists, skipping")
         return
@@ -53,7 +56,7 @@ def create_demo_output_gif(out_folder: Path = DOCS_IMAGES):
         for video in temp_path.glob("*.webm"):
             clip = mp.VideoFileClip(str(video.resolve()))
             # Remove first portion of clip before terminhtml-js loads
-            clip = clip.subclip(1.1, clip.duration)
+            clip = clip.subclip(delay, clip.duration)
             clip.write_gif(str(out_path.resolve()))
             print(f"Demo output gif saved to {out_path}")
 

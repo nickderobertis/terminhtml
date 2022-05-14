@@ -56,6 +56,56 @@ prompt-matchers: "['] ']"
 read -p '[value?] ' varname && echo $varname
 ```
 
+Run setup commands before the animated session:
+
+```shell
+terminhtml "cat woo.txt" -s "echo a > woo.txt && echo b >> woo.txt"
+```
+
+```{terminhtml}
+---
+setup: "echo a > woo.txt && echo b >> woo.txt"
+---
+cat woo.txt
+```
+
+Output results to a file: 
+
+```shell
+terminhtml -o output.html "echo woo"
+```
+
+Run commands in a specific directory rather than a temporary directory
+
+```shell
+terminhtml -c .. "ls -l"
+```
+
+```{terminhtml}
+---
+cwd: ..
+---
+ls -l
+```
+
+Run a script:
+
+```shell
+terminhtml "$(<demo-script.sh)"
+```
+
+Allow longer-running commands:
+
+```shell
+terminhtml -t 20 "sleep 15 && echo woo"
+```
+
+Echo the commands to stdout:
+
+```shell
+terminhtml -e "echo foo"
+```
+
 
 ```{toctree}
 ---
