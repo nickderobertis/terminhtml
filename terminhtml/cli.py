@@ -86,6 +86,13 @@ def run_commands_create_html(
         help="Echo the commands to stdout",
         show_default=False,
     ),
+    no_force_color: bool = typer.Option(
+        False,
+        "--no-force-color",
+        "-n",
+        help="Don't force color output",
+        show_default=False,
+    ),
 ) -> None:
     """
     Create an animated HTML/CSS terminal by running commands and recording their output.
@@ -118,6 +125,9 @@ def run_commands_create_html(
 
     # Echo the commands to stdout
     $ terminhtml -e "echo foo"
+
+    # Turn off forcing color output, use the terminal's color setting
+    $ terminhtml -n "man grep | grep grep"
     ```
     """
     # In the CLI only, support passing multiple commands separated by newlines
@@ -134,6 +144,7 @@ def run_commands_create_html(
         command_timeout,
         cwd,
         echo,
+        force_color=not no_force_color,
     )
     html = term.to_html(full=not partial_html, inline_css=inline_css)
     if out_path is not None:

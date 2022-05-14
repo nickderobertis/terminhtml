@@ -13,6 +13,14 @@ class TerminHTMLUserException(TerminHTMLException):
     pass
 
 
+class IncorrectCommandSpecificationException(TerminHTMLUserException):
+    """
+    Raised if the command specification is incorrect.
+    """
+
+    pass
+
+
 class UserCommandException(TerminHTMLUserException):
     """
     Exception for user commands.

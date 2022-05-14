@@ -35,6 +35,7 @@ class TerminHTML(BaseModel):
         command_timeout: int = 10,
         cwd: Optional[Path] = None,
         echo: bool = False,
+        force_color: bool = True,
     ) -> "TerminHTML":
         """
         Create a TerminHTML object from a list of commands.
@@ -50,6 +51,8 @@ class TerminHTML(BaseModel):
         :param command_timeout: The timeout in seconds for each command. If a command times out, the process will fail.
         :param cwd: The working directory to run the commands in. Defaults to a temporary directory when None is passed.
         :param echo: If True, the output of the commands will be echoed to the console.
+        :param force_color: If True, will try to emulate a terminal with support for ANSI 8-bit color. If False,
+            will allow the terminal settings to pass through from the terminhtml caller.
         :return: A TerminHTML object.
         """
         setup_command = " && ".join(setup_commands or [])
@@ -62,6 +65,7 @@ class TerminHTML(BaseModel):
             command_timeout=command_timeout,
             cwd=cwd,
             echo=echo,
+            force_color=force_color,
         )
         return cls(command_results=CommandResults(results=command_results))
 
@@ -126,6 +130,7 @@ def _run_commands_create_command_results(
     command_timeout: int = 10,
     cwd: Optional[Path] = None,
     echo: bool = False,
+    force_color: bool = True,
 ) -> List[CommandResult]:
     full_setup_command = setup_command or ""
     use_input = _get_input_list(input)
@@ -138,6 +143,7 @@ def _run_commands_create_command_results(
         command_timeout=command_timeout,
         cwd=cwd,
         echo=echo,
+        force_color=force_color,
     )
 
 

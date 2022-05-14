@@ -1,4 +1,5 @@
 from lxml import html
+from tests.config import PROJECT_DIR
 
 from terminhtml.main import TerminHTML
 from tests.gen_html import (
@@ -56,12 +57,8 @@ def test_terminhtml_creates_carriage_return_html():
     assert span.attrib["data-ty-carriagereturn"] == "true"
     # Check that styling is applied to children of the span element
     for child in span.iterchildren():
-        # For some reason, it seems that different shells may have different coloring of output
-        # When I run this through pycharm's test runner, it applies classes ansi90 and ansi91,
-        # but when I run it directly in the terminal it applies ansi38-204 and ansi38-237. The color
-        # is slightly visually different, with ansi38-204 and ansi38-237 being the more accurate colors.
-        # Until I can figure out why, just check for any of these classes.
-        assert child.attrib["class"] in ["ansi38-204", "ansi38-237", "ansi90", "ansi91"]
+        # ansi38-204 and ansi38-237 (8-bit) should always be applied because force_color=True
+        assert child.attrib["class"] in ["ansi38-204", "ansi38-237"]
 
 
 def test_terminhtml_setup_commands_affect_runtime():
@@ -115,3 +112,47 @@ def test_terminhtml_renders_a_styled_prompt():
     text = create_demo_output_html()
     # Once terminhtml supports styled prompts, this test should be updated
     assert "What is your name? (John Doe): " in text
+
+
+def test_terminhtml_renders_without_color_with_term_dumb_and_no_force_color():
+    commands = [
+        "export TERM=dumb",
+        "echo $TERM",
+        "python -m terminhtml.demo_output",
+    ]
+    prompt_matchers = ["\\): "]
+    input = [None, None, "Nick DeRobertis"]
+    cwd = PROJECT_DIR
+    term = TerminHTML.from_commands(
+        commands,
+        cwd=cwd,
+        prompt_matchers=prompt_matchers,
+        input=input,
+        force_color=False,
+    )
+    text = term.to_html()
+    # Should not have any color
+    assert "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄" in text
+    assert not '<span class="ansi38-124 ansi48-88">▄</span>' in text
+
+
+def test_terminhtml_renders_with_color_with_term_dumb_and_force_color():
+    commands = [
+        "export TERM=dumb",
+        "echo $TERM",
+        "python -m terminhtml.demo_output",
+    ]
+    prompt_matchers = ["\\[0m: "]
+    input = [None, None, "Nick DeRobertis"]
+    cwd = PROJECT_DIR
+    term = TerminHTML.from_commands(
+        commands,
+        cwd=cwd,
+        prompt_matchers=prompt_matchers,
+        input=input,
+        force_color=True,
+    )
+    text = term.to_html()
+    # Should have 8-bit color
+    assert not "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄" in text
+    assert '<span class="ansi38-124 ansi48-88">▄</span>' in text
