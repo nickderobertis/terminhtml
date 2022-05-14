@@ -30,6 +30,9 @@ $ terminhtml -c .. "ls -l"
 
 # Echo the commands to stdout
 $ terminhtml -e "echo foo"
+
+# Turn off forcing color output, use the terminal's color setting
+$ terminhtml -n "man grep | grep grep"
 ```
 
 **Usage**:
@@ -52,8 +55,9 @@ $ terminhtml [OPTIONS] COMMANDS...
 * `-c, --cwd PATH`: Working directory to run commands in. If not passed, defaults to a temporary directory.
 * `-o, --out PATH`: Output path, defaults to printing to stdout
 * `-p, --partial`: Whether to output HTML for only the the commands themselves, defaults to full HTML including JS/CSS/full page structure
-* `-i, --inline-css`: Whether to inline CSS in the HTML, defaults to using a link tag to reference the stylesheet. Note that this option is ignored if --partial is set.
+* `-c, --inline-css`: Whether to inline CSS in the HTML, defaults to using a link tag to reference the stylesheet. Note that this option is ignored if --partial is set.
 * `-e, --echo`: Echo the commands to stdout
+* `-n, --no-force-color`: Don't force color output
 * `--install-completion`: Install completion for the current shell.
 * `--show-completion`: Show completion for the current shell, to copy it or customize the installation.
 * `--help`: Show this message and exit.
