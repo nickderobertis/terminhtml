@@ -2,4 +2,5 @@ build
 source/api
 source/binder/requirements.txt
 source/_static/images/logo.svg
+source/_static/images/demo-output.gif
 source/commands.md

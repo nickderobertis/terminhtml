@@ -31,6 +31,7 @@ github:
 	@./nb-examples.sh
 	@./download-logo.sh
 	@./generate-cli-command-reference.sh
+	@./create-readme-gif.sh
 	@make doctest
 	@make autodoc
 	@make html

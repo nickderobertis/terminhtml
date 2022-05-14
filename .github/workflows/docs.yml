@@ -80,6 +80,7 @@ jobs:
         run: |
           pipenv sync
           sudo apt-get install pandoc -y
+          playwright install chromium
       - name: Build Documentation
         run: |
           cd docsrc
