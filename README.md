@@ -8,10 +8,9 @@
 
 [![](https://nickderobertis.github.io/terminhtml/_static/images/demo-output.gif)](https://nickderobertis.github.io/terminhtml/)
 
-<div style="display: flex; justify-content: center">
-  <span style="font-size: smaller; text-align: center">This GIF doesn't do TerminHTML justice, check out the full version <a href="https://nickderobertis.github.io/terminhtml/">in the docs</a></span>
+<div align="center">
+  <sub>This GIF doesn't do TerminHTML justice, check out the full version <a href="https://nickderobertis.github.io/terminhtml/">in the docs</a></sub>
 </div>
-
 
 ## Overview
 
