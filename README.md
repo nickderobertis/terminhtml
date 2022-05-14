@@ -4,8 +4,14 @@
 [![Documentation](https://img.shields.io/badge/documentation-pass-green)](https://nickderobertis.github.io/terminhtml/)
 [![Github Repo](https://img.shields.io/badge/repo-github-informational)](https://github.com/nickderobertis/terminhtml/)
 
-
 #  terminhtml
+
+[![](https://nickderobertis.github.io/terminhtml/_static/images/demo-output.gif)](https://nickderobertis.github.io/terminhtml/)
+
+<div style="display: flex; justify-content: center">
+  <span style="font-size: smaller; text-align: center">This GIF doesn't do TerminHTML justice, check out the full version <a href="https://nickderobertis.github.io/terminhtml/">in the docs</a></span>
+</div>
+
 
 ## Overview
 
@@ -28,7 +34,7 @@ terminhtml "echo 'Hello World'"
 
 See a
 [more in-depth tutorial here.](
-https://nickderobertis.github.io/terminhtml/tutorial.html
+https://nickderobertis.github.io/terminhtml/
 )
 
 ## Development Status

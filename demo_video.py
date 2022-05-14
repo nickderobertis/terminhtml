@@ -15,7 +15,7 @@ VIDEOS_DIR = PROJECT_ROOT / "videos"
 def create_demo_output_gif(out_folder: Path = DOCS_IMAGES):
     out_path = out_folder / f"demo-output.gif"
     is_ci = os.getenv("CI")
-    delay = 3 if is_ci else 1.1
+    delay = 2.8 if is_ci else 1.1
     if out_path.exists():
         print(f"{out_path} already exists, skipping")
         return

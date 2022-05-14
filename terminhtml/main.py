@@ -41,7 +41,7 @@ class TerminHTML(BaseModel):
         Create a TerminHTML object from a list of commands.
 
         :param commands: A list of commands to run.
-        :param setup_command: A command to run before the commands, the output of these commands will not show.
+        :param setup_commands: A command to run before the commands, the output of these commands will not show.
         :param input: A list of strings to send to the commands. The input element will be matched with the
             command by index. If a single string is passed, it will be converted into a single-element list so
             that it will be passed to the first command.

@@ -15,7 +15,23 @@ disable-cache:
 python -m terminhtml.demo_output
 ```
 
-```{include} ../../README.md
+## Overview
+
+Run shell commands and convert into an HTML/CSS animated terminal
+
+## Getting Started
+
+Install `terminhtml`. Recommended installation is with 
+[pipx](https://github.com/pypa/pipx) but can also be done via `pip`:
+
+```
+pipx install terminhtml
+```
+
+A simple example:
+
+```shell
+terminhtml "echo 'Hello World'"
 ```
 
 For more information on getting started, take a look at the tutorial and examples.
@@ -25,11 +41,11 @@ For more information on getting started, take a look at the tutorial and example
 Render rich output:
 
 ```shell
-terminhtml "python -m rich"
+terminhtml "python -m rich.color"
 ```
 
 ```{terminhtml}
-python -m rich
+python -m rich.color
 ```
 
 Progress bars work too:
@@ -91,7 +107,7 @@ ls -l
 Run a script:
 
 ```shell
-terminhtml "$(<demo-script.sh)"
+terminhtml "$(<my-script.sh)"
 ```
 
 Allow longer-running commands:
@@ -106,13 +122,25 @@ Echo the commands to stdout:
 terminhtml -e "echo foo"
 ```
 
+Take a look at the [CLI Reference](commands.md) for more information.
+
+To use the Python API, take a look at the TerminHTML class in the main module 
+[in the API reference](api/terminhtml.rst).
+
+## Development Status
+
+This project is currently in early-stage development. There may be
+breaking changes often. While the major version is 0, minor version
+upgrades will often have breaking changes.
+
+## Author
+
+Created by Nick DeRobertis. MIT License.
 
 ```{toctree}
 ---
 maxdepth: 2
 ---
-
-tutorial
 CLI Reference <commands>
 ```
 
