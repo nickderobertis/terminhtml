@@ -56,8 +56,8 @@ def create_demo_output_gif(out_folder: Path = DOCS_IMAGES):
         for video in temp_path.glob("*.webm"):
             clip = mp.VideoFileClip(str(video.resolve()))
             # Remove first portion of clip before terminhtml-js loads
-            clip = clip.subclip(delay, clip.duration)
-            clip.write_gif(str(out_path.resolve()))
+            clip = clip.subclip(delay, clip.duration).resize(0.7)
+            clip.write_gif(str(out_path.resolve()), program="ffmpeg", fps=10)
             print(f"Demo output gif saved to {out_path}")
 
 
