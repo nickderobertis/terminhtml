@@ -46,7 +46,7 @@
   
   
   
-    <title>terminhtml.runner.main &#8212; terminhtml 0.9.0 documentation</title>
+    <title>terminhtml.runner.main &#8212; terminhtml 0.9.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -90,7 +90,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../../index.html" title="terminhtml 0.9.0 documentation"
+        <a href="../../../index.html" title="terminhtml 0.9.1 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#xe869</i>
@@ -176,7 +176,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">terminhtml 0.9.0 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">terminhtml 0.9.1 documentation</a></li>
           <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -189,13 +189,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../../index.html" title="terminhtml 0.9.0 documentation" class="md-nav__button md-logo">
+    <a href="../../../index.html" title="terminhtml 0.9.1 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#xe869</i>
       
     </a>
     <a href="../../../index.html"
-       title="terminhtml 0.9.0 documentation">terminhtml</a>
+       title="terminhtml 0.9.1 documentation">terminhtml</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/nickderobertis/terminhtml" title="Go to repository" class="md-source" data-md-source="github">
@@ -266,7 +266,10 @@
 <span class="kn">import</span> <span class="nn">pexpect</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 
-<span class="kn">from</span> <span class="nn">terminhtml._exc</span> <span class="kn">import</span> <span class="n">CommandInternalException</span>
+<span class="kn">from</span> <span class="nn">terminhtml._exc</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CommandInternalException</span><span class="p">,</span>
+    <span class="n">CannotFindPersistenceLineMarkersException</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">terminhtml.exc</span> <span class="kn">import</span> <span class="n">UserCommandException</span><span class="p">,</span> <span class="n">IncorrectCommandSpecificationException</span>
 <span class="kn">from</span> <span class="nn">terminhtml.output</span> <span class="kn">import</span> <span class="n">LineOutput</span><span class="p">,</span> <span class="n">Output</span><span class="p">,</span> <span class="n">LineEnding</span><span class="p">,</span> <span class="n">PromptOutput</span>
 <span class="kn">from</span> <span class="nn">terminhtml.runner.commandresult</span> <span class="kn">import</span> <span class="n">CommandResult</span><span class="p">,</span> <span class="n">RunnerContext</span>
@@ -308,6 +311,7 @@
                         <span class="n">output</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">output</span><span class="p">,</span>
                         <span class="n">context</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">context</span><span class="p">,</span>
                     <span class="p">)</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">orig_dir</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="n">UserCommandException</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">"Command failed: </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2"> due to </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> as "</span>
                     <span class="sa">f</span><span class="s2">"part of running </span><span class="si">{</span><span class="n">commands</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">setup_command</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="nb">input</span><span class="si">=}</span><span class="s2">"</span><span class="p">,</span>
@@ -321,6 +325,7 @@
                 <span class="k">if</span> <span class="n">part</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"before (last 100 chars): "</span><span class="p">)</span>
             <span class="p">][</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">output_without_prefix</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">"before (last 100 chars): "</span><span class="p">)</span> <span class="p">:]</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">orig_dir</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">UserCommandException</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"Command failed: </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2"> as "</span>
                 <span class="sa">f</span><span class="s2">"part of running </span><span class="si">{</span><span class="n">commands</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">setup_command</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="nb">input</span><span class="si">=}</span><span class="s2">"</span><span class="p">,</span>
@@ -363,7 +368,17 @@
 <span class="k">def</span> <span class="nf">_get_real_output_and_context_from_output_lines</span><span class="p">(</span>
     <span class="n">lines</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">LineOutput</span><span class="p">],</span> <span class="n">last_context</span><span class="p">:</span> <span class="n">RunnerContext</span><span class="p">,</span> <span class="n">input_line</span><span class="p">:</span> <span class="n">LineOutput</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Output</span><span class="p">,</span> <span class="n">RunnerContext</span><span class="p">]:</span>
-    <span class="n">command_marker_indices</span> <span class="o">=</span> <span class="n">_find_persistence_command_markers</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">command_marker_indices</span> <span class="o">=</span> <span class="n">_find_persistence_command_markers</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">CannotFindPersistenceLineMarkersException</span><span class="p">:</span>
+        <span class="c1"># If we are not able to find persistence markers in output, it must be</span>
+        <span class="c1"># because the original command failed, and so it never got to the persistence commands.</span>
+        <span class="k">raise</span> <span class="n">CommandInternalException</span><span class="p">(</span>
+            <span class="s2">"Command had non-zero exit code"</span><span class="p">,</span>
+            <span class="n">Output</span><span class="p">(</span><span class="n">lines</span><span class="o">=</span><span class="n">lines</span><span class="p">),</span>
+            <span class="n">input_line</span><span class="p">,</span>
+            <span class="n">last_context</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="n">real_output</span> <span class="o">=</span> <span class="n">Output</span><span class="p">(</span><span class="n">lines</span><span class="o">=</span><span class="n">lines</span><span class="p">[:</span> <span class="p">(</span><span class="n">command_marker_indices</span><span class="o">.</span><span class="n">last_real_output</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)])</span>
     <span class="n">cwd</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">command_marker_indices</span><span class="o">.</span><span class="n">path</span><span class="p">]</span><span class="o">.</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cwd</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
@@ -435,7 +450,9 @@
             <span class="n">end_env</span><span class="p">,</span>
         <span class="p">]</span>
     <span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Could not find all command markers in lines: </span><span class="si">{</span><span class="n">lines</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">CannotFindPersistenceLineMarkersException</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"Could not find all command markers in lines: </span><span class="si">{</span><span class="n">lines</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">)</span>
     <span class="k">return</span> <span class="n">CommandMarkerIndices</span><span class="p">(</span>
         <span class="n">begin_persistence</span><span class="o">=</span><span class="n">begin_persistence</span><span class="p">,</span>
         <span class="n">end_persistence</span><span class="o">=</span><span class="n">end_persistence</span><span class="p">,</span>
