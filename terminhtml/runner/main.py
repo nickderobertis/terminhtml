@@ -52,6 +52,7 @@ def run_commands(
                         output=e.output,
                         context=e.context,
                     )
+                os.chdir(orig_dir)
                 raise UserCommandException(
                     f"Command failed: {command} due to {e} as "
                     f"part of running {commands=} {setup_command=} {input=}",
@@ -65,6 +66,7 @@ def run_commands(
                 if part.startswith("before (last 100 chars): ")
             ][0]
             output_without_prefix = output[len("before (last 100 chars): ") :]
+            os.chdir(orig_dir)
             raise UserCommandException(
                 f"Command failed: {command} as "
                 f"part of running {commands=} {setup_command=} {input=}",
