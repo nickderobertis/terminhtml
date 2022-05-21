@@ -32,4 +32,4 @@ class UserCommandException(TerminHTMLUserException):
         super().__init__(message)
 
     def __str__(self) -> str:
-        return f"{super().__str__()}\n{self.context=} with output:\n{self.output}"
+        return f"{super().__str__()}\ncontext={self.context}\noutput:\n{self.output}"
