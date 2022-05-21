@@ -7,7 +7,10 @@ from typing import Sequence, Optional, List, Tuple, Dict
 import pexpect
 from pydantic import BaseModel
 
-from terminhtml._exc import CommandInternalException
+from terminhtml._exc import (
+    CommandInternalException,
+    CannotFindPersistenceLineMarkersException,
+)
 from terminhtml.exc import UserCommandException, IncorrectCommandSpecificationException
 from terminhtml.output import LineOutput, Output, LineEnding, PromptOutput
 from terminhtml.runner.commandresult import CommandResult, RunnerContext
@@ -49,6 +52,7 @@ def run_commands(
                         output=e.output,
                         context=e.context,
                     )
+                os.chdir(orig_dir)
                 raise UserCommandException(
                     f"Command failed: {command} due to {e} as "
                     f"part of running {commands=} {setup_command=} {input=}",
@@ -62,6 +66,7 @@ def run_commands(
                 if part.startswith("before (last 100 chars): ")
             ][0]
             output_without_prefix = output[len("before (last 100 chars): ") :]
+            os.chdir(orig_dir)
             raise UserCommandException(
                 f"Command failed: {command} as "
                 f"part of running {commands=} {setup_command=} {input=}",
@@ -104,7 +109,17 @@ def _get_terminal_output_with_prompt_at_end(output: str) -> str:
 def _get_real_output_and_context_from_output_lines(
     lines: List[LineOutput], last_context: RunnerContext, input_line: LineOutput
 ) -> Tuple[Output, RunnerContext]:
-    command_marker_indices = _find_persistence_command_markers(lines)
+    try:
+        command_marker_indices = _find_persistence_command_markers(lines)
+    except CannotFindPersistenceLineMarkersException:
+        # If we are not able to find persistence markers in output, it must be
+        # because the original command failed, and so it never got to the persistence commands.
+        raise CommandInternalException(
+            "Command had non-zero exit code",
+            Output(lines=lines),
+            input_line,
+            last_context,
+        )
     real_output = Output(lines=lines[: (command_marker_indices.last_real_output + 1)])
     cwd = Path(lines[command_marker_indices.path].line.strip())
     if not cwd.exists():
@@ -176,7 +191,9 @@ def _find_persistence_command_markers(lines: List[LineOutput]) -> CommandMarkerI
             end_env,
         ]
     ):
-        raise ValueError(f"Could not find all command markers in lines: {lines}")
+        raise CannotFindPersistenceLineMarkersException(
+            f"Could not find all command markers in lines: {lines}"
+        )
     return CommandMarkerIndices(
         begin_persistence=begin_persistence,
         end_persistence=end_persistence,

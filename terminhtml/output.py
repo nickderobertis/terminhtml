@@ -42,3 +42,6 @@ class Output(BaseModel):
                 f"input delay. Got {len(delays) - 1} delays and {len(self.lines)} lines."
             )
         return delays
+
+    def __str__(self):
+        return "\n".join(line.line for line in self.lines)

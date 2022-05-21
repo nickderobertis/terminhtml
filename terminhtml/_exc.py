@@ -13,6 +13,14 @@ class TerminHTMLInternalException(TerminHTMLException):
     pass
 
 
+class TerminHTMLRunnerException(TerminHTMLInternalException):
+    pass
+
+
+class CannotFindPersistenceLineMarkersException(TerminHTMLRunnerException):
+    pass
+
+
 class CommandInternalException(TerminHTMLInternalException):
     def __init__(
         self, message: str, output: Output, input: LineOutput, context: RunnerContext
@@ -21,6 +29,3 @@ class CommandInternalException(TerminHTMLInternalException):
         self.input = input
         self.context = context
         super().__init__(message)
-
-    def __str__(self) -> str:
-        return f"{super().__str__()}\n{self.context=} with input {self.input}\noutput:\n{self.output}"
