@@ -1,6 +1,6 @@
+ansi2html
 typer
 pexpect
 terminhtml
-ansi2html
 pydantic
 lxml
