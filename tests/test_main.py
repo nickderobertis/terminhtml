@@ -1,5 +1,5 @@
 from lxml import html
-from tests.config import PROJECT_DIR
+from tests.config import PROJECT_DIR, INPUT_FILES_DIR
 
 from terminhtml.main import TerminHTML
 from tests.gen_html import (
@@ -156,3 +156,15 @@ def test_terminhtml_renders_with_color_with_term_dumb_and_force_color():
     # Should have 8-bit color
     assert not "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄" in text
     assert '<span class="ansi38-124 ansi48-88">▄</span>' in text
+
+
+def test_terminhtml_runs_command_in_cwd_after_pipe():
+    commands = [
+        "echo '.' | xargs realpath",
+    ]
+    cwd = INPUT_FILES_DIR
+    term = TerminHTML.from_commands(commands, cwd=cwd)
+    text = term.to_html()
+    for command in commands:
+        assert command in text
+    assert cwd.name in text
