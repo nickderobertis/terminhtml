@@ -207,7 +207,6 @@ class CommandMarkerIndices(BaseModel):
         return markers
 
 
-
 _terminal_persistence_commands = [
     "echo '::BEGIN TERMINHTML PERSISTENCE::'",
     "echo '::BEGIN TERMINHTML PATH::'",
@@ -246,7 +245,7 @@ def _run(
     if echo:
         print(f"$ {command}")
 
-    command_preamble = f"cd '{context.cwd}' && "
+    command_preamble = ""
     if force_color:
         command_preamble += "export TERM=xterm-256color && "
 
@@ -257,6 +256,7 @@ def _run(
         full_command,
         encoding="utf-8",
         env=context.env,
+        cwd=context.cwd,
     )
     output_lines: List[LineOutput] = []
     input_idx = 0
