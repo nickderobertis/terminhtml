@@ -168,3 +168,15 @@ def test_terminhtml_runs_command_in_cwd_after_pipe():
     for command in commands:
         assert command in text
     assert cwd.name in text
+
+
+def test_terminhtml_runs_command_with_nested_quotes():
+    commands = [
+        "echo '\"woo\"'",
+    ]
+    term = TerminHTML.from_commands(commands)
+    text = term.to_html()
+    for command in commands:
+        assert command in text
+    # Check for double quotes in output
+    assert '"woo"</span>' in text
