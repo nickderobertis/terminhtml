@@ -110,7 +110,7 @@ def _get_real_output_and_context_from_output_lines(
     lines: List[LineOutput], last_context: RunnerContext, input_line: LineOutput
 ) -> Tuple[Output, RunnerContext]:
     try:
-        command_marker_indices = _find_persistence_command_markers(lines)
+        command_marker_indices = CommandMarkerIndices.find(lines)
     except CannotFindPersistenceLineMarkersException:
         # If we are not able to find persistence markers in output, it must be
         # because the original command failed, and so it never got to the persistence commands.
@@ -159,49 +159,53 @@ class CommandMarkerIndices(BaseModel):
             raise ValueError("More than one line printed for path")
         return self.begin_path + 1
 
-
-def _find_persistence_command_markers(lines: List[LineOutput]) -> CommandMarkerIndices:
-    begin_persistence = None
-    end_persistence = None
-    begin_path = None
-    end_path = None
-    begin_env = None
-    end_env = None
-    for i, line in enumerate(lines):
-        if line.line == "::BEGIN TERMINHTML PERSISTENCE::":
-            begin_persistence = i
-        if line.line == "::END TERMINHTML PERSISTENCE::":
-            end_persistence = i
-        if line.line == "::BEGIN TERMINHTML PATH::":
-            begin_path = i
-        if line.line == "::END TERMINHTML PATH::":
-            end_path = i
-        if line.line == "::BEGIN TERMINHTML ENV::":
-            begin_env = i
-        if line.line == "::END TERMINHTML ENV::":
-            end_env = i
-    if any(
-        x is None
-        for x in [
-            begin_persistence,
-            end_persistence,
-            begin_path,
-            end_path,
-            begin_env,
-            end_env,
-        ]
-    ):
-        raise CannotFindPersistenceLineMarkersException(
-            f"Could not find all command markers in lines: {lines}"
+    @classmethod
+    def empty(cls) -> "CommandMarkerIndices":
+        return cls(
+            begin_persistence=-1,
+            end_persistence=-1,
+            begin_path=-1,
+            end_path=-1,
+            begin_env=-1,
+            end_env=-1,
         )
-    return CommandMarkerIndices(
-        begin_persistence=begin_persistence,
-        end_persistence=end_persistence,
-        begin_path=begin_path,
-        end_path=end_path,
-        begin_env=begin_env,
-        end_env=end_env,
-    )
+
+    @property
+    def is_missing_any_marker(self) -> bool:
+        return any(
+            [
+                self.begin_persistence == -1,
+                self.end_persistence == -1,
+                self.begin_path == -1,
+                self.end_path == -1,
+                self.begin_env == -1,
+                self.end_env == -1,
+            ]
+        )
+
+    @classmethod
+    def find(cls, lines: List[LineOutput]) -> "CommandMarkerIndices":
+        markers = cls.empty()
+        for i, line in enumerate(lines):
+            line_str = line.line.strip()
+            if line_str == "::BEGIN TERMINHTML PERSISTENCE::":
+                markers.begin_persistence = i
+            if line_str == "::END TERMINHTML PERSISTENCE::":
+                markers.end_persistence = i
+            if line_str == "::BEGIN TERMINHTML PATH::":
+                markers.begin_path = i
+            if line_str == "::END TERMINHTML PATH::":
+                markers.end_path = i
+            if line_str == "::BEGIN TERMINHTML ENV::":
+                markers.begin_env = i
+            if line_str == "::END TERMINHTML ENV::":
+                markers.end_env = i
+        if markers.is_missing_any_marker:
+            raise CannotFindPersistenceLineMarkersException(
+                f"Could not find all command markers in lines: {lines}. Markers were: {markers=}"
+            )
+        return markers
+
 
 
 _terminal_persistence_commands = [
