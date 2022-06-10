@@ -247,8 +247,10 @@ def _run(
         command_preamble += "export TERM=xterm-256color && "
 
     start_time = datetime.datetime.now()
+    base_command = f"{command_preamble} {command} && printf '\\n' && {_terminal_persistence_command}"
+    full_command = f"bash -c '{_transform_input_command(base_command)}'"
     process = pexpect.spawn(
-        f"bash -c \"{command_preamble} {command} && printf '\\n' && {_terminal_persistence_command}\"",
+        full_command,
         encoding="utf-8",
         env=context.env,
     )
@@ -339,3 +341,14 @@ def _extract_pexpect_output(spawn: pexpect.spawn) -> str:
 def _extract_pexpect_output_and_strip_ending_newlines(spawn: pexpect.spawn) -> str:
     output = _extract_pexpect_output(spawn)
     return output.rstrip("\r\n")
+
+
+def _transform_input_command(command: str) -> str:
+    """
+    Prepares the user inputted command to be run by adjusting it for the fact
+    it is running as bash -c '{command}'.
+
+    Replaces ' with '"'"' to escape the single quote.
+    See: https://stackoverflow.com/questions/1250079/how-to-escape-single-quotes-within-single-quoted-strings
+    """
+    return command.replace("'", "'\"'\"'")
