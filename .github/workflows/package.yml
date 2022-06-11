@@ -22,6 +22,9 @@ jobs:
       - uses: ./.github/actions/install-dependencies
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Install coreutils to enable realpath
+        if: ${{ matrix.os }} == "macos-latest"
+        run: brew install coreutils
       - uses: ./.github/actions/lint-and-test
 
   collectTODO:
