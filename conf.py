@@ -20,7 +20,9 @@ REPO_MAINTAINERS = [
 ]
 
 # Short description of the package
-PACKAGE_SHORT_DESCRIPTION = "Run shell commands and convert into an HTML/CSS animated terminal"
+PACKAGE_SHORT_DESCRIPTION = (
+    "Run shell commands and convert into an HTML/CSS animated terminal"
+)
 
 # Long description of the package for PyPI
 # Set to 'auto' to use README.md as the PyPI description
@@ -67,7 +69,7 @@ PACKAGE_INSTALL_REQUIRES = [
 # Add any third party packages you use in requirements for optional features of your package here
 # Keys should be name of the optional feature and values are lists of required packages
 # E.g. {'feature1': ['pandas', 'numpy'], 'feature2': ['matplotlib']}
-OPTIONAL_PACKAGE_INSTALL_REQUIRES = {}
+OPTIONAL_PACKAGE_INSTALL_REQUIRES = {"demo": ["rich"]}
 
 # Packages added to Binder environment so that examples can be executed in Binder
 # By default, takes this package (PACKAGE_NAME)
@@ -98,7 +100,7 @@ DOCS_OTHER_MOCK_IMPORTS = [
 
 # Add any Python scripts which should be exposed to the command line in the format:
 # CONSOLE_SCRIPTS = ['funniest-joke=funniest.command_line:main']
-CONSOLE_SCRIPTS = ["terminhtml=terminhtml.__main__:main"],
+CONSOLE_SCRIPTS = (["terminhtml=terminhtml.__main__:main"],)
 
 # Add any arbitrary scripts to be exposed to the command line in the format:
 # SCRIPTS = ['bin/funniest-joke']

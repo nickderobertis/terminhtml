@@ -72,7 +72,7 @@ def test(session):
     session.install(
         "-r", "test-requirements.txt", "--upgrade", "--upgrade-strategy", "eager"
     )
-    session.install(".")
+    session.install(".[demo]")
     session.run("pytest", *session.posargs)
 
 
