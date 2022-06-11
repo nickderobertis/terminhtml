@@ -2,7 +2,7 @@
 import colorsys
 
 from rich.color import Color
-from rich.console import ConsoleOptions, Console, RenderResult
+from rich.console import Console, ConsoleOptions, RenderResult
 from rich.live import Live
 from rich.measure import Measurement
 from rich.progress_bar import ProgressBar

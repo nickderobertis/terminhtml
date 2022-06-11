@@ -1,18 +1,18 @@
 import datetime
-from pathlib import Path
 import os
 import tempfile
-from typing import Sequence, Optional, List, Tuple, Dict
+from pathlib import Path
+from typing import Dict, List, Optional, Sequence, Tuple
 
 import pexpect
 from pydantic import BaseModel
 
 from terminhtml._exc import (
-    CommandInternalException,
     CannotFindPersistenceLineMarkersException,
+    CommandInternalException,
 )
-from terminhtml.exc import UserCommandException, IncorrectCommandSpecificationException
-from terminhtml.output import LineOutput, Output, LineEnding, PromptOutput
+from terminhtml.exc import IncorrectCommandSpecificationException, UserCommandException
+from terminhtml.output import LineEnding, LineOutput, Output, PromptOutput
 from terminhtml.runner.commandresult import CommandResult, RunnerContext
 
 

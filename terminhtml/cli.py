@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Sequence, List, Optional, Union
+from typing import List, Optional
 
 import typer
 

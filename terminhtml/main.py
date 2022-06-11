@@ -1,10 +1,9 @@
 from pathlib import Path
-from typing import Sequence, Optional, List, Union
+from typing import List, Optional, Sequence, Union
 
 from pydantic import BaseModel
-from lxml import html
 
-from terminhtml.ansi_converter import ansi_to_html, ansi_styles
+from terminhtml.ansi_converter import ansi_styles
 from terminhtml.runner.commandresult import CommandResult
 from terminhtml.runner.main import run_commands
 

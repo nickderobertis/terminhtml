@@ -1,8 +1,7 @@
 import re
-from typing import List
 
 from ansi2html import Ansi2HTMLConverter
-from ansi2html.style import get_styles, Rule
+from ansi2html.style import get_styles
 
 conv = Ansi2HTMLConverter()
 

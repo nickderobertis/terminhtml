@@ -1,10 +1,10 @@
 from pathlib import Path
-from typing import Optional, Dict
+from typing import Dict, Optional
 
 from pydantic import BaseModel
 
 from terminhtml.ansi_converter import ansi_to_html, strip_all_ansi
-from terminhtml.output import Output, LineOutput, LineEnding
+from terminhtml.output import LineEnding, LineOutput, Output
 
 
 class LineWithDelay(LineOutput):

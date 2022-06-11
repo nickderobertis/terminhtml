@@ -3,8 +3,9 @@ import tempfile
 import time
 from pathlib import Path
 
-from playwright.sync_api import sync_playwright
 import moviepy.editor as mp
+from playwright.sync_api import sync_playwright
+
 from terminhtml.main import TerminHTML
 
 PROJECT_ROOT = Path(__file__).parent

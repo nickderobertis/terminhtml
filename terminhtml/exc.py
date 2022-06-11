@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from terminhtml.base_exc import TerminHTMLException
 from terminhtml.output import Output
 from terminhtml.runner.commandresult import RunnerContext
@@ -10,15 +8,11 @@ class TerminHTMLUserException(TerminHTMLException):
     Base class for all expected exceptions in TerminHTML.
     """
 
-    pass
-
 
 class IncorrectCommandSpecificationException(TerminHTMLUserException):
     """
     Raised if the command specification is incorrect.
     """
-
-    pass
 
 
 class UserCommandException(TerminHTMLUserException):

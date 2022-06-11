@@ -1,4 +1,5 @@
 import typer
+
 from terminhtml.cli import app
 
 if __name__ == "__main__":

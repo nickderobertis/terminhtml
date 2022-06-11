@@ -1,14 +1,14 @@
 from lxml import html
-from tests.config import PROJECT_DIR, INPUT_FILES_DIR
 
 from terminhtml.main import TerminHTML
+from tests.config import INPUT_FILES_DIR, PROJECT_DIR
 from tests.gen_html import (
-    create_basic_input_html,
-    create_rich_progress_bar_html,
-    create_basic_setup_command_html,
-    create_environment_sharing_html,
     create_basic_cwd_html,
+    create_basic_input_html,
+    create_basic_setup_command_html,
     create_demo_output_html,
+    create_environment_sharing_html,
+    create_rich_progress_bar_html,
 )
 
 

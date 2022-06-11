@@ -1,6 +1,6 @@
 import pytest
-from terminhtml.exc import UserCommandException
 
+from terminhtml.exc import UserCommandException
 from terminhtml.runner.main import run_commands
 
 

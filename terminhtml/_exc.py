@@ -1,7 +1,5 @@
-from pathlib import Path
-
 from terminhtml.base_exc import TerminHTMLException
-from terminhtml.output import Output, LineOutput
+from terminhtml.output import LineOutput, Output
 from terminhtml.runner.commandresult import RunnerContext
 
 
@@ -9,8 +7,6 @@ class TerminHTMLInternalException(TerminHTMLException):
     """
     Base class for all exceptions that represent internal errors.
     """
-
-    pass
 
 
 class TerminHTMLRunnerException(TerminHTMLInternalException):
