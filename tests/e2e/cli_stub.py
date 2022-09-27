@@ -21,14 +21,15 @@ class ExceptionHandling(str, Enum):
 
 
 def run_cli(
-    args: Union[str, Sequence[str]],
+    command: str,
     exception_handling: ExceptionHandling = ExceptionHandling.RAISE,
 ) -> Result:
-    result = runner.invoke(app, args)
+    split_command = shlex.split(command)
+    result = runner.invoke(app, split_command)
     if exception_handling == ExceptionHandling.RAISE and result.exit_code != 0:
         output = ext_click.result_to_message(result)
-        command = shlex.join(["fxt", *args])
+        full_command = shlex.join(["terminhtml", command])
         raise CLIRunnerException(
-            f"{command} exited with code {result.exit_code}.\n{output}"
+            f"{full_command} exited with code {result.exit_code}.\n{output}"
         )
     return result
