@@ -153,9 +153,5 @@ def run_commands_create_html(
         print(html)
 
 
-def main() -> None:
-    typer.run(run_commands_create_html)
-
-
 if __name__ == "__main__":
-    main()
+    app()
