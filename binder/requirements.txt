@@ -1,7 +1,7 @@
-lxml
-typer
-terminhtml
-ansi2html
-pydantic
-pexpect
 rich
+lxml
+pexpect
+pydantic
+typer
+ansi2html
+terminhtml
