@@ -102,6 +102,8 @@ def test_terminhtml_runs_in_cwd_when_passed():
 def test_terminhtml_runs_in_temp_dir_when_no_cwd_passed():
     term = TerminHTML.from_commands(["ls -l", "pwd"])
     text = term.to_html()
+    print("test_terminhtml_runs_in_temp_dir_when_no_cwd_passed result:")
+    print(text)
     # Directory should be empty as it is a new temp dir
     assert "total" in text
     # Should have /tmp/ in the path
