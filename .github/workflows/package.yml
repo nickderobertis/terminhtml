@@ -46,7 +46,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install dependencies to build package
-        run: pip install --upgrade --upgrade-strategy eager setuptools wheel twine
+        run: |
+          sudo apt install python3-testresources
+          pip install --upgrade --upgrade-strategy eager setuptools wheel twine
+          pip show setuptools
       - name: Semantic Release
         id: semantic-release
         uses: cycjimmy/semantic-release-action@v3
