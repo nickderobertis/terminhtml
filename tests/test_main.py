@@ -102,10 +102,10 @@ def test_terminhtml_runs_in_cwd_when_passed():
 def test_terminhtml_runs_in_temp_dir_when_no_cwd_passed():
     term = TerminHTML.from_commands(["ls -l", "pwd"])
     text = term.to_html()
-    # Directory should be empty as it is a new temp dir
-    assert "total" in text
-    # Should have /tmp/ in the path
-    assert "/tmp/" in text
+    # Should be a temporary directory
+    # On Linux, this is always /tmp
+    # On macOS it can vary but always has /var/ somewhere in the path
+    assert "/tmp/" in text or "/var/" in text
 
 
 def test_terminhtml_renders_a_styled_prompt():
