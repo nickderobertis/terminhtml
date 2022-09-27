@@ -1,4 +1,4 @@
-from terminhtml.cli import main
+from terminhtml.cli import app
 
 if __name__ == "__main__":
-    main()
+    app()
