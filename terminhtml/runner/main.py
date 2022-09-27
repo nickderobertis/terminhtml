@@ -76,10 +76,11 @@ def run_commands(
 
     input = input or []
     orig_dir = os.getcwd()
+    absolute_cwd = cwd.absolute() if cwd else None
     with tempfile.TemporaryDirectory() as tmpdir:
         os.chdir(tmpdir)
-        if cwd:
-            begin_cwd = cwd
+        if absolute_cwd:
+            begin_cwd = absolute_cwd
         else:
             begin_cwd = Path(tmpdir)
         last_context = RunnerContext(cwd=begin_cwd)
