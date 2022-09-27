@@ -51,7 +51,7 @@ def run_commands_create_html(
     cwd: Optional[Path] = typer.Option(
         None,
         "--cwd",
-        "-c",
+        "-d",
         help="Working directory to run commands in. "
         "If not passed, defaults to a temporary directory.",
     ),
