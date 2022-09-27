@@ -81,7 +81,7 @@ def test_coverage(session):
     session.install(
         "-r", "test-requirements.txt", "--upgrade", "--upgrade-strategy", "eager"
     )
-    session.install(".")
+    session.install(".[demo]")
     session.run("pytest", "--cov=./", "--cov-report=xml")
 
 
