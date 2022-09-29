@@ -47,8 +47,6 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install dependencies to build package
         run: |
-          sudo apt install python3-testresources
-          sudo apt install --reinstall python3-openssl
           pip install pyOpenSSL --upgrade
           pip install --upgrade --upgrade-strategy eager setuptools wheel twine
           pip show setuptools
